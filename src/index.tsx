@@ -1,0 +1,247 @@
+import React, { useMemo, useState } from 'react';
+import { Button, Heading, Search, Text } from '@vibe/core';
+import {
+  Doc,
+  NavigationChevronLeft,
+  NavigationChevronRight,
+  Pin,
+  Wand,
+} from '@vibe/icons';
+import styles from './App.module.scss';
+import { overviewSlides } from './content/overviewSlides';
+import { ticketPlaybook } from './content/ticketPlaybook';
+
+type View = 'home' | 'overview' | 'playbook';
+
+export default function BusinessSupportOnboardingDeck() {
+  const [view, setView] = useState<View>('home');
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [expandedTicketId, setExpandedTicketId] = useState<string | null>(null);
+
+  const filteredTickets = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return ticketPlaybook;
+
+    return ticketPlaybook.filter((ticket) => {
+      const haystack = [
+        ticket.category,
+        ticket.issue,
+        ticket.errorMessage,
+        ticket.reason,
+        ...ticket.resolution,
+      ]
+        .join(' ')
+        .toLowerCase();
+      return haystack.includes(query);
+    });
+  }, [searchQuery]);
+
+  const currentSlide = overviewSlides[slideIndex];
+
+  const goHome = () => {
+    setView('home');
+    setSlideIndex(0);
+    setSearchQuery('');
+    setExpandedTicketId(null);
+  };
+
+  const renderHome = () => (
+    <div className={styles.content}>
+      <Heading type="h1" weight="bold">
+        Business Support Onboarding
+      </Heading>
+      <Text type="text1" color="secondary">
+        Choose a deck to get started. Deck 1 covers the monday.com overview; Deck 2 is the ticketing
+        playbook for common Sales rep requests.
+      </Text>
+
+      <div className={styles.deckGrid}>
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('overview')}
+          aria-label="Open monday.com overview deck"
+        >
+          <div className={styles.deckIcon}>
+            <Wand />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 1 — monday.com Overview
+          </Heading>
+          <Text type="text2" color="secondary">
+            Platform basics, how Sales uses monday.com, and what great Business Support looks like.
+          </Text>
+          <Text type="text2" color="secondary">
+            {overviewSlides.length} slides
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('playbook')}
+          aria-label="Open ticketing playbook deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 2 — Ticketing Playbook
+          </Heading>
+          <Text type="text2" color="secondary">
+            Common tickets from Sales reps: issue, error message, reason, and step-by-step resolution.
+          </Text>
+          <Text type="text2" color="secondary">
+            {ticketPlaybook.length} playbook entries
+          </Text>
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderOverview = () => (
+    <div className={styles.content}>
+      <div className={styles.slideCard}>
+        <Heading type="h2" weight="bold">
+          {currentSlide.title}
+        </Heading>
+        <ul className={styles.bulletList}>
+          {currentSlide.bullets.map((bullet) => (
+            <li key={bullet}>
+              <Text type="text1">{bullet}</Text>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className={styles.slideNav}>
+        <Button
+          kind="secondary"
+          disabled={slideIndex === 0}
+          onClick={() => setSlideIndex((index) => index - 1)}
+          leftIcon={NavigationChevronLeft}
+        >
+          Previous
+        </Button>
+        <Text type="text2" className={styles.slideProgress}>
+          Slide {slideIndex + 1} of {overviewSlides.length}
+        </Text>
+        <Button
+          kind="primary"
+          disabled={slideIndex === overviewSlides.length - 1}
+          onClick={() => setSlideIndex((index) => index + 1)}
+          rightIcon={NavigationChevronRight}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
+  );
+
+  const renderPlaybook = () => (
+    <div className={styles.content}>
+      <div className={styles.searchRow}>
+        <Search
+          placeholder="Search by issue, error message, category, or resolution..."
+          value={searchQuery}
+          onChange={setSearchQuery}
+          size="medium"
+        />
+      </div>
+
+      {filteredTickets.length === 0 ? (
+        <div className={styles.emptyState}>
+          <Text type="text1">No tickets match your search. Try a different keyword.</Text>
+        </div>
+      ) : (
+        <div className={styles.ticketList}>
+          {filteredTickets.map((ticket) => {
+            const isExpanded = expandedTicketId === ticket.id;
+
+            return (
+              <div key={ticket.id} className={styles.slideCard}>
+                <button
+                  type="button"
+                  className={styles.ticketToggle}
+                  onClick={() => setExpandedTicketId(isExpanded ? null : ticket.id)}
+                  aria-expanded={isExpanded}
+                >
+                  <div className={styles.ticketMeta}>
+                    <Text type="text2" weight="medium">
+                      {ticket.category}
+                    </Text>
+                  </div>
+                  <Heading type="h3" weight="medium">
+                    {ticket.issue}
+                  </Heading>
+                  <Text type="text2" color="secondary">
+                    {isExpanded ? 'Click to collapse' : 'Click to view error, reason, and resolution'}
+                  </Text>
+                </button>
+
+                {isExpanded && (
+                  <>
+                    <div className={styles.ticketSection}>
+                      <Text type="text2" weight="bold">
+                        Possible error message
+                      </Text>
+                      <Text type="text1">{ticket.errorMessage}</Text>
+                    </div>
+                    <div className={styles.ticketSection}>
+                      <Text type="text2" weight="bold">
+                        Reason
+                      </Text>
+                      <Text type="text1">{ticket.reason}</Text>
+                    </div>
+                    <div className={styles.ticketSection}>
+                      <Text type="text2" weight="bold">
+                        Resolution
+                      </Text>
+                      <ol className={styles.resolutionList}>
+                        {ticket.resolution.map((step) => (
+                          <li key={step}>
+                            <Text type="text1">{step}</Text>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+
+  const headerTitle =
+    view === 'overview'
+      ? 'Deck 1 — monday.com Overview'
+      : view === 'playbook'
+        ? 'Deck 2 — Ticketing Playbook'
+        : 'Business Support Onboarding';
+
+  return (
+    <div className={styles.root}>
+      <header className={styles.header}>
+        <div className={styles.headerLeft}>
+          <Pin />
+          <Heading type="h3" weight="medium">
+            {headerTitle}
+          </Heading>
+        </div>
+        {view !== 'home' && (
+          <Button kind="tertiary" onClick={goHome}>
+            Back to home
+          </Button>
+        )}
+      </header>
+
+      {view === 'home' && renderHome()}
+      {view === 'overview' && renderOverview()}
+      {view === 'playbook' && renderPlaybook()}
+    </div>
+  );
+}

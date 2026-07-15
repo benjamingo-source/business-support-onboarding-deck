@@ -1,0 +1,109 @@
+export type PlaybookTicket = {
+  id: string;
+  category: string;
+  issue: string;
+  errorMessage: string;
+  reason: string;
+  resolution: string[];
+};
+
+export const ticketPlaybook: PlaybookTicket[] = [
+  {
+    id: 'sf-login-failed',
+    category: 'Access',
+    issue: 'Sales rep cannot log into Salesforce',
+    errorMessage: 'Login failed — invalid username or password / session expired',
+    reason:
+      'Password expired, SSO mismatch, or user was deactivated after role change. Sometimes the rep is using a sandbox URL with production credentials.',
+    resolution: [
+      'Confirm which org URL they use (production vs sandbox).',
+      'Check if the user is active in Salesforce Setup → Users.',
+      'If SSO: verify IdP assignment and have them clear browser cache or try incognito.',
+      'If password-based: send a reset from Setup or route to IT if SSO-owned.',
+    ],
+  },
+  {
+    id: 'cpq-quote-error',
+    category: 'Quoting',
+    issue: 'Quote fails to generate in CPQ',
+    errorMessage: 'CPQ Quote Error: No valid price found for product / Required field missing',
+    reason:
+      'Product not on the price book, missing required quote fields, or account region does not match available price rules.',
+    resolution: [
+      'Open the opportunity and confirm price book and currency match the account.',
+      'Verify all required quote fields (billing country, term, payment terms).',
+      'Check product entitlements and whether the SKU is active on the price book.',
+      'Re-sync the quote; if still failing, capture the full error and escalate to CPQ admin.',
+    ],
+  },
+  {
+    id: 'opp-not-syncing',
+    category: 'Integrations',
+    issue: 'Opportunity not syncing between systems',
+    errorMessage: 'Record not found / Sync failed — external ID mismatch',
+    reason:
+      'Integration job lag, validation rule blocking the update, or duplicate external IDs between monday.com and Salesforce.',
+    resolution: [
+      'Identify source of truth (usually Salesforce for closed-won opps).',
+      'Check integration logs for the record ID and last successful sync time.',
+      'Look for validation rules or required fields blocking the outbound/inbound message.',
+      'Manually resync if supported; otherwise open a ticket with integration logs attached.',
+    ],
+  },
+  {
+    id: 'permission-denied',
+    category: 'Access',
+    issue: 'Rep sees “Insufficient privileges” on a record',
+    errorMessage: 'Insufficient privileges / You do not have access to this record',
+    reason:
+      'Role hierarchy, sharing rules, or permission set assignment does not include the account or object. Common after territory or team changes.',
+    resolution: [
+      'Confirm the rep’s role, permission sets, and account team membership.',
+      'Check if the record owner or account owner is in their hierarchy.',
+      'Compare with a peer who has access (same role/team).',
+      'If legitimate need: request access via account owner or add the correct permission set.',
+    ],
+  },
+  {
+    id: 'renewal-arr-wrong',
+    category: 'Renewals & ARR',
+    issue: 'Renewal ARR or attainment looks incorrect',
+    errorMessage: 'No baseline found / Recognition date missing / Attainment does not match expected',
+    reason:
+      'Baseline contract not linked, recognition date not set on close, Wire vs CC path differs, or target assignment does not match the opportunity owner.',
+    resolution: [
+      'Pull opportunity, contract, quote, and target records for the renewal period.',
+      'Verify baseline contract, recognition date, and renewed ARR fields on the opportunity.',
+      'Check whether the deal is Wire or CC — calculation paths differ.',
+      'If data looks correct but attainment is wrong, escalate to RevOps with record IDs.',
+    ],
+  },
+  {
+    id: 'billing-invoice',
+    category: 'Billing',
+    issue: 'Customer invoice or payment method issue blocking renewal',
+    errorMessage: 'Payment failed / Invoice overdue / Cannot update billing contact',
+    reason:
+      'Expired card, billing contact out of date, or finance hold on the account. Sales often sees this at quote-to-cash handoff.',
+    resolution: [
+      'Confirm account standing in billing system and any open invoices.',
+      'Verify billing contact email and payment method on file.',
+      'Route payment updates to Finance or the customer success billing queue.',
+      'Document whether the renewal can proceed with a temporary exception.',
+    ],
+  },
+  {
+    id: 'monday-board-access',
+    category: 'monday.com',
+    issue: 'Rep cannot access a monday.com board or workspace',
+    errorMessage: 'You don’t have permission to view this board',
+    reason:
+      'Not invited to the workspace, board is private, or guest license limitations. Common when reps join a new team.',
+    resolution: [
+      'Confirm workspace name and board URL with the rep.',
+      'Check workspace members and the rep’s user type (member vs guest vs viewer).',
+      'Ask the board owner or workspace admin to invite the rep with the right role.',
+      'If license-related, route to workspace admin or IT provisioning.',
+    ],
+  },
+];
