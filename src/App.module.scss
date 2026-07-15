@@ -106,6 +106,8 @@
 
 .ticketSection {
   margin-top: var(--spacing-medium);
+  word-break: break-word;
+  overflow-wrap: break-word;
 
   &:first-of-type {
     margin-top: var(--spacing-small);
