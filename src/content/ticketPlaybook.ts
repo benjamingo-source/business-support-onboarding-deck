@@ -97,12 +97,12 @@ export const ticketPlaybook: PlaybookTicket[] = [
     id: 'monday-board-access',
     category: 'monday.com',
     issue: 'Rep cannot access a monday.com board or workspace',
-    errorMessage: 'You don't have permission to view this board',
+    errorMessage: "You don't have permission to view this board",
     reason:
       'Not invited to the workspace, board is private, or guest license limitations. Common when reps join a new team.',
     resolution: [
       'Confirm workspace name and board URL with the rep.',
-      'Check workspace members and the rep's user type (member vs guest vs viewer).',
+      "Check workspace members and the rep's user type (member vs guest vs viewer).",
       'Ask the board owner or workspace admin to invite the rep with the right role.',
       'If license-related, route to workspace admin or IT provisioning.',
     ],
