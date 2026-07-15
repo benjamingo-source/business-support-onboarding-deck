@@ -122,6 +122,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'If not, request evidence the rep was in contact with the customer on or before the claim date, within a 6-month window (e.g., for a July 10, 2026 claim, communication must be dated on or before July 10, 2026).',
       'If confirmed, update the eligibility date and link the proof to the ticket.',
     ],
+    image: 'https://drive.google.com/thumbnail?id=1YcNe5SuE-l3KY9KoPEqgHuqImQ8rRv88&sz=w1000',
   },
   {
     id: 'monday-board-access',
