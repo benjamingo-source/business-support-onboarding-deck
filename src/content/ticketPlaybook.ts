@@ -93,6 +93,21 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
+    id: 'expansion-opp-not-owner',
+    category: 'Opportunities',
+    issue: "Can't create Expansion Opportunity — Not Account Owner",
+    errorMessage:
+      'Opportunity failed to be created for the following reason: Opportunity creation failed: Insert failed. First exception on row 0; first error: FIELD_CUSTOM_VALIDATION_EXCEPTION, You cannot create an opportunity for this account because you are not the account owner: []. Please open a ticket to business support and attach a screenshot.',
+    reason:
+      'Account name under the current contract is connected to the Monday Account when it should be connected to the Company Account.',
+    resolution: [
+      'Navigate to the Current Contract record.',
+      'Check the Account Name in the Contract Information field.',
+      'If a Monday Account is linked instead of a Company Account, change it to the correct Company Name.',
+      'The correct Company Name can be found on the Monday Account page.',
+    ],
+  },
+  {
     id: 'monday-board-access',
     category: 'monday.com',
     issue: 'Rep cannot access a monday.com board or workspace',
