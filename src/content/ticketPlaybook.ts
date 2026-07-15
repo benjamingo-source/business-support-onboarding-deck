@@ -143,6 +143,20 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1-7KoaitCCBfGpL2iEzchgDSfSL4MYx_B&sz=w1000',
   },
   {
+    id: 'close-won-unique-key-duplicate',
+    category: 'CPQ Errors',
+    issue: 'Close Won "Unique Key__c" Duplicate Issue',
+    errorMessage:
+      'Update failed. First exception on row 0 with id 006av000008eal0AAA; first error: CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY, SBQQ.OpportunityAfter: execution of AfterUpdate caused by: System.DmlException: Insert failed. First exception on row 0; first error: DUPLICATE_VALUE, duplicate value found: Uniqe_Key__c duplicates value on record with id: a6Jav000000BE1FEAW: [] (System Code): [] Please contact business support',
+    reason:
+      'With Salesforce CPQ, a Contract Record gets created upon Close Won. If a rep re-opens an opportunity and then closes it again, CPQ tries to re-create subscriptions that already exist — triggering a duplicate key error. This is a defence mechanism to prevent duplication of SBQQ subscriptions. Before resolving, understand why the rep is reopening opportunities.',
+    resolution: [
+      'Resolution 1: Go to the Contract record and delete the CPQ Subscriptions. When the rep closes the opportunity again, the CPQ Subscriptions will be recreated cleanly.',
+      'Resolution 2: If the CPQ Subscriptions section is still empty after closure, navigate to Inspector, change the "Migrate to CPQ Contract" field from True → False, then back from False → True, and confirm the subscriptions are created.',
+    ],
+    image: 'https://drive.google.com/thumbnail?id=1AO0dBcT9pXc-iDk4vNQTb_asKbE3KoV5&sz=w1000',
+  },
+  {
     id: 'monday-board-access',
     category: 'monday.com',
     issue: 'Rep cannot access a monday.com board or workspace',
