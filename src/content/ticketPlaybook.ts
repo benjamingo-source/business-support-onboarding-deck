@@ -125,6 +125,22 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1YcNe5SuE-l3KY9KoPEqgHuqImQ8rRv88&sz=w1000',
   },
   {
+    id: 'cpq-missing-manager-id',
+    category: 'CPQ Errors',
+    issue: 'SO Approval Issues',
+    errorMessage:
+      'An Apex error occurred: sbaa.ApprovalTreeProcessor.ApprovalException: Unable to find Approver for Rule ID: [ID]',
+    reason:
+      'When a sales order is submitted, it passes through a chain of approvals (direct manager, second level, third level, fourth level). If any manager ID field in the approval chain is blank, Salesforce cannot route the approval and throws this error. The Rule ID in the error message points to exactly which manager is missing.',
+    resolution: [
+      'Copy the Rule ID from the error message and paste it into Salesforce to identify which approval rule is affected.',
+      'Go back to the quote → Inspector → check that all manager ID fields are filled with the correct user IDs.',
+      'If a field is empty, navigate to the rep who owns the sales order and click through their manager hierarchy to find the correct ID.',
+      'Fill in the missing ID and have the rep resubmit the sales order for approval.',
+    ],
+    image: 'https://drive.google.com/thumbnail?id=1-7KoaitCCBfGpL2iEzchgDSfSL4MYx_B&sz=w1000',
+  },
+  {
     id: 'monday-board-access',
     category: 'monday.com',
     issue: 'Rep cannot access a monday.com board or workspace',
