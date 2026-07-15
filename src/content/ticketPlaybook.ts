@@ -94,6 +94,20 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
+    id: 'monday-board-access',
+    category: 'monday.com',
+    issue: 'Rep cannot access a monday.com board or workspace',
+    errorMessage: 'You don't have permission to view this board',
+    reason:
+      'Not invited to the workspace, board is private, or guest license limitations. Common when reps join a new team.',
+    resolution: [
+      'Confirm workspace name and board URL with the rep.',
+      'Check workspace members and the rep's user type (member vs guest vs viewer).',
+      'Ask the board owner or workspace admin to invite the rep with the right role.',
+      'If license-related, route to workspace admin or IT provisioning.',
+    ],
+  },
+  {
     id: 'expansion-opp-not-owner',
     category: 'Opportunities',
     issue: 'Rep is unable to create an expansion opportunity via the "create expansion opportunity" button',
@@ -155,19 +169,5 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Resolution 2: If the CPQ Subscriptions section is still empty after closure, navigate to Inspector, change the "Migrate to CPQ Contract" field from True → False, then back from False → True, and confirm the subscriptions are created.',
     ],
     image: 'https://drive.google.com/thumbnail?id=1AO0dBcT9pXc-iDk4vNQTb_asKbE3KoV5&sz=w1000',
-  },
-  {
-    id: 'monday-board-access',
-    category: 'monday.com',
-    issue: 'Rep cannot access a monday.com board or workspace',
-    errorMessage: 'You don’t have permission to view this board',
-    reason:
-      'Not invited to the workspace, board is private, or guest license limitations. Common when reps join a new team.',
-    resolution: [
-      'Confirm workspace name and board URL with the rep.',
-      'Check workspace members and the rep’s user type (member vs guest vs viewer).',
-      'Ask the board owner or workspace admin to invite the rep with the right role.',
-      'If license-related, route to workspace admin or IT provisioning.',
-    ],
   },
 ];
