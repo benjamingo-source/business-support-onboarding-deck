@@ -66,6 +66,10 @@
   border: 1px solid var(--ui-border-color);
   border-radius: var(--border-radius-medium);
   background-color: var(--secondary-background-color);
+  min-width: 0;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .bulletList {
