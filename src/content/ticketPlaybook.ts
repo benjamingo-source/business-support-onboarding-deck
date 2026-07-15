@@ -5,6 +5,7 @@ export type PlaybookTicket = {
   errorMessage: string;
   reason: string;
   resolution: string[];
+  image?: string;
 };
 
 export const ticketPlaybook: PlaybookTicket[] = [
@@ -95,7 +96,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
   {
     id: 'expansion-opp-not-owner',
     category: 'Opportunities',
-    issue: "Can't create Expansion Opportunity — Not Account Owner",
+    issue: 'Rep is unable to create an expansion opportunity via the "create expansion opportunity" button',
     errorMessage:
       'Opportunity failed to be created for the following reason: Opportunity creation failed: Insert failed. First exception on row 0; first error: FIELD_CUSTOM_VALIDATION_EXCEPTION, You cannot create an opportunity for this account because you are not the account owner: []. Please open a ticket to business support and attach a screenshot.',
     reason:
@@ -105,6 +106,21 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Check the Account Name in the Contract Information field.',
       'If a Monday Account is linked instead of a Company Account, change it to the correct Company Name.',
       'The correct Company Name can be found on the Monday Account page.',
+    ],
+    image: 'https://drive.google.com/thumbnail?id=16D2WlXX2G4G87MArdiG_2ucq8fby3_Oy&sz=w1000',
+  },
+  {
+    id: 'cant-claim-cc-payment',
+    category: 'Billing',
+    issue: "Rep is unable to claim a credit card payment because the account's Ownership Claim Eligibility Date falls after the date the purchase actually occurred",
+    errorMessage:
+      'Not within the account owner claim eligibility timeframe',
+    reason:
+      'The eligibility date populates when the monday account is created, but reps often don\'t convert the lead or create the account until after the customer has already purchased — leaving the eligibility date later than the actual sale.',
+    resolution: [
+      'Check if proof of communication is attached to the ticket or opportunity.',
+      'If not, request evidence the rep was in contact with the customer on or before the claim date, within a 6-month window (e.g., for a July 10, 2026 claim, communication must be dated on or before July 10, 2026).',
+      'If confirmed, update the eligibility date and link the proof to the ticket.',
     ],
   },
   {

@@ -187,6 +187,13 @@ export default function BusinessSupportOnboardingDeck() {
                         Possible error message
                       </Text>
                       <Text type="text1">{ticket.errorMessage}</Text>
+                      {ticket.image && (
+                        <img
+                          src={ticket.image}
+                          alt="Error screenshot"
+                          className={styles.ticketImage}
+                        />
+                      )}
                     </div>
                     <div className={styles.ticketSection}>
                       <Text type="text2" weight="bold">

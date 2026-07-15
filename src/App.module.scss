@@ -127,6 +127,13 @@
   border-radius: var(--border-radius-medium);
 }
 
+.ticketImage {
+  display: block;
+  width: 100%;
+  border-radius: var(--border-radius-medium);
+  margin-top: var(--spacing-small);
+}
+
 .ticketToggle {
   width: 100%;
   text-align: left;
