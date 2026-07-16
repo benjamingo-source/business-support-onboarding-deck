@@ -139,6 +139,23 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1YcNe5SuE-l3KY9KoPEqgHuqImQ8rRv88&sz=w1000',
   },
   {
+    id: 'expansion-closed-as-renewal',
+    category: 'Renewals & ARR',
+    issue: 'Rep closed an Expansion or New Business opportunity when it should have been a Renewal — please change to a Renewal opp',
+    errorMessage: 'N/A — rep or AM submits a ticket requesting the opp type be corrected',
+    reason:
+      'Reps are incorrectly closing renewals as expansion or new business opportunities in Salesforce instead of using the dedicated renewal opp. AMs are measured on retention and need the ARR recorded as renewed, not expanded. This has been flagged internally — on the Business Support side, the process is to update the expansion/new biz opp in the backend and ensure it is linked to the correct contract. Open renewal opps that were bypassed can be churned or deleted.',
+    resolution: [
+      'Unlock the opportunity if it is locked.',
+      'Reopen the opportunity.',
+      'Go into Inspector and change the "Type Auto Filled" field to the correct renewal value.',
+      'Change the "Type" field to the correct renewal value.',
+      'Change the "Renewal Creation Source" field to "Manual Creation from Source Contract".',
+      'Change the stage to Closed Won.',
+      'Go to the Contract and link the correct opportunity (the new renewal opp).',
+    ],
+  },
+  {
     id: 'cpq-missing-manager-id',
     category: 'CPQ Errors',
     issue: 'SO Approval Issues',
