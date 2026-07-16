@@ -153,6 +153,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Change the "Renewal Creation Source" field to "Manual Creation from Source Contract".',
       'Change the stage to Closed Won.',
       'Go to the Contract and link the correct opportunity (the new renewal opp).',
+      'Delete the existing open renewal opp to avoid duplicates — there should only be one renewal opp per year for an account.',
     ],
   },
   {
