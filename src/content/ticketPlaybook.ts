@@ -139,6 +139,23 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1YcNe5SuE-l3KY9KoPEqgHuqImQ8rRv88&sz=w1000',
   },
   {
+    id: 'locked-opportunity-edit',
+    category: 'Opportunities',
+    issue: 'Rep needs to change the billing entity, company name, or SO Signer on a locked opportunity',
+    errorMessage: 'N/A — rep submits a ticket requesting an edit to a locked opportunity',
+    reason:
+      'Opportunities lock on the 5th of the month following close (e.g. a deal closed in July locks after August 5th). If the rep needs to edit the billing entity (most common), company name, or SO Signer after the lock date, they must go through the Correction Opportunity process. Correction opportunities carry 0 ARR and exist solely for finance and invoicing purposes.',
+    resolution: [
+      'Direct the rep to the Post-Won Wizard and have them select the relevant correction type: Change Billing Entity, Change Company Name, or Change SO Signer.',
+      'The wizard provides detailed step-by-step instructions for them to follow.',
+      'If the billing entity needs to be changed, loop in Finance Billing — they will assist with updating the "Bill-to" details.',
+      'The rep must clone the quote (this is critical — do not skip this step).',
+      'The cloned quote needs to be signed again and the signed SO uploaded.',
+      'Once the signed SO is uploaded, the rep can close the correction opportunity as Closed Won.',
+      'Reminder: correction opportunities carry 0 ARR and have no impact on attainment — they are for finance and invoicing only.',
+    ],
+  },
+  {
     id: 'expansion-closed-as-renewal',
     category: 'Renewals & ARR',
     issue: 'Rep closed an Expansion or New Business opportunity when it should have been a Renewal — please change to a Renewal opp',
