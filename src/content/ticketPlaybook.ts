@@ -145,7 +145,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
     id: 'locked-opportunity-edit',
     category: 'Opportunities',
     issue: 'SO Post Won Changes — Correction Opportunity',
-    errorMessage: 'N/A — rep submits a ticket requesting an edit to a locked opportunity',
+    errorMessage: 'See screenshot below',
     image: 'https://drive.google.com/thumbnail?id=1EUFQpml79hIJg6JafkoduNwj3nkwzOP7&sz=w1000',
     reason:
       'Opportunities lock on the 5th of the month following close (e.g. a deal closed in July locks after August 5th). If the rep needs to edit the billing entity (most common), company name, or SO Signer after the lock date, they must go through the Correction Opportunity process. Correction opportunities carry 0 ARR and exist solely for finance and invoicing purposes.',
