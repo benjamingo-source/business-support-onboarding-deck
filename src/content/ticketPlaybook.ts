@@ -160,6 +160,22 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
+    id: 'arr-recognition-not-green-bucket',
+    category: 'Renewals & ARR',
+    issue: 'ARR Recognition — "Is Recognized" unchecked: deal should be recognized but rep says the opp isn\'t counting as Added ARR',
+    errorMessage: 'N/A — rep reports the opportunity is not counting toward Added ARR / not appearing as Green Bucket',
+    reason:
+      'System did not auto-flag the deal for recognition. Common causes: deal + account ARR below the recognition threshold; excluded plan (Standard, Basic, Monthly, or Downgrade); missing or wrong threshold assignment; nothing claimed on close so ARR calculated as $0; account already recognized as Green Bucket.',
+    resolution: [
+      'Confirm the deal should be recognized — check it meets the threshold or qualifies as a valid exception (e.g. approved comp, data lag after claim, threshold config issue).',
+      'On the opportunity, open the Admin section.',
+      'Check the "Is Recognized" checkbox.',
+      'In the "Is Recognized — Override Reason" field, paste the Business Lounge / ticket link and a short note explaining why the override was needed.',
+      'Save and confirm Green Bucket ARR has populated and the rep sees credit on their target if applicable.',
+      'If the threshold config looks wrong (the deal clearly qualifies but the system will never auto-recognize it), escalate to RevOps — do not override without documenting the ticket.',
+    ],
+  },
+  {
     id: 'expansion-closed-as-renewal',
     category: 'Renewals & ARR',
     issue: 'Rep closed an Expansion or New Business opportunity when it should have been a Renewal — please change to a Renewal opp',
