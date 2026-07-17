@@ -126,6 +126,22 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1YcNe5SuE-l3KY9KoPEqgHuqImQ8rRv88&sz=w1000',
   },
   {
+    id: 'change-account-owner',
+    category: 'Opportunities',
+    issue: 'Change account ownership from an accounts pool or a rep to a new rep',
+    errorMessage: 'N/A — rep submits a ticket requesting an account owner change, usually because they cannot create an opportunity on an account they do not own',
+    reason:
+      'Reps are typically trying to create an opportunity but are blocked because they are not the account owner. Account ownership may be sitting in a pool or with another rep.',
+    resolution: [
+      'If the account is owned by a rep, tag the rep and their manager on the ticket for approval, along with the relevant RevOps business partner (check the BizLounge routing doc — the Global RevOps ticket will specify who to tag).',
+      'Wait for approval from all required parties.',
+      'Once approved, go to the Company page in Salesforce.',
+      'Select "Change Company Owner" and enter the new rep\'s name.',
+      'Add the ticket link in the description field for audit trail.',
+      'The ownership change will automatically trickle down to all monday accounts linked under that company.',
+    ],
+  },
+  {
     id: 'locked-opportunity-edit',
     category: 'Opportunities',
     issue: 'Rep needs to change the billing entity, company name, or SO Signer on a locked opportunity',
