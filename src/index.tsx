@@ -4,7 +4,6 @@ import {
   Doc,
   NavigationChevronLeft,
   NavigationChevronRight,
-  Pin,
   Wand,
 } from '@vibe/icons';
 import styles from './App.module.scss';
@@ -234,7 +233,11 @@ export default function BusinessSupportOnboardingDeck() {
     <div className={styles.root}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
-          <Pin />
+          <img
+            src="https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/remote_mondaycom_static/img/monday-logo-x2.png"
+            alt="monday.com"
+            className={styles.headerLogo}
+          />
           <Heading type="h3" weight="medium">
             {headerTitle}
           </Heading>

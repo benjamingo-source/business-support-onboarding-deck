@@ -14,6 +14,11 @@
   background-color: var(--secondary-background-color);
 }
 
+.headerLogo {
+  height: 24px;
+  display: block;
+}
+
 .headerLeft {
   display: flex;
   align-items: center;
