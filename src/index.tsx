@@ -17,12 +17,20 @@ export default function BusinessSupportOnboardingDeck() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedTicketId, setExpandedTicketId] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const categories = useMemo(
+    () => Array.from(new Set(ticketPlaybook.map((ticket) => ticket.category))),
+    [],
+  );
 
   const filteredTickets = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return ticketPlaybook;
 
     return ticketPlaybook.filter((ticket) => {
+      if (selectedCategory && ticket.category !== selectedCategory) return false;
+      if (!query) return true;
+
       const haystack = [
         ticket.category,
         ticket.issue,
@@ -34,7 +42,7 @@ export default function BusinessSupportOnboardingDeck() {
         .toLowerCase();
       return haystack.includes(query);
     });
-  }, [searchQuery]);
+  }, [searchQuery, selectedCategory]);
 
   const currentSlide = overviewSlides[slideIndex];
 
@@ -43,6 +51,7 @@ export default function BusinessSupportOnboardingDeck() {
     setSlideIndex(0);
     setSearchQuery('');
     setExpandedTicketId(null);
+    setSelectedCategory(null);
   };
 
   const renderHome = () => (
@@ -147,6 +156,31 @@ export default function BusinessSupportOnboardingDeck() {
           onChange={setSearchQuery}
           size="medium"
         />
+      </div>
+
+      <div className={styles.categoryChips}>
+        <button
+          type="button"
+          className={selectedCategory === null ? styles.chipActive : styles.chip}
+          onClick={() => setSelectedCategory(null)}
+        >
+          All ({ticketPlaybook.length})
+        </button>
+        {categories.map((category) => {
+          const count = ticketPlaybook.filter((ticket) => ticket.category === category).length;
+          return (
+            <button
+              key={category}
+              type="button"
+              className={selectedCategory === category ? styles.chipActive : styles.chip}
+              onClick={() =>
+                setSelectedCategory(selectedCategory === category ? null : category)
+              }
+            >
+              {category} ({count})
+            </button>
+          );
+        })}
       </div>
 
       {filteredTickets.length === 0 ? (

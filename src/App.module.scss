@@ -97,7 +97,37 @@
 }
 
 .searchRow {
+  margin-bottom: var(--spacing-medium);
+}
+
+.categoryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
   margin-bottom: var(--spacing-large);
+}
+
+.chip,
+.chipActive {
+  padding: var(--spacing-xs) var(--spacing-medium);
+  border-radius: 20px;
+  border: 1px solid var(--ui-border-color);
+  background-color: var(--secondary-background-color);
+  color: var(--primary-text-color);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+  }
+}
+
+.chipActive {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-color-on-primary);
 }
 
 .ticketList {
