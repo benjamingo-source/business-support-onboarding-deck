@@ -45,6 +45,20 @@ export const overviewSlides: OverviewSlide[] = [
     ],
   },
   {
+    id: 'key-terms',
+    title: 'Key terms you\'ll see every day',
+    bullets: [
+      'CPQ — Salesforce\'s quoting tool; used to build, price, and send Sales Orders to customers.',
+      'SO (Sales Order) — the contract document generated from a CPQ quote; reps submit this for approval before closing.',
+      'BB ID — the unique ID that links a Salesforce account to a monday.com account.',
+      'Green Bucket — an opportunity that counts toward a rep\'s ARR recognition target; "Is Recognized" must be checked.',
+      'ARR (Annual Recurring Revenue) — the key number reps and AMs are measured on; what Business Support is ultimately protecting.',
+      'Expansion Opp — a new deal on an existing account (upsell or cross-sell); does not replace a renewal.',
+      'Renewal Opp — re-closing an existing contract at renewal time; AMs are measured on retaining this ARR.',
+      'Correction Opportunity — a post-close opp used purely for invoicing changes (billing entity, company name, SO signer); carries $0 ARR.',
+    ],
+  },
+  {
     id: 'quality-bar',
     title: 'What great support looks like',
     bullets: [
