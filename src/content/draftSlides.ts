@@ -25,17 +25,6 @@ export const draftSlides: OverviewSlide[] = [
     ],
   },
   {
-    id: 'draft-toolbox',
-    title: '[DRAFT] Your toolbox',
-    bullets: [
-      'Salesforce — where deals, accounts, contracts, and most resolutions live.',
-      'BigBrain — internal data and back-office system: account lookups, billing, activations.',
-      'Business Lounge — the ticketing system; your daily queue.',
-      'Monday.all — knowledge base for processes and policies.',
-      'Slack — escalation and quick questions; know your routing channels.',
-    ],
-  },
-  {
     id: 'draft-where-to-find-answers',
     title: '[DRAFT] Where to find answers',
     bullets: [

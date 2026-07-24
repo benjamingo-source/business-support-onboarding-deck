@@ -140,6 +140,18 @@ export const overviewSlides: OverviewSlide[] = [
     ],
   },
   {
+    id: 'your-toolbox',
+    title: 'Your toolbox: the 5 tabs you\'ll always have open',
+    bullets: [
+      '🎫 Business Lounge — your daily queue. Every ticket starts and ends here: triage, updates, escalations, and closure all live in the Lounge.',
+      '☁️ Salesforce — where most resolutions happen: opportunities, contracts, quotes (CPQ), approval rules, and the Inspector for field-level fixes.',
+      '🧠 BigBrain — the account X-ray: subscriptions, billing, activations, users, and the monday-side view of any account. Start here when you need to know "what does this customer actually have?"',
+      '📖 Monday.all — the knowledge base for processes and policies. Search it before asking; link it when answering.',
+      '💬 Slack — for escalations and quick questions once you\'ve done the digging. Come with record IDs and what you already checked.',
+      '💡 Habit to build: for almost every ticket, you\'ll cross-reference Salesforce and BigBrain — one shows the deal, the other shows the account reality.',
+    ],
+  },
+  {
     id: 'key-terms',
     title: 'Key terms you\'ll see every day',
     bullets: [
