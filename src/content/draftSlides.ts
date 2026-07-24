@@ -36,16 +36,6 @@ export const draftSlides: OverviewSlide[] = [
     ],
   },
   {
-    id: 'draft-bigbrain-101',
-    title: '[DRAFT] BigBrain 101',
-    bullets: [
-      'BigBrain is our internal system for data (BI), back-office actions, billing, and activations.',
-      'monday Account = BB Account — the same entity seen from two systems.',
-      'Salesforce and BigBrain sync daily (accounts data, signups, leads) plus real-time sync for main entities.',
-      'Key areas: top information card, Overview tab, Admin tab, Billing tab / Subscription Management.',
-    ],
-  },
-  {
     id: 'draft-where-to-find-answers',
     title: '[DRAFT] Where to find answers',
     bullets: [
