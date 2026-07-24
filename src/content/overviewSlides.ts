@@ -50,12 +50,13 @@ export const overviewSlides: OverviewSlide[] = [
   },
   {
     id: 'support-model',
-    title: 'Business Support model',
+    title: 'How we work: the Business Support model',
     bullets: [
-      'Triage incoming tickets by product area: access, CRM/Salesforce, billing, integrations.',
-      'Gather context upfront: account name, user email, error message, screenshots, and steps to reproduce.',
-      'Resolve in-tier when possible; escalate to Engineering or RevOps when data or code changes are needed.',
-      'Document recurring issues in the playbook so the next agent can resolve faster.',
+      '1️⃣ Triage — every ticket gets a category (Account Owner, CPQ/SO, ARR, Access, Billing…) and a real urgency level. Good triage is half the resolution.',
+      '2️⃣ Gather context before touching anything — account name, user email, exact error message, screenshot, and what the rep was trying to do. Chasing these later doubles resolution time.',
+      '3️⃣ Resolve in-tier — we own ~70% of tickets end-to-end, working across Salesforce, BigBrain, and CPQ. Our target: 80% closed by Tier 1.',
+      '4️⃣ Escalate with context — when a fix needs data changes, code, or approvals, route to BizOps/Tech, Finance, or Billing Dev with record IDs and what you already checked.',
+      '5️⃣ Close the loop — confirm with the requester, explain the cause in plain language, and add recurring patterns (2+ occurrences) to the playbook.',
     ],
   },
   {
