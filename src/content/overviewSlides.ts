@@ -15,6 +15,36 @@ export const overviewSlides: OverviewSlide[] = [
     ],
   },
   {
+    id: 'core-concepts',
+    title: 'Core platform concepts',
+    bullets: [
+      'Workspaces & accounts — where customer data and permissions live.',
+      'Boards & items — how work is organized; each row is a record or task.',
+      'Automations & integrations — connect monday.com to Salesforce, email, Slack, and billing systems.',
+      'Roles & permissions — who can view, edit, or administer each workspace.',
+    ],
+  },
+  {
+    id: 'sales-touchpoints',
+    title: 'How Sales reps use monday.com',
+    bullets: [
+      'CRM boards track accounts, opportunities, and renewal pipelines.',
+      'Quotes and contracts often flow through Salesforce CPQ and related integrations.',
+      'Renewal and ARR data ties opportunities, contracts, and targets together for attainment reporting.',
+      'Reps escalate to Business Support when something blocks closing, quoting, or renewing a deal.',
+    ],
+  },
+  {
+    id: 'support-model',
+    title: 'Business Support model',
+    bullets: [
+      'Triage incoming tickets by product area: access, CRM/Salesforce, billing, integrations.',
+      'Gather context upfront: account name, user email, error message, screenshots, and steps to reproduce.',
+      'Resolve in-tier when possible; escalate to Engineering or RevOps when data or code changes are needed.',
+      'Document recurring issues in the playbook so the next agent can resolve faster.',
+    ],
+  },
+  {
     id: 'business-lounge-mission',
     title: 'The Business Lounge & our mission',
     bullets: [
@@ -67,36 +97,6 @@ export const overviewSlides: OverviewSlide[] = [
       'Recognition Threshold ("Green Bucket"): only Yearly/Multi-yearly Pro or Enterprise plans count, and account ARR must exceed $7K (or $3.5K for SMB and Product reps).',
       'An opportunity is Recognized if: the account is already recognized, OR the deal alone meets the threshold, OR account ARR + deal ARR together reach it.',
       'Opportunity types: New Business (lead conversion), Expansion (existing account, active contract required), Flat Renewal, and Downgrade (auto-filled).',
-    ],
-  },
-  {
-    id: 'core-concepts',
-    title: 'Core platform concepts',
-    bullets: [
-      'Workspaces & accounts — where customer data and permissions live.',
-      'Boards & items — how work is organized; each row is a record or task.',
-      'Automations & integrations — connect monday.com to Salesforce, email, Slack, and billing systems.',
-      'Roles & permissions — who can view, edit, or administer each workspace.',
-    ],
-  },
-  {
-    id: 'sales-touchpoints',
-    title: 'How Sales reps use monday.com',
-    bullets: [
-      'CRM boards track accounts, opportunities, and renewal pipelines.',
-      'Quotes and contracts often flow through Salesforce CPQ and related integrations.',
-      'Renewal and ARR data ties opportunities, contracts, and targets together for attainment reporting.',
-      'Reps escalate to Business Support when something blocks closing, quoting, or renewing a deal.',
-    ],
-  },
-  {
-    id: 'support-model',
-    title: 'Business Support model',
-    bullets: [
-      'Triage incoming tickets by product area: access, CRM/Salesforce, billing, integrations.',
-      'Gather context upfront: account name, user email, error message, screenshots, and steps to reproduce.',
-      'Resolve in-tier when possible; escalate to Engineering or RevOps when data or code changes are needed.',
-      'Document recurring issues in the playbook so the next agent can resolve faster.',
     ],
   },
   {
