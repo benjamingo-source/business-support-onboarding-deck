@@ -9,8 +9,10 @@ export const overviewSlides: OverviewSlide[] = [
     id: 'what-is-monday',
     title: 'What is monday.com?',
     bullets: [
-      'monday.com is a work operating system (Work OS) that helps teams plan, track, and deliver work in one place.',
-      'Teams use boards, automations, dashboards, and integrations to run sales, service, marketing, and operations.',
+      'monday.com is the AI Work Platform for people and agents — trusted by 245,000+ companies worldwide, having crossed $1B in ARR in 2024.',
+      'It started as a single Work OS ("everything is a project") and evolved into a multi-product company to serve dedicated use cases per team.',
+      'The product suite: monday work management, monday CRM, monday dev, monday service, and campaigns for marketing teams — plus add-ons like Automation Pack, Secure & Govern, and Premium Support.',
+      'AI is woven across the platform — AI features run on AI credits, a single unit of measure across all monday AI capabilities.',
       'Business Support helps internal teams (especially Sales) resolve platform, access, and workflow issues quickly.',
     ],
   },
@@ -18,10 +20,11 @@ export const overviewSlides: OverviewSlide[] = [
     id: 'core-concepts',
     title: 'Core platform concepts',
     bullets: [
-      'Workspaces & accounts — where customer data and permissions live.',
+      'Workspaces & accounts — where customer data and permissions live. One company can run several monday accounts.',
       'Boards & items — how work is organized; each row is a record or task.',
+      'Each product is standalone — its own tiers, pricing, and purchasing flow. Customers can mix different seat counts and tiers per product.',
       'Automations & integrations — connect monday.com to Salesforce, email, Slack, and billing systems.',
-      'Roles & permissions — who can view, edit, or administer each workspace.',
+      'Roles & permissions — who can view, edit, or administer each workspace (member vs viewer vs guest matters for support tickets).',
     ],
   },
   {
