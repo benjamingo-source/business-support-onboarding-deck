@@ -2,6 +2,7 @@ export type OverviewSlide = {
   id: string;
   title: string;
   bullets: string[];
+  image?: string;
 };
 
 export const overviewSlides: OverviewSlide[] = [
@@ -68,6 +69,7 @@ export const overviewSlides: OverviewSlide[] = [
       'Escalate through Assignment Groups when needed: BizOps/Tech (~18%) for data and system issues, Finance (~7%) for billing and invoicing, Billing Dev (~5%) for payment infrastructure.',
       'Rule of thumb: try to resolve in-tier first; escalate with full context (record IDs, screenshots, what you already checked).',
     ],
+    image: 'https://drive.google.com/thumbnail?id=18JbnrFtiIbxcMthv6Snmi0eImqHjTciF&sz=w1600',
   },
   {
     id: 'urgency-tagging',

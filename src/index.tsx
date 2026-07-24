@@ -155,6 +155,9 @@ export default function BusinessSupportOnboardingDeck() {
             </li>
           ))}
         </ul>
+        {currentSlide.image && (
+          <img src={currentSlide.image} alt={currentSlide.title} className={styles.slideImage} />
+        )}
       </div>
 
       <div className={styles.slideNav}>

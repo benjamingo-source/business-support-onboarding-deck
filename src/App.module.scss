@@ -140,6 +140,14 @@
   }
 }
 
+.slideImage {
+  display: block;
+  width: 100%;
+  border-radius: var(--border-radius-medium);
+  margin-top: var(--spacing-large);
+  border: 1px solid var(--ui-border-color);
+}
+
 .bulletList {
   margin: var(--spacing-medium) 0 0;
   padding-left: var(--spacing-large);
