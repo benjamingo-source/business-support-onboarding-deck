@@ -77,6 +77,64 @@
   overflow-wrap: break-word;
 }
 
+.progressTrack {
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--ui-border-color);
+  margin-bottom: var(--spacing-large);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.slideCardDeck {
+  position: relative;
+  padding: calc(var(--spacing-xl) * 1.5);
+  border: 1px solid var(--ui-border-color);
+  border-left: 6px solid var(--primary-color);
+  border-radius: var(--border-radius-big, 16px);
+  background-color: var(--secondary-background-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  min-height: 380px;
+  min-width: 0;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.slideBadge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-medium);
+  border-radius: 20px;
+  background-color: var(--primary-selected-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--spacing-medium);
+}
+
+.slideTitle {
+  margin-bottom: var(--spacing-large);
+}
+
+.bulletListDeck {
+  margin: 0;
+  padding-left: var(--spacing-large);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+
+  li::marker {
+    color: var(--primary-color);
+  }
+}
+
 .bulletList {
   margin: var(--spacing-medium) 0 0;
   padding-left: var(--spacing-large);

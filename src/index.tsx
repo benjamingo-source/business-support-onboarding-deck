@@ -108,13 +108,25 @@ export default function BusinessSupportOnboardingDeck() {
     </div>
   );
 
+  const nextSlide = overviewSlides[slideIndex + 1];
+
   const renderOverview = () => (
     <div className={styles.content}>
-      <div className={styles.slideCard}>
-        <Heading type="h2" weight="bold">
+      <div className={styles.progressTrack}>
+        <div
+          className={styles.progressFill}
+          style={{ width: `${((slideIndex + 1) / overviewSlides.length) * 100}%` }}
+        />
+      </div>
+
+      <div className={styles.slideCardDeck}>
+        <div className={styles.slideBadge}>
+          {String(slideIndex + 1).padStart(2, '0')} / {String(overviewSlides.length).padStart(2, '0')}
+        </div>
+        <Heading type="h1" weight="bold" className={styles.slideTitle}>
           {currentSlide.title}
         </Heading>
-        <ul className={styles.bulletList}>
+        <ul className={styles.bulletListDeck}>
           {currentSlide.bullets.map((bullet) => (
             <li key={bullet}>
               <Text type="text1">{bullet}</Text>
@@ -132,9 +144,15 @@ export default function BusinessSupportOnboardingDeck() {
         >
           Previous
         </Button>
-        <Text type="text2" className={styles.slideProgress}>
-          Slide {slideIndex + 1} of {overviewSlides.length}
-        </Text>
+        {nextSlide ? (
+          <Text type="text2" className={styles.slideProgress}>
+            Up next: {nextSlide.title}
+          </Text>
+        ) : (
+          <Text type="text2" className={styles.slideProgress}>
+            End of deck 🎉
+          </Text>
+        )}
         <Button
           kind="primary"
           disabled={slideIndex === overviewSlides.length - 1}
