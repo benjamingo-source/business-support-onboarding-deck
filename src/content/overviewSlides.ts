@@ -65,6 +65,17 @@ export const overviewSlides: OverviewSlide[] = [
     ],
   },
   {
+    id: 'teams-around-us',
+    title: 'The teams around us',
+    bullets: [
+      'RevOps — owns revenue processes end-to-end: policies, targets, incentive models, recognition thresholds, and rules of engagement. Escalate for: ARR/attainment disputes, threshold config, policy grey areas.',
+      'BizTech — builds and maintains our internal tools (Salesforce, CPQ, integrations). Teams include Business Product, Rev Tech, and CPQ Tech. Escalate for: system bugs, data issues, broken automations.',
+      'Billing Dev (Payments) — owns the payment infrastructure: payment flows, subscriptions lifecycle, the catalog, and quote calculation. Escalate for: payment failures, activation infrastructure issues.',
+      'Finance — owns invoicing, Bill-to details, collections, and account holds. Escalate for: invoice changes, billing entity tax updates, payment disputes.',
+      '❓ TO CONFIRM: does Business Support sit inside BizTech or under RevOps? Verify internally and update this slide.',
+    ],
+  },
+  {
     id: 'who-is-who-sales',
     title: 'Who is who: Sales roles you\'ll support',
     bullets: [
