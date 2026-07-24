@@ -31,7 +31,7 @@ export const draftSlides: OverviewSlide[] = [
       'Salesforce — where deals, accounts, contracts, and most resolutions live.',
       'BigBrain — internal data and back-office system: account lookups, billing, activations.',
       'Business Lounge — the ticketing system; your daily queue.',
-      'Guru — knowledge cards for processes and policies.',
+      'Monday.all — knowledge base for processes and policies.',
       'Slack — escalation and quick questions; know your routing channels.',
     ],
   },
@@ -40,7 +40,7 @@ export const draftSlides: OverviewSlide[] = [
     title: '[DRAFT] Where to find answers',
     bullets: [
       'This playbook (Deck 2) — common tickets with step-by-step resolutions.',
-      'Guru — process and policy cards; search before asking.',
+      'Monday.all — process and policy articles; search before asking.',
       'BizLounge routing doc — who to tag for approvals (RevOps business partners, managers).',
       'Status Page board — known bugs and missing features already reported.',
       'Slack channels — [add the team\'s actual channels here].',
