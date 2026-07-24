@@ -38,6 +38,17 @@ export const overviewSlides: OverviewSlide[] = [
     ],
   },
   {
+    id: 'business-lounge-mission',
+    title: 'The Business Lounge & our mission',
+    bullets: [
+      '✈️ The Business Lounge is where our work happens — the one-stop-shop ticketing system for all client-facing teams, built on the monday.com platform itself.',
+      '🎯 Our mission: make the sales and post-sales cycles faster, more agile, and more scalable. When a rep is blocked, revenue is blocked — we remove the blocker.',
+      '🤝 We are the centralized point of contact for Sales, Partners, and CSMs on technical and informational issues — one front door instead of ten Slack channels.',
+      '📦 The Lounge runs on a service catalog per product, with automatic routing and the ability to move tickets between teams when escalation is needed.',
+      '📊 We measure ourselves on SLA and CSAT — and we don\'t just close tickets, we solve the underlying issue so it doesn\'t come back.',
+    ],
+  },
+  {
     id: 'support-model',
     title: 'Business Support model',
     bullets: [
@@ -45,16 +56,6 @@ export const overviewSlides: OverviewSlide[] = [
       'Gather context upfront: account name, user email, error message, screenshots, and steps to reproduce.',
       'Resolve in-tier when possible; escalate to Engineering or RevOps when data or code changes are needed.',
       'Document recurring issues in the playbook so the next agent can resolve faster.',
-    ],
-  },
-  {
-    id: 'business-lounge-mission',
-    title: 'The Business Lounge & our mission',
-    bullets: [
-      'The Business Lounge ✈️ is our one-stop-shop ticketing system for client-facing teams — built on the monday.com platform, with a service catalog per product and the ability to move tickets between teams.',
-      'Business Support exists to make our sales and post-sales cycles faster, more agile, and more scalable.',
-      'We are the centralized point of contact for Sales, Partners, and CSMs on technical and informational issues.',
-      'Main KPIs: SLA and Satisfaction surveys (CSAT) — our processes are KPI-driven, kept current, and built to solve the underlying issue.',
     ],
   },
   {
