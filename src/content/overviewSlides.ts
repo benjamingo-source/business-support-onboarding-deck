@@ -30,12 +30,13 @@ export const overviewSlides: OverviewSlide[] = [
   },
   {
     id: 'sales-touchpoints',
-    title: 'How Sales reps use monday.com',
+    title: 'A day in the life of a Sales rep (and where we come in)',
     bullets: [
-      'CRM boards track accounts, opportunities, and renewal pipelines.',
-      'Quotes and contracts often flow through Salesforce CPQ and related integrations.',
-      'Renewal and ARR data ties opportunities, contracts, and targets together for attainment reporting.',
-      'Reps escalate to Business Support when something blocks closing, quoting, or renewing a deal.',
+      '🏠 Reps live in Salesforce — leads, accounts, opportunities, quotes, and contracts all happen there. monday.com is the product they sell; Salesforce is where they sell it.',
+      '💰 The deal flow: lead converts → opportunity created → quote built in CPQ → Sales Order sent and signed → Closed Won → plan activated → ARR counted.',
+      '📈 What reps care about: their ARR attainment. Every claim, recognition flag, and opportunity type directly affects whether a deal counts toward their target.',
+      '🔁 Post-sale, AMs and RMs work renewals and expansions off the same records — which is why a mislinked contract or wrong opp type becomes an urgent ticket.',
+      '🆘 Reps come to us when this flow breaks: a button that errors, a quote that won\'t generate, a payment they can\'t claim, an account they can\'t access. Speed matters — their deal is usually waiting on us.',
     ],
   },
   {
