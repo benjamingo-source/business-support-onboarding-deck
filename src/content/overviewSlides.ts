@@ -65,6 +65,17 @@ export const overviewSlides: OverviewSlide[] = [
     ],
   },
   {
+    id: 'urgency-tagging',
+    title: 'Urgency tagging done right',
+    bullets: [
+      'Critical 🚨 — active business damage: deal blocked from closing today, customer-facing outage, month-end financial impact.',
+      'High 🔴 — genuine SLA risk or a deal blocked this week. Reserve it — over-tagging High buries real urgency.',
+      'Medium 🔵 — the default for standard requests. Most tickets belong here.',
+      'Low 🟢 — nice-to-have, no time pressure, informational.',
+      'Reality check: ~58% of tickets get tagged High. If everything is High, nothing is.',
+    ],
+  },
+  {
     id: 'teams-around-us',
     title: 'The teams around us',
     bullets: [
