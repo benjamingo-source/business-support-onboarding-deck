@@ -156,10 +156,12 @@ export const overviewSlides: OverviewSlide[] = [
     id: 'quality-bar',
     title: 'What great support looks like',
     bullets: [
-      'Acknowledge quickly and set expectations on timeline.',
-      'Explain the issue in plain language — not just the fix.',
-      'Confirm resolution with the rep and note what prevented recurrence.',
-      'Update the playbook when a new pattern appears twice or more.',
+      '⚡ Acknowledge fast, even without an answer yet — "I\'m on it, expect an update by EOD" beats a perfect reply three hours later. Remember: a blocked rep is often sitting on a blocked deal.',
+      '🔍 Diagnose, don\'t just patch — a rep asking to "check the manager ID" may really have a broken approval chain. Fix what they need, not just what they asked for.',
+      '💬 Explain the cause in plain language — "the contract was pointing at the Monday Account instead of the Company Account" teaches the rep; "fixed ✅" teaches nothing and invites a repeat ticket.',
+      '✅ Confirm before closing — "can you try creating the opp now?" A ticket closed without confirmation is a coin flip, and reopened tickets hurt SLA and CSAT more than slow ones.',
+      '📚 Feed the playbook — if you see a pattern twice, write it down. Every entry you add turns your hardest ticket into someone else\'s easiest.',
+      '🎯 The bar we hold ourselves to: 92% SLA, 95% CSAT, 80% resolved in-tier. Quality and speed, not one or the other.',
     ],
   },
 ];
