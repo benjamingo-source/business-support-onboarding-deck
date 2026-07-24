@@ -8,9 +8,10 @@ import {
 } from '@vibe/icons';
 import styles from './App.module.scss';
 import { overviewSlides } from './content/overviewSlides';
+import { draftSlides } from './content/draftSlides';
 import { ticketPlaybook } from './content/ticketPlaybook';
 
-type View = 'home' | 'overview' | 'playbook';
+type View = 'home' | 'overview' | 'playbook' | 'drafts';
 
 export default function BusinessSupportOnboardingDeck() {
   const [view, setView] = useState<View>('home');
@@ -44,7 +45,8 @@ export default function BusinessSupportOnboardingDeck() {
     });
   }, [searchQuery, selectedCategory]);
 
-  const currentSlide = overviewSlides[slideIndex];
+  const activeSlides = view === 'drafts' ? draftSlides : overviewSlides;
+  const currentSlide = activeSlides[slideIndex];
 
   const goHome = () => {
     setView('home');
@@ -104,24 +106,44 @@ export default function BusinessSupportOnboardingDeck() {
             {ticketPlaybook.length} playbook entries
           </Text>
         </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('drafts')}
+          aria-label="Open draft ideas deck"
+        >
+          <div className={styles.deckIcon}>
+            <Wand />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 3 — Draft Ideas (WIP)
+          </Heading>
+          <Text type="text2" color="secondary">
+            Candidate slides for Deck 1 — review, edit, and promote the keepers. Not for new hires yet.
+          </Text>
+          <Text type="text2" color="secondary">
+            {draftSlides.length} draft slides
+          </Text>
+        </button>
       </div>
     </div>
   );
 
-  const nextSlide = overviewSlides[slideIndex + 1];
+  const nextSlide = activeSlides[slideIndex + 1];
 
   const renderOverview = () => (
     <div className={styles.content}>
       <div className={styles.progressTrack}>
         <div
           className={styles.progressFill}
-          style={{ width: `${((slideIndex + 1) / overviewSlides.length) * 100}%` }}
+          style={{ width: `${((slideIndex + 1) / activeSlides.length) * 100}%` }}
         />
       </div>
 
       <div className={styles.slideCardDeck}>
         <div className={styles.slideBadge}>
-          {String(slideIndex + 1).padStart(2, '0')} / {String(overviewSlides.length).padStart(2, '0')}
+          {String(slideIndex + 1).padStart(2, '0')} / {String(activeSlides.length).padStart(2, '0')}
         </div>
         <Heading type="h1" weight="bold" className={styles.slideTitle}>
           {currentSlide.title}
@@ -155,7 +177,7 @@ export default function BusinessSupportOnboardingDeck() {
         )}
         <Button
           kind="primary"
-          disabled={slideIndex === overviewSlides.length - 1}
+          disabled={slideIndex === activeSlides.length - 1}
           onClick={() => setSlideIndex((index) => index + 1)}
           rightIcon={NavigationChevronRight}
         >
@@ -279,7 +301,9 @@ export default function BusinessSupportOnboardingDeck() {
       ? 'Deck 1 — monday.com Overview'
       : view === 'playbook'
         ? 'Deck 2 — Ticketing Playbook'
-        : 'Business Support Onboarding';
+        : view === 'drafts'
+          ? 'Deck 3 — Draft Ideas (WIP)'
+          : 'Business Support Onboarding';
 
   return (
     <div className={styles.root}>
@@ -302,7 +326,7 @@ export default function BusinessSupportOnboardingDeck() {
       </header>
 
       {view === 'home' && renderHome()}
-      {view === 'overview' && renderOverview()}
+      {(view === 'overview' || view === 'drafts') && renderOverview()}
       {view === 'playbook' && renderPlaybook()}
     </div>
   );
