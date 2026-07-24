@@ -61,7 +61,7 @@ export default function BusinessSupportOnboardingDeck() {
       <Heading type="h1" weight="bold">
         Business Support Onboarding
       </Heading>
-      <Text type="text1" color="secondary">
+      <Text ellipsis={false} type="text1" color="secondary">
         Choose a deck to get started. Deck 1 covers the monday.com overview; Deck 2 is the ticketing
         playbook for common Sales rep requests.
       </Text>
@@ -79,10 +79,10 @@ export default function BusinessSupportOnboardingDeck() {
           <Heading type="h2" weight="medium">
             Deck 1 — monday.com Overview
           </Heading>
-          <Text type="text2" color="secondary">
+          <Text ellipsis={false} type="text2" color="secondary">
             Platform basics, how Sales uses monday.com, and what great Business Support looks like.
           </Text>
-          <Text type="text2" color="secondary">
+          <Text ellipsis={false} type="text2" color="secondary">
             {overviewSlides.length} slides
           </Text>
         </button>
@@ -99,10 +99,10 @@ export default function BusinessSupportOnboardingDeck() {
           <Heading type="h2" weight="medium">
             Deck 2 — Ticketing Playbook
           </Heading>
-          <Text type="text2" color="secondary">
+          <Text ellipsis={false} type="text2" color="secondary">
             Common tickets from Sales reps: issue, error message, reason, and step-by-step resolution.
           </Text>
-          <Text type="text2" color="secondary">
+          <Text ellipsis={false} type="text2" color="secondary">
             {ticketPlaybook.length} playbook entries
           </Text>
         </button>
@@ -119,10 +119,10 @@ export default function BusinessSupportOnboardingDeck() {
           <Heading type="h2" weight="medium">
             Deck 3 — Draft Ideas (WIP)
           </Heading>
-          <Text type="text2" color="secondary">
+          <Text ellipsis={false} type="text2" color="secondary">
             Candidate slides for Deck 1 — review, edit, and promote the keepers. Not for new hires yet.
           </Text>
-          <Text type="text2" color="secondary">
+          <Text ellipsis={false} type="text2" color="secondary">
             {draftSlides.length} draft slides
           </Text>
         </button>
@@ -151,7 +151,7 @@ export default function BusinessSupportOnboardingDeck() {
         <ul className={styles.bulletListDeck}>
           {currentSlide.bullets.map((bullet) => (
             <li key={bullet}>
-              <Text type="text1">{bullet}</Text>
+              <Text ellipsis={false} type="text1">{bullet}</Text>
             </li>
           ))}
         </ul>
@@ -167,11 +167,11 @@ export default function BusinessSupportOnboardingDeck() {
           Previous
         </Button>
         {nextSlide ? (
-          <Text type="text2" className={styles.slideProgress}>
+          <Text ellipsis={false} type="text2" className={styles.slideProgress}>
             Up next: {nextSlide.title}
           </Text>
         ) : (
-          <Text type="text2" className={styles.slideProgress}>
+          <Text ellipsis={false} type="text2" className={styles.slideProgress}>
             End of deck 🎉
           </Text>
         )}
@@ -225,7 +225,7 @@ export default function BusinessSupportOnboardingDeck() {
 
       {filteredTickets.length === 0 ? (
         <div className={styles.emptyState}>
-          <Text type="text1">No tickets match your search. Try a different keyword.</Text>
+          <Text ellipsis={false} type="text1">No tickets match your search. Try a different keyword.</Text>
         </div>
       ) : (
         <div className={styles.ticketList}>
@@ -241,14 +241,14 @@ export default function BusinessSupportOnboardingDeck() {
                   aria-expanded={isExpanded}
                 >
                   <div className={styles.ticketMeta}>
-                    <Text type="text2" weight="medium">
+                    <Text ellipsis={false} type="text2" weight="medium">
                       {ticket.category}
                     </Text>
                   </div>
                   <Heading type="h3" weight="medium">
                     {ticket.issue}
                   </Heading>
-                  <Text type="text2" color="secondary">
+                  <Text ellipsis={false} type="text2" color="secondary">
                     {isExpanded ? 'Click to collapse' : 'Click to view error, reason, and resolution'}
                   </Text>
                 </button>
@@ -256,10 +256,10 @@ export default function BusinessSupportOnboardingDeck() {
                 {isExpanded && (
                   <>
                     <div className={styles.ticketSection}>
-                      <Text type="text2" weight="bold">
+                      <Text ellipsis={false} type="text2" weight="bold">
                         Possible error message
                       </Text>
-                      <Text type="text1">{ticket.errorMessage}</Text>
+                      <Text ellipsis={false} type="text1">{ticket.errorMessage}</Text>
                       {ticket.image && (
                         <img
                           src={ticket.image}
@@ -269,19 +269,19 @@ export default function BusinessSupportOnboardingDeck() {
                       )}
                     </div>
                     <div className={styles.ticketSection}>
-                      <Text type="text2" weight="bold">
+                      <Text ellipsis={false} type="text2" weight="bold">
                         Reason
                       </Text>
-                      <Text type="text1">{ticket.reason}</Text>
+                      <Text ellipsis={false} type="text1">{ticket.reason}</Text>
                     </div>
                     <div className={styles.ticketSection}>
-                      <Text type="text2" weight="bold">
+                      <Text ellipsis={false} type="text2" weight="bold">
                         Resolution
                       </Text>
                       <ol className={styles.resolutionList}>
                         {ticket.resolution.map((step) => (
                           <li key={step}>
-                            <Text type="text1">{step}</Text>
+                            <Text ellipsis={false} type="text1">{step}</Text>
                           </li>
                         ))}
                       </ol>
