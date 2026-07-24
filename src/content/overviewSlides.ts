@@ -6,6 +6,15 @@ export type OverviewSlide = {
 
 export const overviewSlides: OverviewSlide[] = [
   {
+    id: 'what-is-monday',
+    title: 'What is monday.com?',
+    bullets: [
+      'monday.com is a work operating system (Work OS) that helps teams plan, track, and deliver work in one place.',
+      'Teams use boards, automations, dashboards, and integrations to run sales, service, marketing, and operations.',
+      'Business Support helps internal teams (especially Sales) resolve platform, access, and workflow issues quickly.',
+    ],
+  },
+  {
     id: 'business-lounge-mission',
     title: 'The Business Lounge & our mission',
     bullets: [
@@ -58,15 +67,6 @@ export const overviewSlides: OverviewSlide[] = [
       'Recognition Threshold ("Green Bucket"): only Yearly/Multi-yearly Pro or Enterprise plans count, and account ARR must exceed $7K (or $3.5K for SMB and Product reps).',
       'An opportunity is Recognized if: the account is already recognized, OR the deal alone meets the threshold, OR account ARR + deal ARR together reach it.',
       'Opportunity types: New Business (lead conversion), Expansion (existing account, active contract required), Flat Renewal, and Downgrade (auto-filled).',
-    ],
-  },
-  {
-    id: 'what-is-monday',
-    title: 'What is monday.com?',
-    bullets: [
-      'monday.com is a work operating system (Work OS) that helps teams plan, track, and deliver work in one place.',
-      'Teams use boards, automations, dashboards, and integrations to run sales, service, marketing, and operations.',
-      'Business Support helps internal teams (especially Sales) resolve platform, access, and workflow issues quickly.',
     ],
   },
   {
