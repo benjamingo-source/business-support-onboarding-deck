@@ -127,6 +127,7 @@ export const overviewSlides: OverviewSlide[] = [
       '🔄 Salesforce and BigBrain sync daily (accounts data, signups, leads) plus real-time sync for main entities.',
       '🗺️ Key areas: top information card, Overview tab, Admin tab, Billing tab / Subscription Management.',
     ],
+    image: 'https://drive.google.com/thumbnail?id=1WYv_-YwDI2A28K8NNqU3LPmhhEiToEMW&sz=w1600',
   },
   {
     id: 'money-basics',
