@@ -9,9 +9,10 @@ import {
 import styles from './App.module.scss';
 import { overviewSlides } from './content/overviewSlides';
 import { draftSlides } from './content/draftSlides';
+import { salesforceCpqSlides } from './content/salesforceCpqSlides';
 import { ticketPlaybook } from './content/ticketPlaybook';
 
-type View = 'home' | 'overview' | 'playbook' | 'drafts';
+type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'drafts';
 
 export default function BusinessSupportOnboardingDeck() {
   const [view, setView] = useState<View>('home');
@@ -45,7 +46,8 @@ export default function BusinessSupportOnboardingDeck() {
     });
   }, [searchQuery, selectedCategory]);
 
-  const activeSlides = view === 'drafts' ? draftSlides : overviewSlides;
+  const activeSlides =
+    view === 'drafts' ? draftSlides : view === 'sfcpq' ? salesforceCpqSlides : overviewSlides;
   const currentSlide = activeSlides[slideIndex];
 
   const goHome = () => {
@@ -110,6 +112,26 @@ export default function BusinessSupportOnboardingDeck() {
         <button
           type="button"
           className={styles.deckCard}
+          onClick={() => setView('sfcpq')}
+          aria-label="Open Salesforce and CPQ deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 3 — Salesforce &amp; CPQ
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            The deal path end to end: opportunity, quote, approvals, Sales Order, Closed Won, and activation.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {salesforceCpqSlides.length} slides
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
           onClick={() => setView('drafts')}
           aria-label="Open draft ideas deck"
         >
@@ -117,7 +139,7 @@ export default function BusinessSupportOnboardingDeck() {
             <Wand />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 3 — Draft Ideas (WIP)
+            Deck 4 — Draft Ideas (WIP)
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
             Candidate slides for Deck 1 — review, edit, and promote the keepers. Not for new hires yet.
@@ -304,9 +326,11 @@ export default function BusinessSupportOnboardingDeck() {
       ? 'Deck 1 — monday.com Overview'
       : view === 'playbook'
         ? 'Deck 2 — Ticketing Playbook'
-        : view === 'drafts'
-          ? 'Deck 3 — Draft Ideas (WIP)'
-          : 'Business Support Onboarding';
+        : view === 'sfcpq'
+          ? 'Deck 3 — Salesforce & CPQ'
+          : view === 'drafts'
+            ? 'Deck 4 — Draft Ideas (WIP)'
+            : 'Business Support Onboarding';
 
   return (
     <div className={styles.root}>
@@ -329,7 +353,7 @@ export default function BusinessSupportOnboardingDeck() {
       </header>
 
       {view === 'home' && renderHome()}
-      {(view === 'overview' || view === 'drafts') && renderOverview()}
+      {(view === 'overview' || view === 'sfcpq' || view === 'drafts') && renderOverview()}
       {view === 'playbook' && renderPlaybook()}
     </div>
   );
