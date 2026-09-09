@@ -52,7 +52,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
   },
   {
     id: 'sfcpq-products',
-    title: 'Product Selection & Configure Products',
+    title: '✏️ EDIT — Product Selection & Configure Products',
     bullets: [
       '🛒 Pick products (work management, CRM, dev, service) — bundles can combine several products.',
       '🔢 In Configure Products set seats (Quantity) per product; best practice: adjust pricing later in the QLE, not here.',
