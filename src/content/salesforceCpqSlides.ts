@@ -25,11 +25,25 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     image: 'https://drive.google.com/thumbnail?id=1rRVejagf3MU_rlbmfYL1e8kiY4SVaKRO&sz=w1600',
   },
   {
+    id: 'sfcpq-opportunities',
+    title: 'Opportunities: what they are & the types you\'ll see',
+    bullets: [
+      '💡 An opportunity is Salesforce\'s record of a potential deal — a client considering adding seats, upgrading their plan, renewing, or buying for the first time. It tracks the account, the players, and the potential value.',
+      '🎯 The Opportunity Type drives everything downstream — pricing, available products, contract behavior, and who needs to approve.',
+      '🆕 New Business — the first deal on a monday Account, created via lead conversion. Locks the contract type to "New Contract".',
+      '➕ Expansion — adding seats or products to an existing account with an active contract (created via the "Create Expansion Opportunity" button).',
+      '🔀 Cross Sale — selling an additional product to an existing customer (e.g. CRM to a work management account).',
+      '🔁 Flat Renewal — re-closing the existing contract at renewal time; auto-created against the renewal.',
+      '📉 Downgrade — reducing seats or tier; auto-filled by the system, not manually created.',
+      '🛠️ Service — a service-only deal (implementation, training); exposes only service SKUs, no product licenses.',
+    ],
+  },
+  {
     id: 'sfcpq-creation-app',
     title: 'The Creation App: starting an offer',
     bullets: [
       '📄 Choose the document type: Sales Order (formal, for signing), Quote (preliminary pricing), or Forecast.',
-      '🎯 Opportunity Type drives everything — New Business, Expansion, Cross Sale, Downgrade, Flat Renewal, or Service — it determines pricing, products, and approvals.',
+      '🎯 Pick the Opportunity Type (see previous slide) — it determines pricing, products, and approvals for everything that follows.',
       '⚠️ Account Tier (Standard / Pro / Enterprise) is LOCKED after this step — double-check before proceeding.',
       '📅 Start date defaults to today; duration defaults to 24 months (12/36/custom via "Set End Date Manually?").',
       '🔀 "Perform Contract Merge" merges multiple contracts into one — the system auto-calculates the balance carryover; use "Simulate" to preview.',
