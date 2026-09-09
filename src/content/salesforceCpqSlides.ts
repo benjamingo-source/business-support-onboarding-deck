@@ -68,7 +68,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     bullets: [
       '📈 Total Added ARR recalculates with every product, quantity, or discount change — the QLE is where the deal is really priced.',
       '🎚️ The Discount Matrix Threshold is the max discount without approval; anything above shows in "% for Approval".',
-      '💰 Seat volume discounts are cumulative: 0–99 seats → 7%, 100–249 → 12%, 250–499 → 15%, 500–999 → 20%, 1000+ → 25% (add ~3% for Pro→Enterprise upgrades). Multi-year: 7.7% (2yr) / 15.4% (3yr). Multi-product: 10–15%.',
       '↩️ Balance Carryover auto-pulls on New Contracts with an active existing contract — a negative refund line that can\'t be deleted, only managed via the line drawer (removal requires a reason).',
       '🧰 Upper buttons: Preview Approval (see approvers before submitting), Select Services / Apps / Add-Ons, Dealroom Glimpse, Save & Quit.',
       '🔁 CRITICAL habit: click "Calculate" often — and always before submitting.',
