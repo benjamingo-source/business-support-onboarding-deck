@@ -22,6 +22,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🖥️ monday Account — an actual monday.com instance (a BB account) under a Company. One Company can have many: different teams, departments, or regions each running their own instance.',
       '👀 See it yourself: open any account in Salesforce → Account Hierarchy shows the full tree.',
     ],
+    image: 'https://drive.google.com/thumbnail?id=1rRVejagf3MU_rlbmfYL1e8kiY4SVaKRO&sz=w1600',
   },
   {
     id: 'sfcpq-creation-app',
