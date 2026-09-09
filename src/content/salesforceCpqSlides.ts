@@ -11,7 +11,18 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🛡️ It puts guardrails on deals: no unapproved pricing, no retired products, and centralized data for accurate forecasting.',
       '📍 Access it from the CPQ Management tab at the top of every Opportunity page (use Chrome for best performance).',
       '🆕 Three entry options: Create a New Offer, Manage Existing Offers, or Change Currency.',
-      '📋 Before starting, gather: client tier, required products/services, budget constraints, and contract duration preferences.',
+    ],
+  },
+  {
+    id: 'sfcpq-account-hierarchy',
+    title: 'The account hierarchy: Global Company → Company → monday Account',
+    bullets: [
+      '🌍 Global Company — the top of the hierarchy: the real-world organization worldwide (e.g. "Facebook"). Used to manage the full relationship across regions.',
+      '🏢 Company Account (regional / "parent account") — a regional entity under the Global Company (e.g. Facebook EMEA, Facebook NAM). Ownership, contracts, and billing entities hang here.',
+      '🖥️ monday Account — an actual monday.com instance (a BB account) under a Company. One Company can have many: different teams, departments, or regions each running their own instance.',
+      '🔑 Why it matters: opportunities, contracts, and ownership live at the Company level — but usage, subscriptions, and activations live at the monday Account level.',
+      '🎫 Ticket connection: many playbook issues are hierarchy issues — e.g. "can\'t create expansion opp" happens when a contract points at a monday Account instead of the Company Account, and account-owner changes at the Company level trickle down to every monday account under it.',
+      '👀 See it yourself: open any account in Salesforce → Account Hierarchy shows the full tree.',
     ],
   },
   {
