@@ -5,6 +5,8 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     id: 'sfcpq-what-why',
     title: 'What is Salesforce CPQ & how to access it',
     bullets: [
+      '☁️ Salesforce is the world\'s leading CRM (Customer Relationship Management) platform — it\'s where our entire sales operation lives: every lead, account, opportunity, contract, and deal record.',
+      '🗄️ Think of it as the single source of truth for the business side of monday.com — when a rep asks "why can\'t I close this deal?", the answer is almost always somewhere in Salesforce.',
       '🧩 CPQ = Configure (what products), Price (what they cost), Quote (deal details) — Salesforce\'s native app that automates quoting end to end.',
       '🛡️ It puts guardrails on deals: no unapproved pricing, no retired products, and centralized data for accurate forecasting.',
       '📍 Access it from the CPQ Management tab at the top of every Opportunity page (use Chrome for best performance).',
