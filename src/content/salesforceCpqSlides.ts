@@ -32,7 +32,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🎯 The Opportunity Type drives everything downstream — pricing, available products, contract behavior, and who needs to approve.',
       '🆕 New Business — the first deal on a monday Account, created via lead conversion. Locks the contract type to "New Contract".',
       '➕ Expansion — adding seats or products to an existing account with an active contract (created via the "Create Expansion Opportunity" button). Contract Type is set to Pro-Rated — the addition aligns to the existing contract\'s end date.',
-      '🔀 Cross Sale — selling an additional product to an existing customer (e.g. CRM to a work management account).',
+      '    ↳ Cross Sale — a flavor of expansion: selling an additional product to an existing customer (e.g. CRM to a work management account). Also Pro-Rated.',
       '🔁 Flat Renewal — re-closing the existing contract at renewal time; auto-created against the renewal.',
       '📉 Downgrade — reducing seats or tier; auto-filled by the system, not manually created.',
       '🛠️ Service — a service-only deal (implementation, training); exposes only service SKUs, no product licenses.',
