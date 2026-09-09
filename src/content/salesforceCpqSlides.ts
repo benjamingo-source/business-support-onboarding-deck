@@ -31,7 +31,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '💡 An opportunity is Salesforce\'s record of a potential deal — a client considering adding seats, upgrading their plan, renewing, or buying for the first time. It tracks the account, the players, and the potential value.',
       '🎯 The Opportunity Type drives everything downstream — pricing, available products, contract behavior, and who needs to approve.',
       '🆕 New Business — the first deal on a monday Account, created via lead conversion. Locks the contract type to "New Contract".',
-      '➕ Expansion — adding seats or products to an existing account with an active contract (created via the "Create Expansion Opportunity" button).',
+      '➕ Expansion — adding seats or products to an existing account with an active contract (created via the "Create Expansion Opportunity" button). Contract Type is set to Pro-Rated — the addition aligns to the existing contract\'s end date.',
       '🔀 Cross Sale — selling an additional product to an existing customer (e.g. CRM to a work management account).',
       '🔁 Flat Renewal — re-closing the existing contract at renewal time; auto-created against the renewal.',
       '📉 Downgrade — reducing seats or tier; auto-filled by the system, not manually created.',
