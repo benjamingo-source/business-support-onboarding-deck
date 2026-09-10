@@ -67,6 +67,13 @@ export default function BusinessSupportOnboardingDeck() {
     setSelectedCategory(null);
   };
 
+  const goToPlaybook = (category: string, ticketId?: string) => {
+    setSearchQuery('');
+    setSelectedCategory(category);
+    setExpandedTicketId(ticketId ?? null);
+    setView('playbook');
+  };
+
   const renderHome = () => (
     <div className={styles.content}>
       <Heading type="h1" weight="bold">
@@ -188,6 +195,36 @@ export default function BusinessSupportOnboardingDeck() {
         </ul>
         {currentSlide.image && (
           <img src={currentSlide.image} alt={currentSlide.title} className={styles.slideImage} />
+        )}
+        {currentSlide.relatedCategory && (
+          <div className={styles.relatedBox}>
+            <Text ellipsis={false} type="text2" weight="bold">
+              🎫 Related tickets in Deck 2
+            </Text>
+            <div className={styles.relatedLinks}>
+              <button
+                type="button"
+                className={styles.relatedLink}
+                onClick={() => goToPlaybook(currentSlide.relatedCategory as string)}
+              >
+                All {currentSlide.relatedCategory} tickets →
+              </button>
+              {currentSlide.relatedTickets?.map((ticketId) => {
+                const ticket = ticketPlaybook.find((entry) => entry.id === ticketId);
+                if (!ticket) return null;
+                return (
+                  <button
+                    key={ticketId}
+                    type="button"
+                    className={styles.relatedLink}
+                    onClick={() => goToPlaybook(ticket.category, ticket.id)}
+                  >
+                    {ticket.issue} →
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
 

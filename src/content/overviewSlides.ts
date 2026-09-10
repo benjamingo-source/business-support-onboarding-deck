@@ -3,6 +3,10 @@ export type OverviewSlide = {
   title: string;
   bullets: string[];
   image?: string;
+  /** Deck 2 category this slide relates to — renders a "See related tickets" link. */
+  relatedCategory?: string;
+  /** Optional specific Deck 2 ticket ids to highlight. */
+  relatedTickets?: string[];
 };
 
 export const overviewSlides: OverviewSlide[] = [
