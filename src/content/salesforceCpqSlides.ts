@@ -130,14 +130,12 @@ export const salesforceCpqSlides: OverviewSlide[] = [
   },
   {
     id: 'sfcpq-addons-misc',
-    title: 'Add-Ons, Certification & other need-to-knows',
+    title: 'Add-Ons & other need-to-knows',
     bullets: [
       '🧩 Add-on catalog: Premium Support, Automation Package, Canvas Enterprise, Guardian, Managed Services, monday Vibe, AI Credits, and more — added via QLE → Select Add-Ons.',
       '📏 Sales rule: add-on-ONLY deals are only allowed as a pro-rated change to an existing contract; on new/renewal deals add-ons must ship with product licenses.',
-      '🎓 Certification: Wire Enterprise customers only; at submission, fill "Certification Admin Owner Email" — that person becomes the academy admin.',
       '📝 Save as Draft (on the Approver Overview screen) stores the offer without triggering approvals; submit later from Manage Existing Offers.',
       '🏦 Wire → CC: cancel the subscription in BigBrain first, then generate a payment link. CC → Wire at renewal: New Contract only.',
-      '🤖 Stuck? ASK CPQ BOT answers any CPQ question, drawing on the full playbook.',
     ],
   },
   {
