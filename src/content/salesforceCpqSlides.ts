@@ -55,20 +55,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
   },
-  {
-    id: 'sfcpq-ownership',
-    title: 'Opportunities · Account ownership',
-    bullets: [
-      '👤 Ownership lives in the **Account Owner** field on the Company and monday Account. Unowned accounts sit in the **Accounts Pool**.',
-      '🏢 Who owns where: AMs and Outbound AEs typically own at the Company level; AEs, Scale AMs, and Partners manage at the monday Account level.',
-      '🚧 Why it matters: only the account owner can create opportunities on an account — "I can\'t create an opp" is usually an ownership question.',
-      '🔁 Changing ownership: Company page → **Change Company Owner** → new rep → ticket link in the description. It trickles down to every monday Account under that Company.',
-      '✅ Ownership changes need approval first — current owner, their manager, and the RevOps business partner (see the BizLounge routing doc).',
-      '📍 Where to look: Account Owner field on the Company; Account Hierarchy to see who owns each level.',
-    ],
-    relatedCategory: 'Opportunities',
-    relatedTickets: ['change-account-owner', 'expansion-opp-not-owner'],
-  },
 
   // ───────────────────────── Renewals & ARR ─────────────────────────
   {
