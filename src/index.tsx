@@ -67,6 +67,19 @@ export default function BusinessSupportOnboardingDeck() {
     setSelectedCategory(null);
   };
 
+  const goToConceptSlide = (slideId: string) => {
+    const index = salesforceCpqSlides.findIndex((slide) => slide.id === slideId);
+    if (index === -1) return;
+    setSlideIndex(index);
+    setView('sfcpq');
+  };
+
+  const conceptSlidesForTicket = (ticketId: string, category: string) =>
+    salesforceCpqSlides.filter(
+      (slide) =>
+        slide.relatedTickets?.includes(ticketId) || slide.relatedCategory === category,
+    );
+
   const goToPlaybook = (category: string, ticketId?: string) => {
     setSearchQuery('');
     setSelectedCategory(category);
@@ -357,6 +370,25 @@ export default function BusinessSupportOnboardingDeck() {
                         ))}
                       </ol>
                     </div>
+                    {conceptSlidesForTicket(ticket.id, ticket.category).length > 0 && (
+                      <div className={styles.relatedBox}>
+                        <Text ellipsis={false} type="text2" weight="bold">
+                          📚 Learn the concepts in Deck 3
+                        </Text>
+                        <div className={styles.relatedLinks}>
+                          {conceptSlidesForTicket(ticket.id, ticket.category).map((slide) => (
+                            <button
+                              key={slide.id}
+                              type="button"
+                              className={styles.relatedLink}
+                              onClick={() => goToConceptSlide(slide.id)}
+                            >
+                              {slide.title} →
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
