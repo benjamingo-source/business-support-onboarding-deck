@@ -112,8 +112,8 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     bullets: [
       '📨 Submission triggers approval requests via email (approve/reject inline) or Slack (view form only); pending SOs also live in the "Pending Approvals" tab in Salesforce.',
       '🧾 The Approval Form shows the approver everything: ARR, discount %, payment terms, products, current contract, account details, and growth charts.',
-      '🪜 Sales (non-NGO) tiers by % over matrix: 0–15% → Team Lead, 16–35% → Group Lead, 36–50% → VP/GM, 51%+ → CRO. (check with team)',
-      '🕊️ NGO: 0–50% → Direct Manager, 50%+ → VP. Partners: 0–20% → CPM, 21–40% → Regional Director, 41%+ → VP. (check with team)',
+      '🪜 Sales (non-NGO) tiers by % over matrix: 0–15% → Team Lead, 16–35% → Group Lead, 36–50% → VP/GM, 51%+ → CRO. **(check with team)**',
+      '🕊️ NGO: 0–50% → Direct Manager, 50%+ → VP. Partners: 0–20% → CPM, 21–40% → Regional Director, 41%+ → VP. **(check with team)**',
       '🧑‍💼 Approver going on leave? Delegation: avatar → CPQ Delegation → pick delegate + start/end dates.',
       '💡 Business Support angle: "Unable to find Approver for Rule ID" errors mean a manager ID field is missing — see the SO Approval Issues ticket in Deck 2.',
     ],

@@ -14,6 +14,15 @@ import { ticketPlaybook } from './content/ticketPlaybook';
 
 type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'drafts';
 
+const renderRichText = (text: string) =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((part, index) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      <strong key={index}>{part.slice(2, -2)}</strong>
+    ) : (
+      <React.Fragment key={index}>{part}</React.Fragment>
+    ),
+  );
+
 export default function BusinessSupportOnboardingDeck() {
   const [view, setView] = useState<View>('home');
   const [slideIndex, setSlideIndex] = useState(0);
@@ -173,7 +182,7 @@ export default function BusinessSupportOnboardingDeck() {
         <ul className={styles.bulletListDeck}>
           {currentSlide.bullets.map((bullet) => (
             <li key={bullet}>
-              <Text ellipsis={false} type="text1">{bullet}</Text>
+              <Text ellipsis={false} type="text1">{renderRichText(bullet)}</Text>
             </li>
           ))}
         </ul>
