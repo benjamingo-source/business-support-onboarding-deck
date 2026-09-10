@@ -46,7 +46,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🎯 Pick the Opportunity Type (see previous slide) — it determines pricing, products, and approvals for everything that follows.',
       '⚠️ Account Tier (Standard / Pro / Enterprise) is LOCKED after this step — double-check before proceeding.',
       '📅 Start date defaults to today; duration defaults to 24 months (12/36/custom via "Set End Date Manually?").',
-      '🔀 "Perform Contract Merge" merges multiple contracts into one — the system auto-calculates the balance carryover; use "Simulate" to preview.',
       '🏷️ Proposal Name is internal only; the Expiration Date limits Deal Room visibility, but clients can still sign after it.',
     ],
   },
@@ -113,8 +112,8 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     bullets: [
       '📨 Submission triggers approval requests via email (approve/reject inline) or Slack (view form only); pending SOs also live in the "Pending Approvals" tab in Salesforce.',
       '🧾 The Approval Form shows the approver everything: ARR, discount %, payment terms, products, current contract, account details, and growth charts.',
-      '🪜 Sales (non-NGO) tiers by % over matrix: 0–15% → Team Lead, 16–35% → Group Lead, 36–50% → VP/GM, 51%+ → CRO.',
-      '🕊️ NGO: 0–50% → Direct Manager, 50%+ → VP. Partners: 0–20% → CPM, 21–40% → Regional Director, 41%+ → VP.',
+      '🪜 Sales (non-NGO) tiers by % over matrix: 0–15% → Team Lead, 16–35% → Group Lead, 36–50% → VP/GM, 51%+ → CRO. (check with team)',
+      '🕊️ NGO: 0–50% → Direct Manager, 50%+ → VP. Partners: 0–20% → CPM, 21–40% → Regional Director, 41%+ → VP. (check with team)',
       '🧑‍💼 Approver going on leave? Delegation: avatar → CPQ Delegation → pick delegate + start/end dates.',
       '💡 Business Support angle: "Unable to find Approver for Rule ID" errors mean a manager ID field is missing — see the SO Approval Issues ticket in Deck 2.',
     ],
