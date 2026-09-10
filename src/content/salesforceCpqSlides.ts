@@ -126,7 +126,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🌊 Volume Discount: a pricing waterfall built in QLE (pencil icon → Discount Schedule Editor) — locked tiers, auto-prorated average seat price, auto-injected legal clause.',
       '🩹 Correction Opportunity: $0 ARR opp used after close for three things only — billing entity changes, SO signer changes, company name edits.',
       '💳 CC-to-Wire expansion: generate a new quote (≥1 year, total users) with a carryover line for amounts already paid by card.',
-      '⛔ Rollout Plans are DEPRECATED — don\'t offer them on new deals; Finance handles edge cases.',
     ],
   },
   {
