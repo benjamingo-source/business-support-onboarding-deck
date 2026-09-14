@@ -213,6 +213,80 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1-7KoaitCCBfGpL2iEzchgDSfSL4MYx_B&sz=w1000',
   },
   {
+    id: 'cpq-quote-not-linked-current-contract',
+    category: 'CPQ Errors',
+    issue: 'Rep cannot submit a quote — validation says it is not linked to the current contract',
+    errorMessage:
+      'This validation rule ensures that quotes are linked to the most current contract for your accounts. You cannot proceed with the submission — create a new quote.',
+    reason:
+      'The quote was built against an older contract (often started before a renewal or another SO closed on the same account). CPQ requires every quote to link to the account\'s most current contract, so the stale quote is blocked at submission.',
+    resolution: [
+      'Confirm on the Contract that a newer contract now exists for the account (check end dates — the most recent one is "current").',
+      'The stale quote cannot be fixed — the rep must click "Create new quote" in the validation message and rebuild the offer from scratch against the current contract.',
+      'If the rep believes the newer contract was created in error, check the Contract → CPQ Subscriptions and linked opportunities before advising; escalate to CPQ Tech if two contracts look duplicated.',
+      'Remind the rep: Save as Draft exists on the Approver Overview screen if they need to pause before submitting.',
+    ],
+  },
+  {
+    id: 'cpq-quote-stuck-in-approval',
+    category: 'CPQ Errors',
+    issue: 'Quote is stuck "In Approval Process" — rep does not know who is blocking it',
+    errorMessage: 'N/A — quote shows Approval Status = In Approval Process on the CPQ Management tab',
+    reason:
+      'The quote exceeded the discount matrix and is waiting on one or more approvers who have not acted. Sometimes the approver never received the notification, is out of office, or the rep edited the quote mid-approval which recalled and reset the chain.',
+    resolution: [
+      'Open the opp → CPQ Management tab → find the quote → "Preview Approvals" to see the full chain and which step is pending.',
+      'Check the "Pending Approvals" tab in Salesforce to confirm the request is sitting with the approver.',
+      'If the approver is out of office, ask them or their manager to set up CPQ Delegation (avatar → CPQ Delegation → delegate + start/end dates) so the request re-routes.',
+      'Warn the rep NOT to edit the quote while it is in approval — editing recalls it and resets the whole chain.',
+      'If a step needs changing (e.g. wrong comment or payment terms), use "Edit Submission Form" on the Management tab — only the affected approval step re-triggers.',
+    ],
+  },
+  {
+    id: 'cpq-prorated-wrong-quantity',
+    category: 'CPQ Errors',
+    issue: 'Pro-rated expansion quote shows the wrong seat count or ARR',
+    errorMessage: 'N/A — rep reports the Added ARR or seat quantity on the expansion quote looks wrong',
+    reason:
+      'On pro-rated expansions the rep must enter the NEW TOTAL quantity (current seats + added seats) in Reconfigure Line — not just the seats being added. Entering only the delta under-counts, entering it twice over-counts. Balance carryover lines can also confuse the ARR total.',
+    resolution: [
+      'Open the quote in the QLE and check the quantity on the product line against the current contract seats + the seats the rep wants to add.',
+      'If the rep entered only the added seats, have them Reconfigure Line and enter the new total quantity.',
+      'Check for a Balance Carryover line (negative quantity refund line) — it is expected on New Contract quotes with an active contract and can be managed via the line drawer if the amount or currency is wrong.',
+      'Have the rep click "Calculate" and confirm Total Added ARR updates before resubmitting.',
+      '**(check with team)** — confirm whether Business Support edits quantities directly or always hands back to the rep.',
+    ],
+  },
+  {
+    id: 'cpq-currency-mismatch',
+    category: 'CPQ Errors',
+    issue: 'Quote or CC claim currency does not match the opportunity currency',
+    errorMessage:
+      'Please ensure the CC claim currency matches the opportunity currency. If not, update the currency accordingly.',
+    reason:
+      'The opportunity was created in one currency (e.g. USD) but the customer paid or is being quoted in another (e.g. EUR). CPQ and the claim component require the opp currency to match.',
+    resolution: [
+      'Direct the rep to the Currency Change Wizard: opp → CPQ Management → "Change Currency".',
+      'If a CC claim already exists on the deal, the rep must unclaim it first, then run the wizard, then re-claim.',
+      'If CPQ quotes already exist, the wizard warns they will become unavailable after the change — the rep will need to rebuild the quote in the new currency.',
+      'If the deal has already synced to Priority (i.e. it has been invoiced), the wizard cannot be used — this needs Business Support assistance with Finance. **(check with team)** for the manual steps.',
+    ],
+  },
+  {
+    id: 'cpq-manual-bco-finance-approval',
+    category: 'CPQ Errors',
+    issue: 'Quote with a manual BCO line is waiting on Finance approval / rep asks why Finance is in the chain',
+    errorMessage: 'N/A — approval chain shows a Finance approver the rep did not expect',
+    reason:
+      'Any manual Balance Carryover (BCO) line added in the QLE (Miscellaneous → Add Manual BCO Line item) ALWAYS requires Finance approval, regardless of discount. Reps use it when consolidating previously no-touch accounts into their book, and often don\'t realise it triggers Finance.',
+    resolution: [
+      'Confirm on the quote (QLE or Preview Approvals) that a manual BCO line exists — that explains the Finance step.',
+      'Explain to the rep that this is by design; Finance validates carryover amounts before the SO goes out.',
+      'If the BCO line was added by mistake, the rep can remove it in the QLE (Delete Line) and resubmit — the Finance step disappears.',
+      'If the BCO is legitimate and Finance is slow, follow up in the Finance Billing assignment group with the quote number and the carryover amount.',
+    ],
+  },
+  {
     id: 'close-won-unique-key-duplicate',
     category: 'CPQ Errors',
     issue: 'Close Won "Unique Key__c" Duplicate Issue',
