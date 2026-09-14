@@ -145,6 +145,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     bullets: [
       '🏢 The **Billing Entity** holds the legal "Bill-to" details used to generate the Sales Order and invoice. A **Shipping Entity** ("Sold-to") can differ if a third party pays.',
       '⚙️ Set before SO creation via the Billing Entity app. If tax info changes on an existing entity, **Finance** must make the change; otherwise a new entity can simply be created.',
+      '🔀 **Rep asks us to change a Billing Entity? Pass the ticket to Finance Billing.** Business Support doesn\'t edit Bill-to details — we confirm what they need, then route it to the Finance Billing assignment group.',
       '🧾 Invoices, payment failures, and account holds are owned by **Finance** — Business Support confirms the account standing and routes; we don\'t edit invoices.',
       '🚀 **Activation** closes the loop: Wire deals activate via Import SO; add-ons (Premium Support, AI Credits…) are sold in CPQ but **activate in BigBrain**. Verify under the BB account profile.',
       '📍 Where to look: opp → Billing Entity; BigBrain → account subscription, seats, tier, add-ons; Salesforce yellow "Activation Scheduled" banner.',
