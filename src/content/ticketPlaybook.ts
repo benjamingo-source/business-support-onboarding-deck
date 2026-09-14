@@ -174,6 +174,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Save and confirm Green Bucket ARR has populated and the rep sees credit on their target if applicable.',
       'If the threshold config looks wrong (the deal clearly qualifies but the system will never auto-recognize it), escalate to RevOps — do not override without documenting the ticket.',
     ],
+    image: 'https://drive.google.com/thumbnail?id=1FHNV3ZJoqabRmCcmHSKDLdMdo3Ku1wn2&sz=w1000',
   },
   {
     id: 'expansion-closed-as-renewal',
