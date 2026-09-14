@@ -120,7 +120,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'The eligibility date populates when the monday account is created, but reps often don\'t convert the lead or create the account until after the customer has already purchased — leaving the eligibility date later than the actual sale.',
     resolution: [
       'Check if proof of communication is attached to the ticket or opportunity.',
-      'If not, request evidence the rep was in contact with the customer on or before the claim date, within a 6-month window (e.g., for a July 10, 2026 claim, communication must be dated on or before July 10, 2026).',
+      'If not, request evidence the rep was in contact with the customer on or before the claim date, within a 3-month window (e.g., for a July 10, 2026 claim, communication must be dated on or before July 10, 2026).',
       'If confirmed, update the eligibility date and link the proof to the ticket.',
     ],
     image: 'https://drive.google.com/thumbnail?id=1YcNe5SuE-l3KY9KoPEqgHuqImQ8rRv88&sz=w1000',

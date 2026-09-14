@@ -138,7 +138,7 @@ export const overviewSlides: OverviewSlide[] = [
     title: 'Money basics: claims & recognition',
     bullets: [
       '💸 Two payment paths: Wire (SO signed in CPQ, auto-claimed, activated via Import SO) and Credit Card (user pays in the platform, rep must claim it manually).',
-      '⏳ CC claims must be made within 6 months of payment, and only within the rep\'s ownership timeframe of the account.',
+      '⏳ CC claims must be made within 3 months of payment, and only within the rep\'s ownership timeframe of the account.',
       '💰 Recognition Threshold ("Green Bucket"): only Yearly/Multi-yearly Pro or Enterprise plans count, and account ARR must exceed $7K (or $3.5K for SMB and Product reps).',
       '✅ An opportunity is Recognized if: the account is already recognized, OR the deal alone meets the threshold, OR account ARR + deal ARR together reach it.',
       '🗂️ Opportunity types: New Business (lead conversion), Expansion (existing account, active contract required), Flat Renewal, and Downgrade (auto-filled).',

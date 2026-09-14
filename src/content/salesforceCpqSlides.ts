@@ -131,7 +131,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     bullets: [
       '🙋 A **CC claim** is how a rep says "I was responsible for this credit-card payment — count it toward my ARR." Wire deals are auto-claimed; CC payments must be claimed manually.',
       '🖱️ Where: on the opportunity → **Claim Credit Card Payments** component → tick the payments → Save. Total ARR Claimed updates underneath.',
-      '⏳ Two windows apply: the payment must be within **6 months**, and within the rep\'s **Ownership Claim Eligibility** window — the date from which they were the account owner.',
+      '⏳ Two windows apply: the payment must be within **3 months**, and within the rep\'s **Ownership Claim Eligibility** window — the date from which they were the account owner.',
       '❌ "Not within the account owner claim eligibility timeframe" means the monday Account (and therefore the eligibility date) was created **after** the customer already paid — common when reps convert the lead late.',
       '✅ Business Support fix: get proof the rep was in contact with the customer on/before the claim date → update the **Ownership Claim Eligibility Date** on the monday Account → link the proof to the ticket.',
       '📍 Where to look: opp → Claim Credit Card Payments; monday Account → Recognition Details → Ownership Claim Eligibility Date.',
