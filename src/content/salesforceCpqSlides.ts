@@ -170,20 +170,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     relatedTickets: ['quote-dealroom-link-not-loading', 'quote-change-dates-term'],
   },
   {
-    id: 'sfcpq-quoting-pricing',
-    title: 'Quoting · How CPQ decides the price (and why the rep\'s discount "didn\'t apply")',
-    bullets: [
-      '🎚️ CPQ has a **Discount Matrix**: an automatic allowed discount based on seat volume, contract length, and number of products. The matrix threshold is the discount a rep can give without approval. Anything above it isn\'t blocked — it shows in **"% for Approval"** and routes to a manager.',
-      '🕊️ There is a separate **NGO matrix**. "Is NGO" is now **auto-detected from the account\'s customer type** — reps can\'t tick it. When an NGO discount "isn\'t applying," the account isn\'t flagged NGO. Fix the account record, not the quote.',
-      '✍️ Manual discounts are applied per line in the QLE drawer (as % or fixed amount) and **only stick after Calculate**. "I entered 20% and it disappeared" = they didn\'t calculate.',
-      '🛠️ Services have default monday.com discounts (e.g. 50% on WM Implementation) that are **excluded from the threshold**. To change a service discount: line drawer → "Set Service Discount."',
-      '🌊 **Volume / tiered discount** is a different tool entirely: pencil icon next to the SKU → Discount Schedule Editor → locked price tiers + auto-injected legal clause. Reps rarely know it exists — pointing them to it is often the whole ticket.',
-      '💬 What you\'ll say most: "The discount isn\'t rejected, it\'s routed for approval — here\'s who needs to approve" (Preview Approvals). Set that expectation early and the ticket closes itself.',
-    ],
-    relatedCategory: 'Quoting',
-    relatedTickets: ['quote-discount-not-applying', 'quote-volume-discount-setup'],
-  },
-  {
     id: 'sfcpq-quoting-dealroom-dates-currency',
     title: 'Quoting · Deal Room, dates & currency — the three "I\'m stuck" asks',
     bullets: [
