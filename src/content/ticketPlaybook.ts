@@ -6,6 +6,8 @@ export type PlaybookTicket = {
   reason: string;
   resolution: string[];
   image?: string;
+  /** Extra screenshots shown under the resolution steps. */
+  resolutionImages?: string[];
 };
 
 export const ticketPlaybook: PlaybookTicket[] = [
@@ -193,6 +195,27 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'If the threshold config looks wrong (the deal clearly qualifies but the system will never auto-recognize it), escalate to RevOps — do not override without documenting the ticket.',
     ],
     image: 'https://drive.google.com/thumbnail?id=1FHNV3ZJoqabRmCcmHSKDLdMdo3Ku1wn2&sz=w1000',
+  },
+  {
+    id: 'arr-split-between-reps',
+    category: 'Renewals & ARR',
+    issue: 'ARR Split — rep or manager asks for the ARR on an opportunity to be split between two reps',
+    errorMessage: 'N/A — request arrives as "Please split the ARR 50/50 with [rep]" or "ARR split request for expansion on renewal"',
+    reason:
+      'Two reps worked the deal (e.g. an AE and an AM, or an expansion on a renewal), and only one is the opportunity owner. Salesforce credits 100% of the ARR to the owner unless an Opportunity Split is set up, so the second rep gets no attainment for their share. Splits are configured on the opportunity — reps can\'t do it themselves.',
+    resolution: [
+      'Open the opportunity in Salesforce.',
+      'Click the "More" tab → "Splits" → "Edit Opportunity Splits".',
+      'Add the second rep as a team member and set their role — AE or AM — to match how they worked the deal.',
+      'Enter the split percentage for each rep so the total equals 100%.',
+      'If the requested percentage isn\'t in the dropdown: go to the Related Lists on the opportunity → "Opportunity Split" → "Edit Opportunity Splits" → enter the exact percentage and team member there.',
+      'Return to "More" → "Splits" and set the second rep\'s split type to "Assisting AE" or "Assisting AM" as appropriate.',
+      'Save, then confirm on the opportunity that both reps now show with the correct percentages. Note the requester (rep or manager) and the agreed split in the ticket.',
+    ],
+    resolutionImages: [
+      'https://drive.google.com/thumbnail?id=1cxEBTn77nb4Q56hwsT9Co3M4fOdZcG5f&sz=w1000',
+      'https://drive.google.com/thumbnail?id=1GzXEAsDvZNu60DN8wYoFY5F6G3KGshhd&sz=w1000',
+    ],
   },
   {
     id: 'expansion-closed-as-renewal',

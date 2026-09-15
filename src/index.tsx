@@ -369,6 +369,14 @@ export default function BusinessSupportOnboardingDeck() {
                           </li>
                         ))}
                       </ol>
+                      {ticket.resolutionImages?.map((src, index) => (
+                        <img
+                          key={src}
+                          src={src}
+                          alt={`Resolution step screenshot ${index + 1}`}
+                          className={styles.ticketImage}
+                        />
+                      ))}
                     </div>
                     {conceptSlidesForTicket(ticket.id, ticket.category).length > 0 && (
                       <div className={styles.relatedBox}>
