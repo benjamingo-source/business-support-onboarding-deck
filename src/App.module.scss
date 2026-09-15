@@ -286,9 +286,21 @@
 
 .ticketImage {
   display: block;
+  max-width: 640px;
   width: 100%;
   border-radius: var(--border-radius-medium);
-  margin-top: var(--spacing-small);
+  border: 1px solid var(--ui-border-color);
+  margin-top: var(--spacing-medium);
+}
+
+.ticketSection > *,
+.ticketSection .resolutionList li > * {
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+}
+
+.ticketSection .resolutionList {
+  gap: var(--spacing-small);
 }
 
 .ticketToggle {
