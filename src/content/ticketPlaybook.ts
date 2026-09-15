@@ -157,6 +157,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'CC-paid account with no CPQ contract: expansions must go through a New Contract quote (CC → Wire path) — there\'s nothing to pro-rate against.',
       'Multiple contracts on the account: the "Create Expansion Opportunity" flow lets the rep pick which contract to expand — make sure they select the active one.',
     ],
+    image: 'https://drive.google.com/thumbnail?id=1cegKvPurc0kS_7LU5ZYBL5Xf8t6ecwHl&sz=w1000',
   },
   {
     id: 'locked-opportunity-edit',
