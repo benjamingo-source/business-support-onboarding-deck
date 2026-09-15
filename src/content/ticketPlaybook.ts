@@ -37,9 +37,6 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Ask for the quote number and open the opp → CPQ Management tab. Check the quote\'s Approval Status and whether it is marked Primary.',
       'Not published: use "Publish Offer" on the CPQ Management tab — the Deal Room goes live immediately. Approved ≠ published.',
       'Wrong quote: if the rep is sharing a link to a non-primary or older quote, point them to the Deal Room link on the Primary quote (or Set Primary on the right one).',
-      'Expired: use "Extend Expiration Date" on the CPQ Management tab. The customer can still sign after expiry, but the Deal Room visibility is restored by extending.',
-      'Edited after approval: the edit recalled the approval and un-published the Deal Room. The quote needs to go back through approval and be re-published.',
-      'Genuine Apex error / nothing renders after all the above: capture the quote number and full error, and escalate to CPQ Tech.',
     ],
   },
   {
