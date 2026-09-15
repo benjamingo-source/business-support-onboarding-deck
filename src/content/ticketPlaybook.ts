@@ -38,6 +38,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Not published: use "Publish Offer" on the CPQ Management tab — the Deal Room goes live immediately. Approved ≠ published.',
       'Wrong quote: if the rep is sharing a link to a non-primary or older quote, point them to the Deal Room link on the Primary quote (or Set Primary on the right one).',
     ],
+    image: 'https://drive.google.com/thumbnail?id=1x8Z6jFWXvYTjD3dRNpGAYcY_fiYJVzcZ&sz=w1000',
   },
   {
     id: 'quote-discount-not-applying',
