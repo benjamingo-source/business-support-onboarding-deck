@@ -273,6 +273,23 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
+    id: 'cpq-split-subscriptions',
+    category: 'CPQ Errors',
+    issue: 'Contract shows split subscriptions (e.g. 30 + 20) instead of one subscription for the full seat count (50)',
+    errorMessage:
+      'N/A — the Contract\'s CPQ Subscriptions section lists two or more subscription lines for the same product whose quantities add up to the account\'s actual seats',
+    reason:
+      'The CPQ Subscriptions were built in pieces — usually because seats were added in a separate event (pro-rated expansion, reopened opp, manual change) and the migration to the CPQ contract did not consolidate them. The account is correct in BigBrain (one plan, 50 seats), but Salesforce represents it as two subscriptions, which breaks downstream quotes and renewal calculations.',
+    resolution: [
+      'Open the Contract → CPQ Subscriptions section and confirm the split: multiple lines for the same product whose quantities sum to the real seat count (verify the real count in BigBrain).',
+      'Delete the split CPQ Subscription records on the Contract.',
+      'Open the Contract in the Inspector and set "Migrate to CPQ Contract" from True → False, save.',
+      'Set "Migrate to CPQ Contract" back from False → True, save — this rebuilds the subscriptions from the Contract Products.',
+      'Refresh the Contract and confirm a single subscription now shows the full seat count (e.g. one line for 50).',
+      'Document the before/after in the ticket and let the rep know they can proceed with their quote or renewal.',
+    ],
+  },
+  {
     id: 'close-won-unique-key-duplicate',
     category: 'CPQ Errors',
     issue: 'Close Won "Unique Key__c" Duplicate Issue',
