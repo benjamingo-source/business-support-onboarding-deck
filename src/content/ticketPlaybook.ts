@@ -258,21 +258,6 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
-    id: 'cpq-currency-mismatch',
-    category: 'CPQ Errors',
-    issue: 'Quote or CC claim currency does not match the opportunity currency',
-    errorMessage:
-      'Please ensure the CC claim currency matches the opportunity currency. If not, update the currency accordingly.',
-    reason:
-      'The opportunity was created in one currency (e.g. USD) but the customer paid or is being quoted in another (e.g. EUR). CPQ and the claim component require the opp currency to match.',
-    resolution: [
-      'Direct the rep to the Currency Change Wizard: opp → CPQ Management → "Change Currency".',
-      'If a CC claim already exists on the deal, the rep must unclaim it first, then run the wizard, then re-claim.',
-      'If CPQ quotes already exist, the wizard warns they will become unavailable after the change — the rep will need to rebuild the quote in the new currency.',
-      'If the deal has already synced to Priority (i.e. it has been invoiced), the wizard cannot be used — this needs Business Support assistance with Finance. **(check with team)** for the manual steps.',
-    ],
-  },
-  {
     id: 'cpq-split-subscriptions',
     category: 'CPQ Errors',
     issue: 'Contract shows split subscriptions (e.g. 30 + 20) instead of one subscription for the full seat count (50)',
