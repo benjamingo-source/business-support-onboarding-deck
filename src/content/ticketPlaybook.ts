@@ -142,6 +142,23 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
+    id: 'expansion-opp-no-active-contract',
+    category: 'Opportunities',
+    issue: 'Can\'t create expansion opp — "account does not have an active contract" / only New Contract is offered',
+    errorMessage:
+      'Unable to create expansion opp on account because "account does not have an active contract" — or the Creation App only allows Contract Type = New Contract',
+    reason:
+      'An Expansion (pro-rated) opp requires an active, unexpired Contract on the account. If the contract has expired, was never created (e.g. Close Won without contract migration), sits on a different monday Account, or is a CC subscription with no CPQ contract, the system sees no active contract and falls back to New Contract.',
+    resolution: [
+      'Open the monday Account → Contracts. Check whether a Contract exists, its end date (must be in the future), and that the Account Name on it is the Company Account.',
+      'Contract expired: the rep should create a Renewal (or New Contract) opp instead — an expansion can\'t attach to an expired contract.',
+      'Contract missing after a Close Won: open the closed opp → Inspector → check "Migrate to CPQ Contract"; toggle False → True to generate the contract, then retry.',
+      'Contract exists on a sibling monday Account: the rep may be on the wrong account in the hierarchy — point them to the account that holds the contract.',
+      'CC-paid account with no CPQ contract: expansions must go through a New Contract quote (CC → Wire path) — there\'s nothing to pro-rate against.',
+      'Multiple contracts on the account: the "Create Expansion Opportunity" flow lets the rep pick which contract to expand — make sure they select the active one.',
+    ],
+  },
+  {
     id: 'locked-opportunity-edit',
     category: 'Opportunities',
     issue: 'SO Post Won Changes — Correction Opportunity',
@@ -272,6 +289,71 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Set "Migrate to CPQ Contract" back from False → True, save — this rebuilds the subscriptions from the Contract Products.',
       'Refresh the Contract and confirm a single subscription now shows the full seat count (e.g. one line for 50).',
       'Document the before/after in the ticket and let the rep know they can proceed with their quote or renewal.',
+    ],
+  },
+  {
+    id: 'cpq-services-line-items',
+    category: 'CPQ Errors',
+    issue: 'Managed Services / CSM / Implementation line items won\'t add, remove, or save ("CSM mismatch", "cannot remove implementation line")',
+    errorMessage:
+      'Unable to save quote due to CSM mismatch / High Touch CSM not populating / Cannot remove implementation line item',
+    reason:
+      'Services in CPQ are tied to seat count and tier. Package-level services (Implementation, Champion Training) auto-adjust when seats change and are locked behind the "Downgrade/Upgrade Services" checkbox; account-level services (Managed Services, Tailored Services) are added separately via "Select Services". CSM packages are calculated from company size and seats — if the quote\'s seats cross a High Touch threshold, the CSM line must match or the quote won\'t save. Most of these tickets are reps not knowing which checkbox or button controls the line.',
+    resolution: [
+      'Ask for the quote number and open it in the QLE. Identify whether the line is package-level (Implementation / Champion Training / API training) or account-level (Managed / Tailored Services).',
+      'To change or remove a package-level service: Reconfigure Line → tick "Downgrade/Upgrade Services" → adjust hours or untick the service. No approval is needed on deals ≤150 seats.',
+      'To add Managed or Tailored Services: use the "Select Services" button in the QLE upper menu — not Reconfigure Line. Managed Services come in 10/20/40h; Tailored Services 10–10,000h.',
+      'CSM mismatch: check the account\'s company size and the quote\'s seat count against the CSM eligibility thresholds (Silver: 250+ employees, 50–149 seats; Gold: 250+ employees, 150+ seats). Make the CSM line match the tier the seats qualify for, then Calculate and save.',
+      'To extend an existing project (add hours), use "Expand Open project service" rather than adding a new package.',
+      'Remind the rep: all services are paid — there are no free Champion Training hours or free bronze onboarding. **(check with team)** on current CSM thresholds.',
+    ],
+  },
+  {
+    id: 'cpq-balance-carryover',
+    category: 'CPQ Errors',
+    issue: 'Balance carryover (BCO) missing, incorrect, or can\'t be removed from the quote',
+    errorMessage:
+      'N/A — rep reports "CPQ not showing balance carryover", "Incorrect Balance Carryover", or "unable to submit quote even after removing BCO"',
+    reason:
+      'Balance Carryover auto-pulls only when Contract Type = New Contract AND the customer has an active, unexpired contract. It appears as a negative-quantity refund line that cannot be deleted like a normal line. It will be missing if the contract has expired or the quote is Pro-Rated (which never carries over); it will be wrong if the previous contract was paid in a different currency or had double pro-rated activations.',
+    resolution: [
+      'Confirm the quote\'s Contract Type. Pro-Rated quotes never show BCO — that\'s expected. Only New Contract quotes on accounts with an active contract do.',
+      'If BCO is missing on a New Contract quote: check the Contract\'s end date (must be in the future) and that the quote links to the current contract. If the contract expired, no carryover applies.',
+      'If BCO is incorrect: open the carryover line drawer (arrow icon) → tick "Set Manual Carryover" → enter the correct total in List Unit Price → fill Manual Carryover Reason. Common cause: currency mismatch with the previous contract.',
+      'If BCO must be removed: in the line drawer tick "Remove Balance Carryover" and give a Removal Reason. Do not try to Delete Line — it won\'t work.',
+      'Always click "Calculate" after any carryover change before the rep resubmits.',
+      'Root cause pattern to watch for: "Error double pro rated activations" — if two pro-rated SOs were activated for the same period, escalate to Billing Dev with both SO numbers.',
+    ],
+  },
+  {
+    id: 'cpq-pro-to-ent-greyed-out',
+    category: 'CPQ Errors',
+    issue: 'Can\'t upgrade Pro → Enterprise in CPQ — tier is greyed out or only New Contract is offered',
+    errorMessage: 'N/A — Enterprise tier is not selectable, or the pro-rated upgrade option is disabled',
+    reason:
+      'Account Tier is locked in the Creation App at the moment the offer is created, and on pro-rated expansions it inherits from the existing contract. You cannot change tier mid-contract on a pro-rated quote — a tier upgrade is a New Contract with balance carryover from the old one.',
+    resolution: [
+      'Confirm what the rep is trying to do: add seats at the same tier (pro-rated) or move the account from Pro to Enterprise (tier change).',
+      'For a tier change: the rep must create a New Offer with Contract Type = New Contract and select Enterprise in the Creation App. The system will automatically add a Balance Carryover line for the unused Pro period.',
+      'Remind them the tier is locked after the Creation App step — if they picked Pro by mistake, they need a fresh quote; it cannot be edited later.',
+      'If the rep also wants a longer term, set the new duration in the Creation App — end date and duration are free on New Contract quotes but locked on Pro-Rated ones.',
+      'Pro → Enterprise upgrades carry an extra ~3% in the seat volume discount matrix — worth mentioning so the rep prices it right.',
+    ],
+  },
+  {
+    id: 'cpq-ai-rule-blocks-so',
+    category: 'CPQ Errors',
+    issue: 'CPQ "AI rule" blocks SO creation / can\'t add or remove AI Credits on the quote',
+    errorMessage:
+      'Cannot create SO without AI Credits / Unable to create SO due to AI rule / SO, AI credits add-on — CPQ gives error message',
+    reason:
+      'Since May 2026 monday.com is AI-native: for accounts with Is AI Funnel = TRUE, AI products auto-add to quotes and cannot simply be removed. Work management seats come with AI Credits at 800 credits per seat; the Enterprise bundle has a 20,000-credit minimum (8K for SMB). Reps hit errors when they try to delete the AI line, drop below the minimum, or sell a WM plan to a mandatory-AI account without AI.',
+    resolution: [
+      'Check the account\'s Is_AI_Funnel__c field. If TRUE, AI is mandatory on the quote — the AI line can\'t be removed. Explain this to the rep; the opt-out flow is deprecated (Finance handles rare edge cases).',
+      'If the rep wants more credits: they can add AI Credits above the bundled amount via Select Add-Ons — credits can go up but never below the minimum.',
+      'If the rep needs seats or credits outside the bundle ratio, use the new 2-line-item ENT bundle: select WM seats and the system auto-adds an AI Credits line at the minimum; adjust upward from there.',
+      'If the customer disabled AI in their admin panel and the rep thinks that removes the obligation — it doesn\'t. Platform toggle ≠ CPQ opt-out.',
+      'For a genuine "grant free AI credits" request (not a quote issue), that\'s done in BigBrain — Action: Grant AI Credits. **(check with team)** for the approval needed and the BB steps.',
     ],
   },
   {
