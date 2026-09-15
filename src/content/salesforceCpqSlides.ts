@@ -159,7 +159,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     id: 'sfcpq-quoting-read-a-quote',
     title: 'Quoting · How to read a quote when a rep says "it\'s not working"',
     bullets: [
-      '🎫 You will almost never build a quote. Your job is to open the one the rep built and find why it\'s stuck — so learn to read a quote fast. Always ask for the **quote number (Q-xxxxxx)** first.',
+      '🎫 Work on the quote the rep already created — don\'t build a new one for them. If we set the precedent of doing it for reps, they\'ll keep asking; our job is to **enable** them while we fix and troubleshoot. Learn to read a quote fast, and always ask for the **quote number (Q-xxxxxx)** first.',
       '🗂️ Opp → **CPQ Management tab** is your home screen. Each row shows Quote Number, **Primary** (yes/no), **Approval Status** (Draft / In Approval / Approved / Rejected), Document Type (SO / Quote / Forecast), Contract Type (New Contract / Pro-Rated), and the Deal Room link.',
       '🔍 Three questions answer most tickets: Is it **Primary**? Is it **Approved**? Is it **Published**? A quote can be approved but not published, or published but not primary — and reps read all of those as "the link is broken."',
       '🧮 "Edit Quote" opens the **QLE** (Quote Line Editor). The numbers only refresh when someone clicks **Calculate** — if the ARR looks stale, click it before diagnosing anything.',
