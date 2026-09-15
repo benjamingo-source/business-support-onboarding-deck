@@ -199,6 +199,24 @@ export const ticketPlaybook: PlaybookTicket[] = [
     image: 'https://drive.google.com/thumbnail?id=1cegKvPurc0kS_7LU5ZYBL5Xf8t6ecwHl&sz=w1000',
   },
   {
+    id: 'cant-close-won',
+    category: 'Opportunities',
+    issue: 'Rep can\'t Close Won the opportunity — Closed Lost reason snag, manually signed SO won\'t upload, or "nothing to claim" blocks the close',
+    errorMessage:
+      '"Please provide a Closed Lost reason" when trying to close Won / "We found some issues with the uploaded document" / Cannot Close Won because there is nothing to claim',
+    reason:
+      'Close Won isn\'t one button — it\'s a guided flow with several branches, and it fails at the first branch that isn\'t satisfied. Digitally signed SOs route through the Quote Info screen; manually signed SOs go through a PDF validation that checks the uploaded file against the primary CPQ order; CC deals must have a claimable payment on the CC Claim screen; and validation fields on the first screen must be populated before the stage can change. The "Closed Lost reason" prompt usually appears when the stage picklist or probability is out of sync with a Won close, so Salesforce treats it as a Lost path. **(check with team — root cause is a best inference)**',
+    resolution: [
+      'Ask for the opp link and a screenshot of exactly where the flow stops — the branch tells you the fix.',
+      '**Closed Lost reason requested on a Won close:** check the Stage and Probability fields on the opp. If they\'ve drifted (e.g. stage set to a lost stage, probability 0%), correct them in the Inspector, then have the rep retry Close Won. **(check with team)**',
+      '**Manually signed SO won\'t upload:** the PDF validation is informative, not blocking. If the rep is sure it\'s the right document, they click "It is the document!" to proceed. If it\'s genuinely the wrong file, they need to set the correct order as Primary first or untick "I\'m uploading a signed DealHub sales order."',
+      '**"Nothing to claim" (CC deals):** the CC Claim screen requires a claimable payment. Check the customer has actually paid in BigBrain and that the payment is within the rep\'s claim eligibility window. If no payment exists yet, the opp can\'t be closed Won — it\'s not a bug.',
+      '**Validation fields on the first screen:** all required fields must be filled before the stage changes — walk the rep through what\'s blank.',
+      '**Reseller / DMR deal with a PO but no signed SO:** use the manual-signature path with the PO as the document; if validation rejects it, use "It is the document!" **(check with team on reseller handling)**',
+      'Reminder to give the rep: **Close Date = Subscription Start Date** — make sure it\'s right before they click through.',
+    ],
+  },
+  {
     id: 'locked-opportunity-edit',
     category: 'Opportunities',
     issue: 'SO Post Won Changes — Correction Opportunity',
