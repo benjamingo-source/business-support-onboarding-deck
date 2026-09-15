@@ -337,7 +337,6 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'For a tier change: the rep must create a New Offer with Contract Type = New Contract and select Enterprise in the Creation App. The system will automatically add a Balance Carryover line for the unused Pro period.',
       'Remind them the tier is locked after the Creation App step — if they picked Pro by mistake, they need a fresh quote; it cannot be edited later.',
       'If the rep also wants a longer term, set the new duration in the Creation App — end date and duration are free on New Contract quotes but locked on Pro-Rated ones.',
-      'Pro → Enterprise upgrades carry an extra ~3% in the seat volume discount matrix — worth mentioning so the rep prices it right.',
     ],
   },
   {
