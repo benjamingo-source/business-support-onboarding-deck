@@ -235,9 +235,8 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     title: 'CPQ Errors · The Inspector: our field-level power tool',
     bullets: [
       '🔍 The Inspector exposes every field on a record — including ones hidden from the standard layout. It\'s where most Business Support fixes actually happen.',
-      '⚠️ Rule 1: only edit what the playbook or a teammate confirmed — Inspector edits change live data with no undo.',
-      '📝 Rule 2: document every change (old value, new value, why) in the ticket.',
-      '🔒 Rule 3: if the opp is locked, unlock first — and close/relock when done.',
+      '🛠️ We use it to see and correct what the normal page hides: the true value behind a picklist, system-set flags like Migrate to CPQ Contract, the manager IDs on a quote, or an opp type that was auto-filled wrong. When a rep says "the field isn\'t there," it\'s there in the Inspector.',
+      '🧭 Typical flow: open the record → Inspector → find the field → read the current value before you touch anything → change it → save → refresh the record and confirm the downstream effect (subscriptions rebuilt, approval routes, opp type corrected).',
     ],
     relatedCategory: 'CPQ Errors',
   },
