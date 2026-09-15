@@ -222,8 +222,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🔑 Login failures: confirm the URL, check the user is active in Setup → Users, then SSO/IdP assignment or a password reset via IT.',
       '📍 Where to look: Setup → Users → the rep\'s profile, role, and permission set assignments.',
     ],
-    relatedCategory: 'Access',
-    relatedTickets: ['sf-login-failed', 'permission-denied'],
   },
 
   // ───────────────────────── Integrations ─────────────────────────

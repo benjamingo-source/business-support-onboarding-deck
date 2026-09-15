@@ -12,20 +12,6 @@ export type PlaybookTicket = {
 
 export const ticketPlaybook: PlaybookTicket[] = [
   {
-    id: 'sf-login-failed',
-    category: 'Access',
-    issue: 'Sales rep cannot log into Salesforce',
-    errorMessage: 'Login failed — invalid username or password / session expired',
-    reason:
-      'Password expired, SSO mismatch, or user was deactivated after role change. Sometimes the rep is using a sandbox URL with production credentials.',
-    resolution: [
-      'Confirm which org URL they use (production vs sandbox).',
-      'Check if the user is active in Salesforce Setup → Users.',
-      'If SSO: verify IdP assignment and have them clear browser cache or try incognito.',
-      'If password-based: send a reset from Setup or route to IT if SSO-owned.',
-    ],
-  },
-  {
     id: 'cpq-quote-error',
     category: 'Quoting',
     issue: 'Quote fails to generate in CPQ',
@@ -37,20 +23,6 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Verify all required quote fields (billing country, term, payment terms).',
       'Check product entitlements and whether the SKU is active on the price book.',
       'Re-sync the quote; if still failing, capture the full error and escalate to CPQ admin.',
-    ],
-  },
-  {
-    id: 'permission-denied',
-    category: 'Access',
-    issue: 'Rep sees “Insufficient privileges” on a record',
-    errorMessage: 'Insufficient privileges / You do not have access to this record',
-    reason:
-      'Role hierarchy, sharing rules, or permission set assignment does not include the account or object. Common after territory or team changes.',
-    resolution: [
-      'Confirm the rep’s role, permission sets, and account team membership.',
-      'Check if the record owner or account owner is in their hierarchy.',
-      'Compare with a peer who has access (same role/team).',
-      'If legitimate need: request access via account owner or add the correct permission set.',
     ],
   },
   {
