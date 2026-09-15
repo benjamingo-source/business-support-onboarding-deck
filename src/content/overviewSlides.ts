@@ -175,6 +175,7 @@ export const overviewSlides: OverviewSlide[] = [
     title: 'What great support looks like',
     bullets: [
       '⚡ Acknowledge fast, even without an answer yet — "I\'m on it, expect an update by EOD" beats a perfect reply three hours later. Remember: a blocked rep is often sitting on a blocked deal.',
+      '🎓 **Enable, don\'t just do it for them** — fix the problem on the rep\'s own quote or record and show them what was wrong, rather than rebuilding it yourself. Every time we quietly do the work, we teach reps to send the next one too. The goal is a rep who doesn\'t need to open the same ticket twice.',
       '🔍 Diagnose, don\'t just patch — a rep asking to "check the manager ID" may really have a broken approval chain. Fix what they need, not just what they asked for.',
       '💬 Explain the cause in plain language — "the contract was pointing at the Monday Account instead of the Company Account" teaches the rep; "fixed ✅" teaches nothing and invites a repeat ticket.',
       '✅ Confirm before closing — "can you try creating the opp now?" A ticket closed without confirmation is a coin flip, and reopened tickets hurt SLA and CSAT more than slow ones.',
