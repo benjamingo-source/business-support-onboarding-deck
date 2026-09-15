@@ -26,6 +26,87 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
+    id: 'quote-dealroom-link-not-loading',
+    category: 'Quoting',
+    issue: 'Deal Room / SO link not loading or showing an error — even though the quote is approved',
+    errorMessage:
+      'Deal room link not loading for approved quote / Dealroom showing error even though approved / "Oops, there\'s nothing there!" / Apex Error — no dealroom created',
+    reason:
+      'The Deal Room is only created when a quote is submitted and published. Most "broken link" tickets are one of: the offer was approved but never published (still a draft), the rep is opening a link to a non-primary or superseded quote, the quote expired (Expiration Date passed — Deal Room hides, though the customer can still sign), or the quote was edited after approval which recalled it. A true "Apex Error — no dealroom created" is a system failure.',
+    resolution: [
+      'Ask for the quote number and open the opp → CPQ Management tab. Check the quote\'s Approval Status and whether it is marked Primary.',
+      'Not published: use "Publish Offer" on the CPQ Management tab — the Deal Room goes live immediately. Approved ≠ published.',
+      'Wrong quote: if the rep is sharing a link to a non-primary or older quote, point them to the Deal Room link on the Primary quote (or Set Primary on the right one).',
+      'Expired: use "Extend Expiration Date" on the CPQ Management tab. The customer can still sign after expiry, but the Deal Room visibility is restored by extending.',
+      'Edited after approval: the edit recalled the approval and un-published the Deal Room. The quote needs to go back through approval and be re-published.',
+      'Genuine Apex error / nothing renders after all the above: capture the quote number and full error, and escalate to CPQ Tech.',
+    ],
+  },
+  {
+    id: 'quote-discount-not-applying',
+    category: 'Quoting',
+    issue: 'Discount not applying on the quote — NGO/NPO discount missing, requested % not accepted, or approval % looks wrong',
+    errorMessage: 'N/A — rep reports "NPO account renewal not logging discount", "cannot update discount in SO", or "% for approval seems too high"',
+    reason:
+      'Discounts in CPQ come from three places: the automatic discount matrix (seat volume, multi-year, multi-product), the NGO matrix (applied only when the account is flagged as NGO), and manual line discounts in the QLE. "Is NGO" is now auto-detected from the account\'s customer type — reps no longer tick it — so if the account isn\'t flagged NGO, the NGO discount silently doesn\'t apply. Any discount above the matrix threshold shows in "% for Approval" and routes for approval rather than being rejected.',
+    resolution: [
+      'Open the quote in the QLE and read the Discount Matrix Threshold and "% for Approval" — this tells you what CPQ thinks the allowed discount is and how much is over.',
+      'NGO/NPO discount missing: check the account\'s customer type in Salesforce. If it isn\'t set to NGO, the NGO matrix won\'t apply — the account record needs correcting first (route to the account owner / RevOps if the classification is disputed), then the rep recalculates.',
+      'Manual discount not saving: in the QLE line drawer, apply the discount as a % or fixed amount on the line, then click "Calculate". Discounts don\'t persist until Calculate runs.',
+      'Service discounts: default monday.com service discounts (e.g. 50% on WM Implementation) are excluded from the threshold calculation; to override, use the line drawer → "Set Service Discount".',
+      'Requested % is above the matrix: that is expected — it doesn\'t block the quote, it routes to approval. Show the rep "Preview Approval" so they know who will need to sign off.',
+      'At submission, make sure the rep picks the right Discount Reason(s) in Basic Information — multiple can be selected.',
+    ],
+  },
+  {
+    id: 'quote-volume-discount-setup',
+    category: 'Quoting',
+    issue: 'Rep needs a volume / tiered seat discount on the quote and doesn\'t know how to build it',
+    errorMessage: 'N/A — "Creating volume tiered discount", "how do I set tier pricing on this SO"',
+    reason:
+      'Volume Discount in CPQ is a pre-built pricing waterfall: locked tiers with a fixed net price per seat at each band, auto-prorated when the quantity crosses a tier, plus a standard legal clause injected into the SO. Reps rarely build one, so they don\'t know where the Discount Schedule Editor lives or what fields are mandatory.',
+    resolution: [
+      'In the QLE, click the pencil icon next to the product SKU → this opens the Discount Schedule Editor.',
+      'Fill the mandatory fields: Schedule Name (format "<Product> – <Edition>"), Discount Unit = Price (fixed net price per seat), and at least one Tier with Name, Lower/Upper Bounds, and Net Price (USD).',
+      'Add further tiers as needed. When the seat quantity crosses a tier boundary, CPQ prorates the average seat price across all applicable tiers automatically.',
+      'At submission → Basic Information, set Discount Reason = "Seat Volumes Discount". The Finance tab will auto-tick "Add price language" and the Volume Discount plan.',
+      'Choose the legal clause: "Not Including Renewal" (initial term only) or "Including Renewal" (locks the price — then pick the Renewal Terms, e.g. first renewal / first two).',
+      'Preview the auto-injected clause via Dealroom Preview before the rep sends it to the customer.',
+    ],
+  },
+  {
+    id: 'quote-change-dates-term',
+    category: 'Quoting',
+    issue: 'Rep needs to change the start date, end date, or term on a quote or SO',
+    errorMessage: 'N/A — "Requesting assistance with updating start date on quote", "Activation dates incorrect", "Subscription End Date doesn\'t match"',
+    reason:
+      'Dates behave differently by contract type. On New Contract quotes, Start Date and Duration are editable in the QLE (End Date is derived). On Pro-Rated quotes, End Date and Duration are locked to the existing contract — only the Start Date can move, and it won\'t change the end date. Once an SO is signed and the opp is Closed Won, the Close Date becomes the Subscription Start Date and dates can\'t be edited on the quote.',
+    resolution: [
+      'Confirm the quote\'s Contract Type and whether the opp is still open.',
+      'Open quote, New Contract: in the QLE Quote Information section, edit Start Date and Duration (12 / 24 / 36 / custom via "Set End Date Manually?"). Click Calculate — Total Added ARR recalculates.',
+      'Open quote, Pro-Rated: only the Start Date is editable; End Date and Duration inherit from the existing contract by design. If the rep needs a different end date, that\'s a New Contract, not a pro-rated expansion.',
+      'Future contract: if the account has a future renewal or pro-rated contract, the start date must be on or after that contract\'s start — use the "Expand Future Contract?" toggle in New Offer.',
+      'Closed Won / signed SO: dates can no longer be edited on the quote. Activation dates are set in BigBrain at activation (Import SO) — mismatches after close go to Billing Dev with the SO number.',
+      'Remind the rep: Close Date = Subscription Start Date. Closing early or late shifts the subscription.',
+    ],
+  },
+  {
+    id: 'quote-change-currency',
+    category: 'Quoting',
+    issue: 'Quote or CC claim currency doesn\'t match the opportunity currency — rep needs to change the deal currency',
+    errorMessage:
+      'Please ensure the CC claim currency matches the opportunity currency. If not, update the currency accordingly.',
+    reason:
+      'The opportunity was created in one currency (e.g. USD) but the customer paid or is being quoted in another (e.g. EUR). CPQ and the CC claim component both require the opp currency to match, so the rep needs to run the Currency Change Wizard.',
+    resolution: [
+      'Direct the rep to opp → CPQ Management → "Change Currency" — this opens the Currency Change Wizard.',
+      'If a CC claim already exists on the deal, the rep must unclaim it first, then run the wizard, then re-claim in the new currency.',
+      'If CPQ quotes already exist, the wizard warns they become unavailable after the change — the rep rebuilds the quote in the new currency.',
+      'If only forecast quotes exist, the wizard lets the rep update the currency directly from the existing component.',
+      'If the deal has already synced to Priority (i.e. it has been invoiced), the wizard cannot be used — loop in Finance Billing. **(check with team)** for the manual steps in that case.',
+    ],
+  },
+  {
     id: 'renewal-arr-wrong',
     category: 'Renewals & ARR',
     issue: 'Renewal ARR or attainment looks incorrect',
