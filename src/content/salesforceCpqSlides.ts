@@ -235,7 +235,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     title: 'CPQ Errors · The Inspector: our field-level power tool',
     bullets: [
       '🔍 The Inspector exposes every field on a record — including ones hidden from the standard layout. It\'s where most Business Support fixes actually happen.',
-      '🛠️ Fields you\'ll touch most: **Type** and **Type Auto Filled**, **Renewal Creation Source**, **Migrate to CPQ Contract**, and the **manager ID fields** on quotes.',
       '⚠️ Rule 1: only edit what the playbook or a teammate confirmed — Inspector edits change live data with no undo.',
       '📝 Rule 2: document every change (old value, new value, why) in the ticket.',
       '🔒 Rule 3: if the opp is locked, unlock first — and close/relock when done.',
