@@ -187,7 +187,9 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     id: 'sfcpq-contracts',
     title: 'CPQ Errors · Contracts & CPQ Subscriptions',
     bullets: [
-      '📜 A **Contract** is created automatically on Close Won and is defined by its end date. Under it hang **CPQ Subscriptions** — the actual products and seats the customer has.',
+      '📜 A **Contract** is created automatically on Close Won and is defined by its end date. Under it hang **Contract Products** (what was sold) and **Contract Events** (each change to those products over time).',
+      '🔀 Two paths build Contract Events: **Wire** — the Quote Line Items on the signed SO build the events directly; **CC** — events are built from the **Subscription** object, which BigBrain syncs into Salesforce when the customer pays.',
+      '🔁 The loop closes both ways: CPQ builds new quotes by reading the Contract Products, and once a Wire SO is exported and activated in BigBrain, the subscription syncs back to the monday Account. Quote ARR + CC claimed ARR = the opportunity\'s ARR.',
       '🏢 The Contract\'s **Account Name must be the Company Account**, not a monday Account. If it points at a monday Account, reps can\'t create expansion opps ("…because you are not the account owner").',
       '🔁 If a rep reopens a Closed Won opp and closes it again, CPQ tries to recreate subscriptions that already exist → "DUPLICATE_VALUE… Uniqe_Key__c". It\'s a defence mechanism — ask why the opp was reopened.',
       '🛠️ Fixes: delete the CPQ Subscriptions on the Contract so they recreate cleanly; or in the Inspector toggle **Migrate to CPQ Contract** False → True if subscriptions never appeared.',
