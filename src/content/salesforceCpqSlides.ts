@@ -237,7 +237,5 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🧭 Reading a "not syncing" ticket: identify the source of truth (Salesforce for closed-won opps), check the record IDs on both sides, look for validation rules blocking the update.',
       '📍 Where to look: monday Account → BB ID field; BigBrain → account profile; integration logs for the record ID and last successful sync.',
     ],
-    relatedCategory: 'Integrations',
-    relatedTickets: ['opp-not-syncing'],
   },
 ];

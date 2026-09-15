@@ -40,20 +40,6 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
-    id: 'opp-not-syncing',
-    category: 'Integrations',
-    issue: 'Opportunity not syncing between systems',
-    errorMessage: 'Record not found / Sync failed — external ID mismatch',
-    reason:
-      'Integration job lag, validation rule blocking the update, or duplicate external IDs between monday.com and Salesforce.',
-    resolution: [
-      'Identify source of truth (usually Salesforce for closed-won opps).',
-      'Check integration logs for the record ID and last successful sync time.',
-      'Look for validation rules or required fields blocking the outbound/inbound message.',
-      'Manually resync if supported; otherwise open a ticket with integration logs attached.',
-    ],
-  },
-  {
     id: 'permission-denied',
     category: 'Access',
     issue: 'Rep sees “Insufficient privileges” on a record',
