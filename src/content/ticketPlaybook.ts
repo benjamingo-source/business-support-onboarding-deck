@@ -273,20 +273,6 @@ export const ticketPlaybook: PlaybookTicket[] = [
     ],
   },
   {
-    id: 'cpq-manual-bco-finance-approval',
-    category: 'CPQ Errors',
-    issue: 'Quote with a manual BCO line is waiting on Finance approval / rep asks why Finance is in the chain',
-    errorMessage: 'N/A — approval chain shows a Finance approver the rep did not expect',
-    reason:
-      'Any manual Balance Carryover (BCO) line added in the QLE (Miscellaneous → Add Manual BCO Line item) ALWAYS requires Finance approval, regardless of discount. Reps use it when consolidating previously no-touch accounts into their book, and often don\'t realise it triggers Finance.',
-    resolution: [
-      'Confirm on the quote (QLE or Preview Approvals) that a manual BCO line exists — that explains the Finance step.',
-      'Explain to the rep that this is by design; Finance validates carryover amounts before the SO goes out.',
-      'If the BCO line was added by mistake, the rep can remove it in the QLE (Delete Line) and resubmit — the Finance step disappears.',
-      'If the BCO is legitimate and Finance is slow, follow up in the Finance Billing assignment group with the quote number and the carryover amount.',
-    ],
-  },
-  {
     id: 'close-won-unique-key-duplicate',
     category: 'CPQ Errors',
     issue: 'Close Won "Unique Key__c" Duplicate Issue',
