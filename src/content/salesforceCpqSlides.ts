@@ -154,6 +154,50 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     relatedTickets: ['billing-invoice'],
   },
 
+  // ───────────────────────── Quoting ─────────────────────────
+  {
+    id: 'sfcpq-quoting-read-a-quote',
+    title: 'Quoting · How to read a quote when a rep says "it\'s not working"',
+    bullets: [
+      '🎫 You will almost never build a quote. Your job is to open the one the rep built and find why it\'s stuck — so learn to read a quote fast. Always ask for the **quote number (Q-xxxxxx)** first.',
+      '🗂️ Opp → **CPQ Management tab** is your home screen. Each row shows Quote Number, **Primary** (yes/no), **Approval Status** (Draft / In Approval / Approved / Rejected), Document Type (SO / Quote / Forecast), Contract Type (New Contract / Pro-Rated), and the Deal Room link.',
+      '🔍 Three questions answer most tickets: Is it **Primary**? Is it **Approved**? Is it **Published**? A quote can be approved but not published, or published but not primary — and reps read all of those as "the link is broken."',
+      '🧮 "Edit Quote" opens the **QLE** (Quote Line Editor). The numbers only refresh when someone clicks **Calculate** — if the ARR looks stale, click it before diagnosing anything.',
+      '📅 Read **Contract Type** before anything else. Pro-Rated quotes have locked tier, end date, and duration (inherited from the existing contract); New Contract quotes are free on all three. Half of "CPQ won\'t let me change X" is a rep on a Pro-Rated quote asking for a New Contract behavior.',
+      '⚠️ Never edit a quote that is **In Approval Process** — it recalls the approval and resets the chain. Diagnose; let the rep make the change.',
+    ],
+    relatedCategory: 'Quoting',
+    relatedTickets: ['quote-dealroom-link-not-loading', 'quote-change-dates-term'],
+  },
+  {
+    id: 'sfcpq-quoting-pricing',
+    title: 'Quoting · How CPQ decides the price (and why the rep\'s discount "didn\'t apply")',
+    bullets: [
+      '🎚️ CPQ has a **Discount Matrix**: an automatic allowed discount based on seat volume, contract length, and number of products. The matrix threshold is the discount a rep can give without approval. Anything above it isn\'t blocked — it shows in **"% for Approval"** and routes to a manager.',
+      '🕊️ There is a separate **NGO matrix**. "Is NGO" is now **auto-detected from the account\'s customer type** — reps can\'t tick it. When an NGO discount "isn\'t applying," the account isn\'t flagged NGO. Fix the account record, not the quote.',
+      '✍️ Manual discounts are applied per line in the QLE drawer (as % or fixed amount) and **only stick after Calculate**. "I entered 20% and it disappeared" = they didn\'t calculate.',
+      '🛠️ Services have default monday.com discounts (e.g. 50% on WM Implementation) that are **excluded from the threshold**. To change a service discount: line drawer → "Set Service Discount."',
+      '🌊 **Volume / tiered discount** is a different tool entirely: pencil icon next to the SKU → Discount Schedule Editor → locked price tiers + auto-injected legal clause. Reps rarely know it exists — pointing them to it is often the whole ticket.',
+      '💬 What you\'ll say most: "The discount isn\'t rejected, it\'s routed for approval — here\'s who needs to approve" (Preview Approvals). Set that expectation early and the ticket closes itself.',
+    ],
+    relatedCategory: 'Quoting',
+    relatedTickets: ['quote-discount-not-applying', 'quote-volume-discount-setup'],
+  },
+  {
+    id: 'sfcpq-quoting-dealroom-dates-currency',
+    title: 'Quoting · Deal Room, dates & currency — the three "I\'m stuck" asks',
+    bullets: [
+      '🏠 The **Deal Room** is the customer-facing page where they review and sign. It exists only after the quote is submitted **and published**. Approved ≠ published — "Publish Offer" on the CPQ Management tab is a separate click, and it\'s the #1 reason a link "doesn\'t work."',
+      '🔗 Reps often share the link from the wrong quote. Check which quote is **Primary**; the Deal Room the customer should see belongs to that one. "Set Primary" fixes it in one click.',
+      '📆 **Dates** depend on Contract Type: New Contract → Start Date and Duration editable in the QLE; Pro-Rated → only Start Date moves, End Date is locked to the existing contract. After Closed Won, nothing on the quote is editable — dates then live in BigBrain at activation.',
+      '🧭 Golden rule to teach reps: **Close Date = Subscription Start Date.** Closing an opp early or late shifts when the customer\'s subscription (and invoice) begins.',
+      '💱 **Currency** is set on the opportunity, and quotes and CC claims must match it. The **Currency Change Wizard** (CPQ Management → Change Currency) handles the switch — but existing claims must be unclaimed first, existing quotes become unavailable, and already-invoiced deals can\'t use it at all (that\'s Finance Billing).',
+      '📍 Where to look: CPQ Management tab (Primary / Approval Status / Publish / Extend Expiration / Change Currency); QLE Quote Information section (dates); opp header (currency).',
+    ],
+    relatedCategory: 'Quoting',
+    relatedTickets: ['quote-dealroom-link-not-loading', 'quote-change-dates-term', 'quote-change-currency'],
+  },
+
   // ───────────────────────── CPQ Errors ─────────────────────────
   {
     id: 'sfcpq-quote-lifecycle',
