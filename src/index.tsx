@@ -158,25 +158,6 @@ export default function BusinessSupportOnboardingDeck() {
           </Text>
         </button>
 
-        <button
-          type="button"
-          className={styles.deckCard}
-          onClick={() => setView('drafts')}
-          aria-label="Open draft ideas deck"
-        >
-          <div className={styles.deckIcon}>
-            <Wand />
-          </div>
-          <Heading type="h2" weight="medium">
-            Deck 4 — Draft Ideas (WIP)
-          </Heading>
-          <Text ellipsis={false} type="text2" color="secondary">
-            Candidate slides for Deck 1 — review, edit, and promote the keepers. Not for new hires yet.
-          </Text>
-          <Text ellipsis={false} type="text2" color="secondary">
-            {draftSlides.length} draft slides
-          </Text>
-        </button>
       </div>
     </div>
   );
