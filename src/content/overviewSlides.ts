@@ -13,6 +13,8 @@ export type OverviewSlide = {
   relatedPolicies?: string[];
   /** Deck 3 concept slide ids this slide relates to — renders "Learn the concepts" chips. */
   relatedConcepts?: string[];
+  /** Deck 4 only — drives the Policy / Process filter chips. */
+  kind?: 'policy' | 'process';
 };
 
 export const overviewSlides: OverviewSlide[] = [

@@ -1,11 +1,13 @@
 import type { OverviewSlide } from './overviewSlides';
 
 /**
- * Deck 4 — Policies. One slide per policy: 1–2 bullets on what it is and why it
+ * Deck 4 — Policies & Processes. One slide per item: 1–2 bullets on what it is and why it
  * matters to Business Support, plus a link to the full source document.
+ * `kind` drives the Policy / Process filter chips.
  */
 export const policySlides: OverviewSlide[] = [
   {
+    kind: 'policy',
     id: 'policy-day-5-cutoff',
     title: 'Day 5 Cutoff Policy — post-close edits & locking',
     bullets: [
@@ -21,6 +23,7 @@ export const policySlides: OverviewSlide[] = [
     relatedTickets: ['locked-opportunity-edit'],
   },
   {
+    kind: 'policy',
     id: 'policy-opt-out',
     title: 'Opt-Out Policy — exiting or reducing a locked deal',
     bullets: [
@@ -36,6 +39,7 @@ export const policySlides: OverviewSlide[] = [
     relatedTickets: ['locked-opportunity-edit', 'expansion-closed-as-renewal'],
   },
   {
+    kind: 'policy',
     id: 'policy-ai-credit-grant',
     title: 'AI Credit Grant Policy — who can grant credits and why',
     bullets: [
@@ -50,6 +54,7 @@ export const policySlides: OverviewSlide[] = [
     relatedTickets: ['cpq-ai-rule-blocks-so'],
   },
   {
+    kind: 'policy',
     id: 'policy-free-seats-trials',
     title: 'Free Seats, Products & Trials Policy (V1 draft)',
     bullets: [
@@ -64,6 +69,7 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'Billing',
   },
   {
+    kind: 'policy',
     id: 'policy-arr-recognition',
     title: 'ARR Recognition Policy — what counts, when, and who can claim it',
     bullets: [

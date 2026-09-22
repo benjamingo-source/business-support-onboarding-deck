@@ -30,6 +30,14 @@ export default function BusinessSupportOnboardingDeck() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedTicketId, setExpandedTicketId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [policyKind, setPolicyKind] = useState<'policy' | 'process' | null>(null);
+
+  const visiblePolicySlides = useMemo(
+    () => (policyKind ? policySlides.filter((slide) => slide.kind === policyKind) : policySlides),
+    [policyKind],
+  );
+  const policyCount = policySlides.filter((slide) => slide.kind === 'policy').length;
+  const processCount = policySlides.filter((slide) => slide.kind === 'process').length;
 
   const categories = useMemo(
     () => Array.from(new Set(ticketPlaybook.map((ticket) => ticket.category))),
@@ -62,7 +70,7 @@ export default function BusinessSupportOnboardingDeck() {
       : view === 'sfcpq'
         ? salesforceCpqSlides
         : view === 'policies'
-          ? policySlides
+          ? visiblePolicySlides
           : overviewSlides;
   const currentSlide = activeSlides[slideIndex];
 
@@ -72,6 +80,7 @@ export default function BusinessSupportOnboardingDeck() {
     setSearchQuery('');
     setExpandedTicketId(null);
     setSelectedCategory(null);
+    setPolicyKind(null);
   };
 
   const goToConceptSlide = (slideId: string) => {
@@ -84,6 +93,7 @@ export default function BusinessSupportOnboardingDeck() {
   const goToPolicySlide = (slideId: string) => {
     const index = policySlides.findIndex((slide) => slide.id === slideId);
     if (index === -1) return;
+    setPolicyKind(null);
     setSlideIndex(index);
     setView('policies');
   };
@@ -176,19 +186,19 @@ export default function BusinessSupportOnboardingDeck() {
           type="button"
           className={styles.deckCard}
           onClick={() => setView('policies')}
-          aria-label="Open policies deck"
+          aria-label="Open policies and processes deck"
         >
           <div className={styles.deckIcon}>
             <Doc />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 4 — Policies
+            Deck 4 — Policies & Processes
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
-            Short overviews of the policies Business Support applies every day, each with a link to the full document.
+            Short overviews of the policies and step-by-step processes Business Support applies every day, each with a link to the full document.
           </Text>
           <Text ellipsis={false} type="text2" color="secondary">
-            {policySlides.length} policies
+            {policyCount} policies · {processCount} processes
           </Text>
         </button>
       </div>
@@ -197,8 +207,39 @@ export default function BusinessSupportOnboardingDeck() {
 
   const nextSlide = activeSlides[slideIndex + 1];
 
+  const selectPolicyKind = (kind: 'policy' | 'process' | null) => {
+    setPolicyKind(kind);
+    setSlideIndex(0);
+  };
+
   const renderOverview = () => (
     <div className={styles.content}>
+      {view === 'policies' && (
+        <div className={styles.categoryChips}>
+          <button
+            type="button"
+            className={policyKind === null ? styles.chipActive : styles.chip}
+            onClick={() => selectPolicyKind(null)}
+          >
+            All ({policySlides.length})
+          </button>
+          <button
+            type="button"
+            className={policyKind === 'policy' ? styles.chipActive : styles.chip}
+            onClick={() => selectPolicyKind(policyKind === 'policy' ? null : 'policy')}
+          >
+            📜 Policies ({policyCount})
+          </button>
+          <button
+            type="button"
+            className={policyKind === 'process' ? styles.chipActive : styles.chip}
+            onClick={() => selectPolicyKind(policyKind === 'process' ? null : 'process')}
+          >
+            🔁 Processes ({processCount})
+          </button>
+        </div>
+      )}
+
       <div className={styles.progressTrack}>
         <div
           className={styles.progressFill}
@@ -485,7 +526,7 @@ export default function BusinessSupportOnboardingDeck() {
         : view === 'sfcpq'
           ? 'Deck 3 — Salesforce & CPQ'
           : view === 'policies'
-            ? 'Deck 4 — Policies'
+            ? 'Deck 4 — Policies & Processes'
             : view === 'drafts'
               ? 'Draft Ideas (WIP)'
               : 'Business Support Onboarding';
