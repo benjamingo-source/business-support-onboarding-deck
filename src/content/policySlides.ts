@@ -123,4 +123,19 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['renewal-arr-wrong', 'arr-recognition-not-green-bucket'],
   },
+  {
+    kind: 'process',
+    id: 'process-cancel-on-closed-lost',
+    title: 'Cancel Account on Closed Lost — the Churn Assessment step',
+    bullets: [
+      '🚪 Closing an opp as **Closed Lost** now has a third step, **Churn Assessment**: "Will the customer stop using monday.com when this contract ends?" Reps pick **Yes** only when the customer has explicitly confirmed they won\'t renew — never as a default. Yes = the monday.com account is cancelled straight from Salesforce, aligned to the contract end date, no BigBrain detour. No = nothing happens, the customer stays on. **Partner accounts are excluded** from this flow.',
+      '🧭 When Yes is selected one of three screens appears: **Cancel on Renewal** (contract still active → cancellation auto-scheduled for the end date, nothing more to do), **Cancel Immediately** (contract already ended → permanent, requires a reason + confirmation box; the account drops to a **7-day Trial** so the customer can export data), or **Already Scheduled** (read-only, just click Done). Tickets about "churned customer still has access" or "account cancelled too early" usually trace back to which of these the rep landed on.',
+    ],
+    link: {
+      label: 'Open the Cancel Account on Closed Lost process →',
+      url: 'https://docs.google.com/document/d/16jSEDpgMzgHV5hzliAI7Dr2UVNgQmmxoxLFUngx0pT4/edit?tab=t.0',
+    },
+    relatedConcepts: ['sfcpq-opp-lifecycle', 'sfcpq-contracts', 'sfcpq-integrations'],
+    relatedCategory: 'Opportunities',
+  },
 ];

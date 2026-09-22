@@ -56,7 +56,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
-    relatedPolicies: ['policy-day-5-cutoff', 'policy-opt-out'],
+    relatedPolicies: ['policy-day-5-cutoff', 'policy-opt-out', 'process-cancel-on-closed-lost'],
   },
 
   {
@@ -277,5 +277,6 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🧭 Reading a "not syncing" ticket: identify the source of truth (Salesforce for closed-won opps), check the record IDs on both sides, look for validation rules blocking the update.',
       '📍 Where to look: monday Account → BB ID field; BigBrain → account profile; integration logs for the record ID and last successful sync.',
     ],
+    relatedPolicies: ['process-cancel-on-closed-lost'],
   },
 ];
