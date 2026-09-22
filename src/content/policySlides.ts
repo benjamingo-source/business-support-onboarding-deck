@@ -83,6 +83,7 @@ export const policySlides: OverviewSlide[] = [
     relatedConcepts: ['sfcpq-what-is-arr', 'sfcpq-arr-recognition', 'sfcpq-renewals', 'sfcpq-cc-claims'],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['arr-recognition-not-green-bucket', 'cant-claim-cc-payment', 'arr-split-between-reps', 'renewal-arr-wrong'],
+    relatedPolicies: ['process-revert-downgrade-stamp'],
   },
   {
     kind: 'process',
@@ -104,5 +105,22 @@ export const policySlides: OverviewSlide[] = [
       'expansion-opp-no-active-contract',
       'quote-change-currency',
     ],
+  },
+  {
+    kind: 'process',
+    id: 'process-revert-downgrade-stamp',
+    title: 'Reverting a Downgrade Stamp — restoring the ARR baseline after a refund or error',
+    bullets: [
+      '🩹 When Salesforce detects a downgrade, the flow **"Account – Post Downgrade – Stamp Fields"** stamps **ARR Prior Downgrade** and **Last Churn Date** on the account. That stamp drives the **ARR Reduction Value** and the baseline quotes are priced against. If the "downgrade" was really an administrative refund or a system error, the ARR Recognition Policy says the baseline must be restored — this runbook is how we do it: clear both fields, save, and make sure **Monday Account Baseline ARR** on the Opportunity reflects the pre-refund contract.',
+      '🔎 If something still looks wrong: ARR Reduction Value still shows the old number → confirm both fields are truly blank and saved, refresh, then look for another automation or formula override. Quotes still use the old baseline → check the Baseline ARR on the Opportunity was updated (and that the quote reads from that field or from the account baseline). Only touch this on a Business Lounge ticket — the stamp is there on purpose for real downgrades.',
+    ],
+    link: {
+      label: 'Open the Revert Downgrade Stamp runbook →',
+      url: 'https://monday.monday.com/docs/18403343208',
+    },
+    relatedPolicies: ['policy-arr-recognition'],
+    relatedConcepts: ['sfcpq-what-is-arr', 'sfcpq-arr-recognition', 'sfcpq-inspector'],
+    relatedCategory: 'Renewals & ARR',
+    relatedTickets: ['renewal-arr-wrong', 'arr-recognition-not-green-bucket'],
   },
 ];

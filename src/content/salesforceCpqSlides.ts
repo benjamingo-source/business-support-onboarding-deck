@@ -88,7 +88,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '📍 Where to look: the ARR box at the top of the opp, and the **Recognition Details** box on the monday Account.',
     ],
     relatedCategory: 'Renewals & ARR',
-    relatedPolicies: ['policy-arr-recognition', 'policy-free-seats-trials'],
+    relatedPolicies: ['policy-arr-recognition', 'policy-free-seats-trials', 'process-revert-downgrade-stamp'],
   },
   {
     id: 'sfcpq-arr-recognition',
@@ -103,7 +103,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['arr-recognition-not-green-bucket'],
-    relatedPolicies: ['policy-arr-recognition'],
+    relatedPolicies: ['policy-arr-recognition', 'process-revert-downgrade-stamp'],
   },
   {
     id: 'sfcpq-renewals',
