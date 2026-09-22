@@ -35,4 +35,18 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit', 'expansion-closed-as-renewal'],
   },
+  {
+    id: 'policy-ai-credit-grant',
+    title: 'AI Credit Grant Policy — who can grant credits and why',
+    bullets: [
+      '🤖 AI credits are a **real cost**, not a fixed resource like seats — every grant needs a documented rationale mapped to one of the policy\'s buckets (product incident, client misuse, events, client-facing build, partner build, commercial bridge, product trial, monetization complaint). Grants are capped at **2 months** unless VP RevOps / Head of AI approves.',
+      '🎫 **Reps never grant credits — only CX, Deal Desk, or Business Lounge do**, in BigBrain. Every grant (except CX product-incident grants) comes to us as a Business Lounge ticket **with the approval already attached** — we don\'t chase RVP/Director/Head of AI sign-off ourselves; if it\'s missing, send the ticket back.',
+    ],
+    link: {
+      label: 'Open the AI Credit Grant Policy →',
+      url: 'https://docs.google.com/document/d/1P4I_SEhbH9lrUSBX-L8NAKB8AJthqMmcxb5ArShS8PU/edit?tab=t.0',
+    },
+    relatedCategory: 'CPQ Errors',
+    relatedTickets: ['cpq-ai-rule-blocks-so'],
+  },
 ];
