@@ -26,4 +26,25 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
   },
+  {
+    id: 'policy-opt-out',
+    title: 'Opt-Out Policy — exiting or reducing a locked deal',
+    bullets: [
+      '🔑 **The single core rule:** an opt-out is required **only** when the opp is Closed Won **and locked**. Not locked = no opt-out, ever — the rep edits the existing opp or opens a new one, even if it\'s already invoiced.',
+      '📉 **Rule 1 — ARR decrease:** locked + requested change lowers ARR → opt-out. **Rule 2 — pro-rated deals:** any change to or exit from a locked pro-rated deal → opt-out, **even if ARR goes up** (pro-rated comp is stand-alone; changing it without an opt-out double-counts ARR). Exception: adding incremental seats *on top* is just a new pro-rated opp. **Rule 3 — currency change:** locked + currency must change → opt-out (technical-fix lane, via Finance).',
+      '🛤️ **Lanes — Finance rejects a wrong lane:** (1) Contractual — contract has an opt-out clause; needs proof the customer asked inside the window; Direct Manager → Finance. (2a) Non-contractual downgrade / right-sizing, (2b) product / implementation issues, (2c) technical / operational fix (currency, two opps closed by mistake, changes inside a pro-rated deal) — all 3rd-line manager → CCO → Finance (Partners: 3rd-line → Finance).',
+      '📝 **Submitting:** "Submit Opt-Out Request" on the opp (top-right dropdown or tiles). Requested opt-out date = **the date the customer asked**, not today — the credit is calculated from it. Attach the customer\'s request (email) and full context: root cause, related opp/SO IDs, screenshots. Thin explanations are the #1 reason requests bounce.',
+      '🔁 **If the customer stays** (right-sizing, technical fix, partial exit): create the **new substitute opportunity** with the corrected terms and reference it in the request — the opt-out closes the wrong opp, the new one carries the contract. Get CCO approval **before** the customer signs the new agreement.',
+      '📣 **Non-contractual escalation:** after 3rd-line approval, open a Slack group from the opp\'s "Slack Channel" tab with Adi Dar, Mary Malinsky, Ari Klionsky, Wadee Jamal — include reason, requested outcome, retention efforts, justification, ARR at risk, tenure, renewal date.',
+      '🚫 **Not an opt-out — route instead:** SO date change only → new $0-delta opp with Deal Desk approval (BizLounge creates it if before activation; recalc BCO) · legal language / agreement type → BizSupport validates, then Finance or Legal · BCO amount/date, split invoice, draft SO signed at same ARR, wrong PO → Finance Billing External board · unauthorized signer or billing/shipping entity → Correction Opportunity · PS refunds → VP PS, never via opt-out · partial refund with no exit → Refund policy. **Renewal start date may never be pushed more than 1 day past the previous end date.**',
+      '🎫 **Business Support\'s part:** for every **approved** opt-out, a Business Lounge ticket is opened so we revert the original SO and update BigBrain — that\'s what stops the double-count.',
+    ],
+    link: {
+      label: 'Open the Opt-Out Policy →',
+      url: 'https://docs.google.com/document/d/18j9GMWURIfjGS4lT7PNFELrgBa6Gejmt5oyhFEnXoWc/edit?tab=t.0',
+    },
+    relatedConcepts: ['sfcpq-opp-lifecycle', 'sfcpq-opportunities', 'sfcpq-contracts'],
+    relatedCategory: 'Opportunities',
+    relatedTickets: ['locked-opportunity-edit', 'expansion-closed-as-renewal'],
+  },
 ];

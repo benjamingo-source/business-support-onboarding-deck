@@ -41,6 +41,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🛠️ Service — a service-only deal (implementation, training); exposes only service SKUs, no product licenses.',
     ],
     relatedCategory: 'Opportunities',
+    relatedPolicies: ['policy-opt-out'],
   },
   {
     id: 'sfcpq-opp-lifecycle',
@@ -55,7 +56,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
-    relatedPolicies: ['policy-day-5-cutoff'],
+    relatedPolicies: ['policy-day-5-cutoff', 'policy-opt-out'],
   },
 
   {
@@ -233,6 +234,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['close-won-unique-key-duplicate', 'expansion-opp-not-owner'],
+    relatedPolicies: ['policy-opt-out'],
   },
   {
     id: 'sfcpq-inspector',
