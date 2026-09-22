@@ -88,6 +88,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '📍 Where to look: the ARR box at the top of the opp, and the **Recognition Details** box on the monday Account.',
     ],
     relatedCategory: 'Renewals & ARR',
+    relatedPolicies: ['policy-arr-recognition', 'policy-free-seats-trials'],
   },
   {
     id: 'sfcpq-arr-recognition',
@@ -102,6 +103,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['arr-recognition-not-green-bucket'],
+    relatedPolicies: ['policy-arr-recognition'],
   },
   {
     id: 'sfcpq-renewals',
@@ -115,6 +117,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['expansion-closed-as-renewal', 'renewal-arr-wrong'],
+    relatedPolicies: ['policy-arr-recognition'],
   },
 
   // ───────────────────────── Billing ─────────────────────────
@@ -143,6 +146,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Billing',
     relatedTickets: ['cant-claim-cc-payment'],
+    relatedPolicies: ['policy-arr-recognition'],
   },
   {
     id: 'sfcpq-billing-entity',

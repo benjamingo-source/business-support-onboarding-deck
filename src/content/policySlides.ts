@@ -63,4 +63,19 @@ export const policySlides: OverviewSlide[] = [
     relatedConcepts: ['sfcpq-what-is-arr'],
     relatedCategory: 'Billing',
   },
+  {
+    id: 'policy-arr-recognition',
+    title: 'ARR Recognition Policy — what counts, when, and who can claim it',
+    bullets: [
+      '📈 ARR is recognized only for **yearly / multi-year Pro or Enterprise** deals whose total account ARR crosses the rep\'s **Green Bucket threshold** (role and region specific — $7K for most AEs/AMs, $3.5K for SMB and Product roles, $0 for CSMs and Overlays). Added ARR lands in the month of the contract start date (if closed early) or the close date (if closed late); Renewal ARR lands on the later of the renewal date or the close date. New contracts need at least **12 months** to count.',
+      '🙋 Wire ARR is claimed automatically; **CC ARR must be claimed manually within 3 months** of the event (and before the 10th of the following month) — positive and negative alike. Business Lounge tickets are the official path for **opportunity ownership overrides**, restoring an ARR baseline after an administrative refund, and reporting duplicate ARR from reissued SOs. ARR fixes on already-locked opps go to **VP RevOps** via a Business Lounge ticket, case by case.',
+    ],
+    link: {
+      label: 'Open the ARR Recognition Policy →',
+      url: 'https://docs.google.com/document/d/1XqnP7ocWJxGyrdhVTe-9PU7mxMZXgqNd/edit',
+    },
+    relatedConcepts: ['sfcpq-what-is-arr', 'sfcpq-arr-recognition', 'sfcpq-renewals', 'sfcpq-cc-claims'],
+    relatedCategory: 'Renewals & ARR',
+    relatedTickets: ['arr-recognition-not-green-bucket', 'cant-claim-cc-payment', 'arr-split-between-reps', 'renewal-arr-wrong'],
+  },
 ];
