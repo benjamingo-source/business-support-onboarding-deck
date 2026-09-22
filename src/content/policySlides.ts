@@ -138,4 +138,20 @@ export const policySlides: OverviewSlide[] = [
     relatedConcepts: ['sfcpq-opp-lifecycle', 'sfcpq-contracts', 'sfcpq-integrations'],
     relatedCategory: 'Opportunities',
   },
+  {
+    kind: 'process',
+    id: 'process-legal-request',
+    title: 'Legal Request Process — Legal Hub, DocuSign & why an opp won\'t close',
+    bullets: [
+      '⚖️ All legal requests (NDAs, BAAs, SaaS agreements, addendums) are opened in Salesforce via **Manage Legal Request** on the Opportunity or the **Legal Hub** tab on the Account/Company — an item auto-creates on the **Legal-Consulting** board within ~5 minutes. Legal stamps the doc there, the **rep** (only the requester) clicks the board button to issue the DocuSign envelope from their own account, adds customer + monday signatories, and once "Envelope Status" = Completed the signed doc **auto-syncs to Legal Documents in Salesforce**. No manual uploads; wrong request type is fixed by editing the Type field, not re-opening.',
+      '🔒 The ticket we actually get: **"I can\'t move my opp to Closed Won"** — usually the system doesn\'t see a finalized legal document. Three cases: signed outside the process → rep uploads the signed doc to the Legal Request to unlock the stage; still negotiating / SO signed first → rep uses **"Override a Document\'s Validation"** in Manage Legal Request (routes to their manager, notifies Legal); signed doc *is* in Salesforce and it still won\'t close → that one is ours to troubleshoot. Chamelio/DocuSign auth issues also land with Business Lounge.',
+    ],
+    link: {
+      label: 'Open the Legal Request Playbook →',
+      url: 'https://docs.google.com/document/d/1XT1dQ9HwF9JI-fvcdnaAklJowgO0dnqqKfRBBXcfy70/edit?tab=t.0',
+    },
+    relatedConcepts: ['sfcpq-opp-lifecycle'],
+    relatedCategory: 'Opportunities',
+    relatedTickets: ['cant-close-won'],
+  },
 ];

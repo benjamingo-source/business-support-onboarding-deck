@@ -56,7 +56,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
-    relatedPolicies: ['policy-day-5-cutoff', 'policy-opt-out', 'process-cancel-on-closed-lost'],
+    relatedPolicies: ['policy-day-5-cutoff', 'policy-opt-out', 'process-cancel-on-closed-lost', 'process-legal-request'],
   },
 
   {
