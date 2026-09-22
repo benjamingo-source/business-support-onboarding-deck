@@ -117,7 +117,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['expansion-closed-as-renewal', 'renewal-arr-wrong'],
-    relatedPolicies: ['policy-arr-recognition'],
+    relatedPolicies: ['policy-arr-recognition', 'process-quote-type-rules'],
   },
 
   // ───────────────────────── Billing ─────────────────────────
@@ -132,6 +132,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '📍 Where to look: payment method on the monday Account in BigBrain; on the opp, whether a CPQ quote/SO exists (Wire) or the "Claim Credit Card Payments" component shows payments (CC).',
     ],
     relatedCategory: 'Billing',
+    relatedPolicies: ['process-quote-type-rules'],
   },
   {
     id: 'sfcpq-cc-claims',
@@ -209,6 +210,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['cpq-quote-error', 'cpq-split-subscriptions'],
+    relatedPolicies: ['process-quote-type-rules'],
   },
   {
     id: 'sfcpq-approvals',
@@ -238,7 +240,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['close-won-unique-key-duplicate', 'expansion-opp-not-owner'],
-    relatedPolicies: ['policy-opt-out'],
+    relatedPolicies: ['policy-opt-out', 'process-quote-type-rules'],
   },
   {
     id: 'sfcpq-inspector',

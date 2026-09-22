@@ -277,7 +277,7 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.relatedPolicies && currentSlide.relatedPolicies.length > 0 && (
           <div className={styles.relatedBox}>
             <Text ellipsis={false} type="text2" weight="bold">
-              📜 Related policies in Deck 4
+              📜 Related policies & processes in Deck 4
             </Text>
             <div className={styles.relatedLinks}>
               {currentSlide.relatedPolicies.map((policyId) => {

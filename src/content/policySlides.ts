@@ -84,4 +84,25 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['arr-recognition-not-green-bucket', 'cant-claim-cc-payment', 'arr-split-between-reps', 'renewal-arr-wrong'],
   },
+  {
+    kind: 'process',
+    id: 'process-quote-type-rules',
+    title: 'Quote Type Rules — when CPQ allows New Contract vs Pro-Rated Expansion',
+    bullets: [
+      '🧭 CPQ decides the allowed quote type from three things: **opp type** (renewal vs mid-term expansion), **payment method** (Wire vs CC), and whether an **active, matching contract** exists. Renewal opps always get **New Contract only**. Mid-term expansion opps on an active Wire contract get **Pro-Rated Expansion only** (New Contract is blocked); on CC accounts they get **New Contract only**.',
+      '🔎 New Contract is forced by default when there is **no usable active contract**: none found, expired, a simulated contract, payment method not Wire, or contract currency ≠ opp currency. So when a rep says "I can\'t create a pro-rated quote", check those five conditions on the contract first — fixing the contract link or currency is usually the answer, not a quote rebuild.',
+    ],
+    link: {
+      label: 'Open the Quote Type Rules doc →',
+      url: 'https://monday.monday.com/docs/18402484793',
+    },
+    relatedConcepts: ['sfcpq-quote-lifecycle', 'sfcpq-contracts', 'sfcpq-cc-vs-wire', 'sfcpq-renewals'],
+    relatedCategory: 'CPQ Errors',
+    relatedTickets: [
+      'cpq-quote-not-linked-current-contract',
+      'cpq-prorated-wrong-quantity',
+      'expansion-opp-no-active-contract',
+      'quote-change-currency',
+    ],
+  },
 ];
