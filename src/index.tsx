@@ -10,9 +10,10 @@ import styles from './App.module.scss';
 import { overviewSlides } from './content/overviewSlides';
 import { draftSlides } from './content/draftSlides';
 import { salesforceCpqSlides } from './content/salesforceCpqSlides';
+import { policySlides } from './content/policySlides';
 import { ticketPlaybook } from './content/ticketPlaybook';
 
-type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'drafts';
+type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'policies' | 'drafts';
 
 const renderRichText = (text: string) =>
   text.split(/(\*\*[^*]+\*\*)/g).map((part, index) =>
@@ -56,7 +57,13 @@ export default function BusinessSupportOnboardingDeck() {
   }, [searchQuery, selectedCategory]);
 
   const activeSlides =
-    view === 'drafts' ? draftSlides : view === 'sfcpq' ? salesforceCpqSlides : overviewSlides;
+    view === 'drafts'
+      ? draftSlides
+      : view === 'sfcpq'
+        ? salesforceCpqSlides
+        : view === 'policies'
+          ? policySlides
+          : overviewSlides;
   const currentSlide = activeSlides[slideIndex];
 
   const goHome = () => {
@@ -158,6 +165,25 @@ export default function BusinessSupportOnboardingDeck() {
           </Text>
         </button>
 
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('policies')}
+          aria-label="Open policies deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 4 — Policies
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            Short overviews of the policies Business Support applies every day, each with a link to the full document.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {policySlides.length} policies
+          </Text>
+        </button>
       </div>
     </div>
   );
@@ -189,6 +215,16 @@ export default function BusinessSupportOnboardingDeck() {
         </ul>
         {currentSlide.image && (
           <img src={currentSlide.image} alt={currentSlide.title} className={styles.slideImage} />
+        )}
+        {currentSlide.link && (
+          <a
+            href={currentSlide.link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.policyLink}
+          >
+            {currentSlide.link.label}
+          </a>
         )}
         {currentSlide.relatedCategory && (
           <div className={styles.relatedBox}>
@@ -395,9 +431,11 @@ export default function BusinessSupportOnboardingDeck() {
         ? 'Deck 2 — Ticketing Playbook'
         : view === 'sfcpq'
           ? 'Deck 3 — Salesforce & CPQ'
-          : view === 'drafts'
-            ? 'Deck 4 — Draft Ideas (WIP)'
-            : 'Business Support Onboarding';
+          : view === 'policies'
+            ? 'Deck 4 — Policies'
+            : view === 'drafts'
+              ? 'Draft Ideas (WIP)'
+              : 'Business Support Onboarding';
 
   return (
     <div className={styles.root}>
@@ -420,7 +458,8 @@ export default function BusinessSupportOnboardingDeck() {
       </header>
 
       {view === 'home' && renderHome()}
-      {(view === 'overview' || view === 'sfcpq' || view === 'drafts') && renderOverview()}
+      {(view === 'overview' || view === 'sfcpq' || view === 'policies' || view === 'drafts') &&
+        renderOverview()}
       {view === 'playbook' && renderPlaybook()}
     </div>
   );

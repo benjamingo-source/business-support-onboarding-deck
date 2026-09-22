@@ -7,6 +7,8 @@ export type OverviewSlide = {
   relatedCategory?: string;
   /** Optional specific Deck 2 ticket ids to highlight. */
   relatedTickets?: string[];
+  /** External link (e.g. the full policy doc) shown as a button under the bullets. */
+  link?: { label: string; url: string };
 };
 
 export const overviewSlides: OverviewSlide[] = [

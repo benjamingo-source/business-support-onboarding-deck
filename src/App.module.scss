@@ -149,6 +149,24 @@
   }
 }
 
+.policyLink {
+  display: inline-block;
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-small) var(--spacing-large);
+  border-radius: var(--border-radius-medium);
+  background-color: var(--primary-color);
+  color: var(--text-color-on-primary);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+}
+
 .relatedBox {
   margin-top: var(--spacing-xl);
   padding: var(--spacing-medium) var(--spacing-large);
