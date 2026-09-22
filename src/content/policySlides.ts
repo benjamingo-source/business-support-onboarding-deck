@@ -49,4 +49,18 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['cpq-ai-rule-blocks-so'],
   },
+  {
+    id: 'policy-free-seats-trials',
+    title: 'Free Seats, Products & Trials Policy (V1 draft)',
+    bullets: [
+      '🎁 Every trial, free seat, and free product must have a **hard end date** and an approval matched to tier and ARR — small asks stay rep self-serve (e.g. ≤5 free seats or ≤30-day trial on SMB Basic/Standard), mid-size ones need 1st-line-manager approval via a **Business Support ticket**, anything larger or any Enterprise / >$20K ARR account goes to **Deal Desk**. Trials cap at 12 months; free products route through a **100%-discount SO** so Finance sees them.',
+      '🛠️ Business Support becomes the **first approval layer**: we approve 6–10 free seats, 31–90-day trials, and non-Enterprise legacy product pilots (≤90 days) — and any grant that would drop diluted PPU by more than 10% needs Finance sign-off regardless. **This is a V1 draft — thresholds are proposals, not final; confirm current values before quoting them to a rep.**',
+    ],
+    link: {
+      label: 'Open the Free Seats, Products & Trials Policy →',
+      url: 'https://docs.google.com/document/d/179-PHRgdLkav7UcAAQgO7N6iEIZxkkmCBymXy8RmP14/edit?tab=t.0',
+    },
+    relatedConcepts: ['sfcpq-what-is-arr'],
+    relatedCategory: 'Billing',
+  },
 ];
