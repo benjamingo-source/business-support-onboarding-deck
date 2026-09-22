@@ -22,5 +22,8 @@ export const policySlides: OverviewSlide[] = [
       label: 'Open the Day 5 Cutoff Policy →',
       url: 'https://docs.google.com/document/d/10_apegzh_Z805RXQn4oZeJzsFoj5mYtLc3gXNScknrA/edit?tab=t.0',
     },
+    relatedConcepts: ['sfcpq-opp-lifecycle', 'sfcpq-ownership'],
+    relatedCategory: 'Opportunities',
+    relatedTickets: ['locked-opportunity-edit'],
   },
 ];

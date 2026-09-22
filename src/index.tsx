@@ -81,6 +81,13 @@ export default function BusinessSupportOnboardingDeck() {
     setView('sfcpq');
   };
 
+  const goToPolicySlide = (slideId: string) => {
+    const index = policySlides.findIndex((slide) => slide.id === slideId);
+    if (index === -1) return;
+    setSlideIndex(index);
+    setView('policies');
+  };
+
   const conceptSlidesForTicket = (ticketId: string, category: string) =>
     salesforceCpqSlides.filter(
       (slide) =>
@@ -225,6 +232,52 @@ export default function BusinessSupportOnboardingDeck() {
           >
             {currentSlide.link.label}
           </a>
+        )}
+        {currentSlide.relatedPolicies && currentSlide.relatedPolicies.length > 0 && (
+          <div className={styles.relatedBox}>
+            <Text ellipsis={false} type="text2" weight="bold">
+              📜 Related policies in Deck 4
+            </Text>
+            <div className={styles.relatedLinks}>
+              {currentSlide.relatedPolicies.map((policyId) => {
+                const policy = policySlides.find((entry) => entry.id === policyId);
+                if (!policy) return null;
+                return (
+                  <button
+                    key={policyId}
+                    type="button"
+                    className={styles.relatedLink}
+                    onClick={() => goToPolicySlide(policy.id)}
+                  >
+                    {policy.title} →
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        {currentSlide.relatedConcepts && currentSlide.relatedConcepts.length > 0 && (
+          <div className={styles.relatedBox}>
+            <Text ellipsis={false} type="text2" weight="bold">
+              📚 Learn the concepts in Deck 3
+            </Text>
+            <div className={styles.relatedLinks}>
+              {currentSlide.relatedConcepts.map((conceptId) => {
+                const concept = salesforceCpqSlides.find((entry) => entry.id === conceptId);
+                if (!concept) return null;
+                return (
+                  <button
+                    key={conceptId}
+                    type="button"
+                    className={styles.relatedLink}
+                    onClick={() => goToConceptSlide(concept.id)}
+                  >
+                    {concept.title} →
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         )}
         {currentSlide.relatedCategory && (
           <div className={styles.relatedBox}>

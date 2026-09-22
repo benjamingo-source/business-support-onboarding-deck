@@ -9,6 +9,10 @@ export type OverviewSlide = {
   relatedTickets?: string[];
   /** External link (e.g. the full policy doc) shown as a button under the bullets. */
   link?: { label: string; url: string };
+  /** Deck 4 policy slide ids this slide relates to — renders "Related policies" chips. */
+  relatedPolicies?: string[];
+  /** Deck 3 concept slide ids this slide relates to — renders "Learn the concepts" chips. */
+  relatedConcepts?: string[];
 };
 
 export const overviewSlides: OverviewSlide[] = [

@@ -55,10 +55,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
-    link: {
-      label: 'Read the Day 5 Cutoff Policy →',
-      url: 'https://docs.google.com/document/d/10_apegzh_Z805RXQn4oZeJzsFoj5mYtLc3gXNScknrA/edit?tab=t.0',
-    },
+    relatedPolicies: ['policy-day-5-cutoff'],
   },
 
   {
@@ -75,6 +72,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['change-account-owner', 'expansion-opp-not-owner'],
+    relatedPolicies: ['policy-day-5-cutoff'],
   },
 
   // ───────────────────────── Renewals & ARR ─────────────────────────
