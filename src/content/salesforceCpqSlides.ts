@@ -50,10 +50,15 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🔒 Closed Won opps **lock on the 5th of the month after close** — closed in July, editable until August 5th. After that the SO can\'t be edited directly.',
       '🩹 A **Correction Opportunity** is a $0-ARR opp created from the **Post-Won Wizard** to fix invoicing details on a locked deal. Three use cases only: change Billing Entity, change Company Name, change SO Signer.',
       '📝 The rep clones the quote, gets it re-signed, uploads the signed SO, then closes the correction opp. Finance Billing is looped in for "Bill-to" changes.',
+      '🛠️ Business Support edits a Locked opp **only for a genuine technical bug** (broken SF↔BB sync, CPQ defect, automation error) — never for re-pricing, stage/owner moves, or late corrections, even if our permissions allow it. Those go through a Correction Opp or Opt-out.',
       '📍 Where to look: the stage bar at the top of the opp; the Post-Won Wizard and "Create Correction Opportunity" button appear once the opp is Closed Won.',
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['locked-opportunity-edit'],
+    link: {
+      label: 'Read the Day 5 Cutoff Policy →',
+      url: 'https://docs.google.com/document/d/10_apegzh_Z805RXQn4oZeJzsFoj5mYtLc3gXNScknrA/edit?tab=t.0',
+    },
   },
 
   {
@@ -64,6 +69,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '🏢 Who owns where: AMs and Outbound AEs typically own at the Company level; AEs, Scale AMs, and Partners manage at the monday Account level.',
       '🚧 Why it matters: only the account owner can create opportunities on an account — "I can\'t create an opp" is often an ownership question in disguise.',
       '🔀 **Business Support no longer processes ownership changes — RevOps owns these tickets.** If one lands with us, confirm it\'s truly an ownership request (not a contract Account Name issue) and route it to RevOps.',
+      '🚫 Policy rule R7: **ownership changes on a Closed Won opportunity are never allowed** — under any circumstance, path, timing, or approver (Day 5 Cutoff Policy).',
       '🧠 Still worth understanding: when RevOps changes the Company Owner, it trickles down to every monday Account under that Company — which is why a rep can suddenly create opps everywhere on that account.',
       '📍 Where to look: Account Owner field on the Company; Account Hierarchy to see who owns each level.',
     ],
