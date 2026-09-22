@@ -11,6 +11,13 @@ import { overviewSlides } from './content/overviewSlides';
 import { draftSlides } from './content/draftSlides';
 import { salesforceCpqSlides } from './content/salesforceCpqSlides';
 import { policySlides } from './content/policySlides';
+import {
+  enablementVideos,
+  videosForConcept,
+  videosForTicket,
+  VIDEO_LIBRARY_SLIDE_ID,
+  type EnablementVideo,
+} from './content/videos';
 import { ticketPlaybook } from './content/ticketPlaybook';
 
 type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'policies' | 'drafts';
@@ -207,6 +214,35 @@ export default function BusinessSupportOnboardingDeck() {
 
   const nextSlide = activeSlides[slideIndex + 1];
 
+  const renderVideoCards = (videos: EnablementVideo[], heading: string) => (
+    <div className={styles.videoBox}>
+      <Text ellipsis={false} type="text2" weight="bold">
+        {heading}
+      </Text>
+      <div className={styles.videoGrid}>
+        {videos.map((video) => (
+          <div key={video.id} className={styles.videoCard}>
+            <div className={styles.videoMeta}>
+              <span>{video.category}</span>
+              {video.minutes ? <span>⏱ {video.minutes} min</span> : null}
+            </div>
+            <Text ellipsis={false} type="text1" className={styles.videoTitle}>
+              {video.title}
+            </Text>
+            <a
+              href={video.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.videoButton}
+            >
+              ▶ Watch on Monday.all
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   const selectPolicyKind = (kind: 'policy' | 'process' | null) => {
     setPolicyKind(kind);
     setSlideIndex(0);
@@ -264,6 +300,19 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.image && (
           <img src={currentSlide.image} alt={currentSlide.title} className={styles.slideImage} />
         )}
+        {currentSlide.id === VIDEO_LIBRARY_SLIDE_ID &&
+          (enablementVideos.length > 0 ? (
+            renderVideoCards(enablementVideos, `${enablementVideos.length} videos`)
+          ) : (
+            <div className={styles.videoEmpty}>
+              <Text ellipsis={false} type="text2">
+                Videos are being added — use the folder link below in the meantime.
+              </Text>
+            </div>
+          ))}
+        {currentSlide.id !== VIDEO_LIBRARY_SLIDE_ID &&
+          videosForConcept(currentSlide.id).length > 0 &&
+          renderVideoCards(videosForConcept(currentSlide.id), '🎬 Watch it in action')}
         {currentSlide.link && (
           <a
             href={currentSlide.link.url}
@@ -489,6 +538,8 @@ export default function BusinessSupportOnboardingDeck() {
                         />
                       ))}
                     </div>
+                    {videosForTicket(ticket.id).length > 0 &&
+                      renderVideoCards(videosForTicket(ticket.id), '🎬 Watch it in action')}
                     {conceptSlidesForTicket(ticket.id, ticket.category).length > 0 && (
                       <div className={styles.relatedBox}>
                         <Text ellipsis={false} type="text2" weight="bold">

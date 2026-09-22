@@ -279,4 +279,18 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedPolicies: ['process-cancel-on-closed-lost'],
   },
+
+  // ───────────────────────── Videos ─────────────────────────
+  {
+    id: 'sfcpq-video-library',
+    title: '🎬 CPQ enablement video library',
+    bullets: [
+      '📺 Short walkthroughs from the CRO CPQ Enablement collection on Monday.all. Watch them in order during your first week — they show the clicks behind the concepts in this deck.',
+      '🔗 Each video is also linked from the slide or ticket it explains, so you can jump to the right one when a ticket lands.',
+    ],
+    link: {
+      label: 'Open the full folder on Monday.all →',
+      url: 'https://mondayall.com/collection-viewer?collection=Escn4LouIbPDx3L4EKZX&folder=cro-cpq-enablement-1EVM5r',
+    },
+  },
 ];
