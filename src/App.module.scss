@@ -55,7 +55,11 @@
     transform: translateY(-2px);
   }
 
-  &:nth-child(2) {
+  &:nth-child(3n + 2) {
+    border-top-color: #ffcb00;
+  }
+
+  &:nth-child(3n + 3) {
     border-top-color: #00c875;
   }
 }
