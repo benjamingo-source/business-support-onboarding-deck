@@ -28,7 +28,7 @@ export const draftSlides: OverviewSlide[] = [
     id: 'draft-where-to-find-answers',
     title: '[DRAFT] Where to find answers',
     bullets: [
-      'This playbook (Deck 2) — common tickets with step-by-step resolutions.',
+      'This playbook (Deck 3) — common tickets with step-by-step resolutions.',
       'Monday.all — process and policy articles; search before asking.',
       'BizLounge routing doc — who to tag for approvals (RevOps business partners, managers).',
       'Status Page board — known bugs and missing features already reported.',

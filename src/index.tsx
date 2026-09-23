@@ -136,8 +136,8 @@ export default function BusinessSupportOnboardingDeck() {
         Business Support Onboarding
       </Heading>
       <Text ellipsis={false} type="text1" color="secondary">
-        Choose a deck to get started. Deck 1 covers the monday.com overview; Deck 2 is the ticketing
-        playbook for common Sales rep requests.
+        Choose a deck to get started. Deck 1 covers the monday.com overview; Deck 2 explains Salesforce & CPQ;
+        Deck 3 is the ticketing playbook for common Sales rep requests.
       </Text>
 
       <div className={styles.deckGrid}>
@@ -164,26 +164,6 @@ export default function BusinessSupportOnboardingDeck() {
         <button
           type="button"
           className={styles.deckCard}
-          onClick={() => setView('playbook')}
-          aria-label="Open ticketing playbook deck"
-        >
-          <div className={styles.deckIcon}>
-            <Doc />
-          </div>
-          <Heading type="h2" weight="medium">
-            Deck 2 — Ticketing Playbook
-          </Heading>
-          <Text ellipsis={false} type="text2" color="secondary">
-            Common tickets from Sales reps: issue, error message, reason, and step-by-step resolution.
-          </Text>
-          <Text ellipsis={false} type="text2" color="secondary">
-            {ticketPlaybook.length} playbook entries
-          </Text>
-        </button>
-
-        <button
-          type="button"
-          className={styles.deckCard}
           onClick={() => setView('sfcpq')}
           aria-label="Open Salesforce and CPQ deck"
         >
@@ -191,13 +171,33 @@ export default function BusinessSupportOnboardingDeck() {
             <Doc />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 3 — Salesforce &amp; CPQ
+            Deck 2 — Salesforce &amp; CPQ
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
             The deal path end to end: opportunity, quote, approvals, Sales Order, Closed Won, and activation.
           </Text>
           <Text ellipsis={false} type="text2" color="secondary">
             {salesforceCpqSlides.length} slides
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('playbook')}
+          aria-label="Open ticketing playbook deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 3 — Ticketing Playbook
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            Common tickets from Sales reps: issue, error message, reason, and step-by-step resolution.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {ticketPlaybook.length} playbook entries
           </Text>
         </button>
 
@@ -274,7 +274,7 @@ export default function BusinessSupportOnboardingDeck() {
             Deck 7 — Advanced Ticketing Playbook
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
-            Multi-system, multi-step tickets to tackle once the basics in Deck 2 feel comfortable.
+            Multi-system, multi-step tickets to tackle once the basics in Deck 3 feel comfortable.
           </Text>
           <Text ellipsis={false} type="text2" color="secondary">
             {advancedPlaybook.length} playbook entries
@@ -391,7 +391,7 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.relatedConcepts && currentSlide.relatedConcepts.length > 0 && (
           <div className={styles.relatedBox}>
             <Text ellipsis={false} type="text2" weight="bold">
-              📚 Learn the concepts in Deck 3
+              📚 Learn the concepts in Deck 2
             </Text>
             <div className={styles.relatedLinks}>
               {currentSlide.relatedConcepts.map((conceptId) => {
@@ -414,7 +414,7 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.relatedCategory && (
           <div className={styles.relatedBox}>
             <Text ellipsis={false} type="text2" weight="bold">
-              🎫 Related tickets in Deck 2
+              🎫 Related tickets in Deck 3
             </Text>
             <div className={styles.relatedLinks}>
               <button
@@ -513,7 +513,7 @@ export default function BusinessSupportOnboardingDeck() {
         <div className={styles.emptyState}>
           <Text ellipsis={false} type="text1">
             {activeTickets.length === 0
-              ? 'Advanced tickets are being added — start with Deck 2 in the meantime.'
+              ? 'Advanced tickets are being added — start with Deck 3 in the meantime.'
               : 'No tickets match your search. Try a different keyword.'}
           </Text>
         </div>
@@ -589,7 +589,7 @@ export default function BusinessSupportOnboardingDeck() {
                     {conceptSlidesForTicket(ticket.id, ticket.category).length > 0 && (
                       <div className={styles.relatedBox}>
                         <Text ellipsis={false} type="text2" weight="bold">
-                          📚 Learn the concepts in Deck 3
+                          📚 Learn the concepts in Deck 2
                         </Text>
                         <div className={styles.relatedLinks}>
                           {conceptSlidesForTicket(ticket.id, ticket.category).map((slide) => (
@@ -619,9 +619,9 @@ export default function BusinessSupportOnboardingDeck() {
     view === 'overview'
       ? 'Deck 1 — monday.com Overview'
       : view === 'playbook'
-        ? 'Deck 2 — Ticketing Playbook'
+        ? 'Deck 3 — Ticketing Playbook'
         : view === 'sfcpq'
-          ? 'Deck 3 — Salesforce & CPQ'
+          ? 'Deck 2 — Salesforce & CPQ'
           : view === 'policies'
             ? 'Deck 4 — Policies'
             : view === 'escalations'
