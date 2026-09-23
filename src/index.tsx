@@ -20,7 +20,10 @@ import {
 } from './content/videos';
 import { ticketPlaybook } from './content/ticketPlaybook';
 
-type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'policies' | 'drafts';
+type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'policies' | 'processes' | 'drafts';
+
+const policyOnlySlides = policySlides.filter((slide) => slide.kind !== 'process');
+const processOnlySlides = policySlides.filter((slide) => slide.kind === 'process');
 
 const renderRichText = (text: string) =>
   text.split(/(\*\*[^*]+\*\*)/g).map((part, index) =>
@@ -37,14 +40,6 @@ export default function BusinessSupportOnboardingDeck() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedTicketId, setExpandedTicketId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [policyKind, setPolicyKind] = useState<'policy' | 'process' | null>(null);
-
-  const visiblePolicySlides = useMemo(
-    () => (policyKind ? policySlides.filter((slide) => slide.kind === policyKind) : policySlides),
-    [policyKind],
-  );
-  const policyCount = policySlides.filter((slide) => slide.kind === 'policy').length;
-  const processCount = policySlides.filter((slide) => slide.kind === 'process').length;
 
   const categories = useMemo(
     () => Array.from(new Set(ticketPlaybook.map((ticket) => ticket.category))),
@@ -77,8 +72,10 @@ export default function BusinessSupportOnboardingDeck() {
       : view === 'sfcpq'
         ? salesforceCpqSlides
         : view === 'policies'
-          ? visiblePolicySlides
-          : overviewSlides;
+          ? policyOnlySlides
+          : view === 'processes'
+            ? processOnlySlides
+            : overviewSlides;
   const currentSlide = activeSlides[slideIndex];
 
   const goHome = () => {
@@ -87,7 +84,6 @@ export default function BusinessSupportOnboardingDeck() {
     setSearchQuery('');
     setExpandedTicketId(null);
     setSelectedCategory(null);
-    setPolicyKind(null);
   };
 
   const goToConceptSlide = (slideId: string) => {
@@ -98,11 +94,12 @@ export default function BusinessSupportOnboardingDeck() {
   };
 
   const goToPolicySlide = (slideId: string) => {
-    const index = policySlides.findIndex((slide) => slide.id === slideId);
-    if (index === -1) return;
-    setPolicyKind(null);
-    setSlideIndex(index);
-    setView('policies');
+    const target = policySlides.find((slide) => slide.id === slideId);
+    if (!target) return;
+    const isProcess = target.kind === 'process';
+    const list = isProcess ? processOnlySlides : policyOnlySlides;
+    setSlideIndex(list.findIndex((slide) => slide.id === slideId));
+    setView(isProcess ? 'processes' : 'policies');
   };
 
   const conceptSlidesForTicket = (ticketId: string, category: string) =>
@@ -193,19 +190,39 @@ export default function BusinessSupportOnboardingDeck() {
           type="button"
           className={styles.deckCard}
           onClick={() => setView('policies')}
-          aria-label="Open policies and processes deck"
+          aria-label="Open policies deck"
         >
           <div className={styles.deckIcon}>
             <Doc />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 4 — Policies & Processes
+            Deck 4 — Policies
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
-            Short overviews of the policies and step-by-step processes Business Support applies every day, each with a link to the full document.
+            Short overviews of the policies Business Support applies every day, each with a link to the full document.
           </Text>
           <Text ellipsis={false} type="text2" color="secondary">
-            {policyCount} policies · {processCount} processes
+            {policyOnlySlides.length} policies
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('processes')}
+          aria-label="Open processes deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 5 — Processes
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            Step-by-step runbooks and system flows you will follow on real tickets, each with a link to the source document.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {processOnlySlides.length} processes
           </Text>
         </button>
       </div>
@@ -243,39 +260,8 @@ export default function BusinessSupportOnboardingDeck() {
     </div>
   );
 
-  const selectPolicyKind = (kind: 'policy' | 'process' | null) => {
-    setPolicyKind(kind);
-    setSlideIndex(0);
-  };
-
   const renderOverview = () => (
     <div className={styles.content}>
-      {view === 'policies' && (
-        <div className={styles.categoryChips}>
-          <button
-            type="button"
-            className={policyKind === null ? styles.chipActive : styles.chip}
-            onClick={() => selectPolicyKind(null)}
-          >
-            All ({policySlides.length})
-          </button>
-          <button
-            type="button"
-            className={policyKind === 'policy' ? styles.chipActive : styles.chip}
-            onClick={() => selectPolicyKind(policyKind === 'policy' ? null : 'policy')}
-          >
-            📜 Policies ({policyCount})
-          </button>
-          <button
-            type="button"
-            className={policyKind === 'process' ? styles.chipActive : styles.chip}
-            onClick={() => selectPolicyKind(policyKind === 'process' ? null : 'process')}
-          >
-            🔁 Processes ({processCount})
-          </button>
-        </div>
-      )}
-
       <div className={styles.progressTrack}>
         <div
           className={styles.progressFill}
@@ -326,7 +312,7 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.relatedPolicies && currentSlide.relatedPolicies.length > 0 && (
           <div className={styles.relatedBox}>
             <Text ellipsis={false} type="text2" weight="bold">
-              📜 Related policies & processes in Deck 4
+              📜 Related policies (Deck 4) & processes (Deck 5)
             </Text>
             <div className={styles.relatedLinks}>
               {currentSlide.relatedPolicies.map((policyId) => {
@@ -339,7 +325,7 @@ export default function BusinessSupportOnboardingDeck() {
                     className={styles.relatedLink}
                     onClick={() => goToPolicySlide(policy.id)}
                   >
-                    {policy.title} →
+                    {policy.kind === 'process' ? '🔁' : '📜'} {policy.title} →
                   </button>
                 );
               })}
@@ -577,8 +563,10 @@ export default function BusinessSupportOnboardingDeck() {
         : view === 'sfcpq'
           ? 'Deck 3 — Salesforce & CPQ'
           : view === 'policies'
-            ? 'Deck 4 — Policies & Processes'
-            : view === 'drafts'
+            ? 'Deck 4 — Policies'
+            : view === 'processes'
+              ? 'Deck 5 — Processes'
+              : view === 'drafts'
               ? 'Draft Ideas (WIP)'
               : 'Business Support Onboarding';
 
@@ -603,7 +591,11 @@ export default function BusinessSupportOnboardingDeck() {
       </header>
 
       {view === 'home' && renderHome()}
-      {(view === 'overview' || view === 'sfcpq' || view === 'policies' || view === 'drafts') &&
+      {(view === 'overview' ||
+        view === 'sfcpq' ||
+        view === 'policies' ||
+        view === 'processes' ||
+        view === 'drafts') &&
         renderOverview()}
       {view === 'playbook' && renderPlaybook()}
     </div>
