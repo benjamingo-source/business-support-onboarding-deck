@@ -224,6 +224,26 @@ export default function BusinessSupportOnboardingDeck() {
         <button
           type="button"
           className={styles.deckCard}
+          onClick={() => setView('processes')}
+          aria-label="Open processes deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 5 — Processes
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            Step-by-step runbooks and system flows you will follow on real tickets, each with a link to the source document.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {processOnlySlides.length} processes
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
           onClick={() => setView('escalations')}
           aria-label="Open escalation paths deck"
         >
@@ -231,7 +251,7 @@ export default function BusinessSupportOnboardingDeck() {
             <Doc />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 5 — Escalation Paths
+            Deck 6 — Escalation Paths
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
             Who owns what beyond Business Support, when to hand off, and what to attach so they can act.
@@ -251,7 +271,7 @@ export default function BusinessSupportOnboardingDeck() {
             <Doc />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 6 — Advanced Ticketing Playbook
+            Deck 7 — Advanced Ticketing Playbook
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
             Multi-system, multi-step tickets to tackle once the basics in Deck 2 feel comfortable.
@@ -261,25 +281,6 @@ export default function BusinessSupportOnboardingDeck() {
           </Text>
         </button>
 
-        <button
-          type="button"
-          className={styles.deckCard}
-          onClick={() => setView('processes')}
-          aria-label="Open processes deck"
-        >
-          <div className={styles.deckIcon}>
-            <Doc />
-          </div>
-          <Heading type="h2" weight="medium">
-            Deck 7 — Processes
-          </Heading>
-          <Text ellipsis={false} type="text2" color="secondary">
-            Step-by-step runbooks and system flows you will follow on real tickets, each with a link to the source document.
-          </Text>
-          <Text ellipsis={false} type="text2" color="secondary">
-            {processOnlySlides.length} processes
-          </Text>
-        </button>
       </div>
     </div>
   );
@@ -367,7 +368,7 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.relatedPolicies && currentSlide.relatedPolicies.length > 0 && (
           <div className={styles.relatedBox}>
             <Text ellipsis={false} type="text2" weight="bold">
-              📜 Related policies (Deck 4) & processes (Deck 7)
+              📜 Related policies (Deck 4) & processes (Deck 5)
             </Text>
             <div className={styles.relatedLinks}>
               {currentSlide.relatedPolicies.map((policyId) => {
@@ -624,11 +625,11 @@ export default function BusinessSupportOnboardingDeck() {
           : view === 'policies'
             ? 'Deck 4 — Policies'
             : view === 'escalations'
-              ? 'Deck 5 — Escalation Paths'
+              ? 'Deck 6 — Escalation Paths'
               : view === 'advanced'
-                ? 'Deck 6 — Advanced Ticketing Playbook'
+                ? 'Deck 7 — Advanced Ticketing Playbook'
                 : view === 'processes'
-                  ? 'Deck 7 — Processes'
+                  ? 'Deck 5 — Processes'
                   : view === 'drafts'
                     ? 'Draft Ideas (WIP)'
                     : 'Business Support Onboarding';
