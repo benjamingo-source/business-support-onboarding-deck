@@ -19,8 +19,19 @@ import {
   type EnablementVideo,
 } from './content/videos';
 import { ticketPlaybook } from './content/ticketPlaybook';
+import { advancedPlaybook } from './content/advancedPlaybook';
+import { escalationSlides } from './content/escalationSlides';
 
-type View = 'home' | 'overview' | 'playbook' | 'sfcpq' | 'policies' | 'processes' | 'drafts';
+type View =
+  | 'home'
+  | 'overview'
+  | 'playbook'
+  | 'sfcpq'
+  | 'policies'
+  | 'escalations'
+  | 'advanced'
+  | 'processes'
+  | 'drafts';
 
 const policyOnlySlides = policySlides.filter((slide) => slide.kind !== 'process');
 const processOnlySlides = policySlides.filter((slide) => slide.kind === 'process');
@@ -41,15 +52,17 @@ export default function BusinessSupportOnboardingDeck() {
   const [expandedTicketId, setExpandedTicketId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
+  const activeTickets = view === 'advanced' ? advancedPlaybook : ticketPlaybook;
+
   const categories = useMemo(
-    () => Array.from(new Set(ticketPlaybook.map((ticket) => ticket.category))),
-    [],
+    () => Array.from(new Set(activeTickets.map((ticket) => ticket.category))),
+    [activeTickets],
   );
 
   const filteredTickets = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
-    return ticketPlaybook.filter((ticket) => {
+    return activeTickets.filter((ticket) => {
       if (selectedCategory && ticket.category !== selectedCategory) return false;
       if (!query) return true;
 
@@ -64,7 +77,7 @@ export default function BusinessSupportOnboardingDeck() {
         .toLowerCase();
       return haystack.includes(query);
     });
-  }, [searchQuery, selectedCategory]);
+  }, [activeTickets, searchQuery, selectedCategory]);
 
   const activeSlides =
     view === 'drafts'
@@ -73,9 +86,11 @@ export default function BusinessSupportOnboardingDeck() {
         ? salesforceCpqSlides
         : view === 'policies'
           ? policyOnlySlides
-          : view === 'processes'
-            ? processOnlySlides
-            : overviewSlides;
+          : view === 'escalations'
+            ? escalationSlides
+            : view === 'processes'
+              ? processOnlySlides
+              : overviewSlides;
   const currentSlide = activeSlides[slideIndex];
 
   const goHome = () => {
@@ -209,6 +224,46 @@ export default function BusinessSupportOnboardingDeck() {
         <button
           type="button"
           className={styles.deckCard}
+          onClick={() => setView('escalations')}
+          aria-label="Open escalation paths deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 5 — Escalation Paths
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            Who owns what beyond Business Support, when to hand off, and what to attach so they can act.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {escalationSlides.length} slides
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
+          onClick={() => setView('advanced')}
+          aria-label="Open advanced ticketing playbook deck"
+        >
+          <div className={styles.deckIcon}>
+            <Doc />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 6 — Advanced Ticketing Playbook
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            Multi-system, multi-step tickets to tackle once the basics in Deck 2 feel comfortable.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {advancedPlaybook.length} playbook entries
+          </Text>
+        </button>
+
+        <button
+          type="button"
+          className={styles.deckCard}
           onClick={() => setView('processes')}
           aria-label="Open processes deck"
         >
@@ -216,7 +271,7 @@ export default function BusinessSupportOnboardingDeck() {
             <Doc />
           </div>
           <Heading type="h2" weight="medium">
-            Deck 5 — Processes
+            Deck 7 — Processes
           </Heading>
           <Text ellipsis={false} type="text2" color="secondary">
             Step-by-step runbooks and system flows you will follow on real tickets, each with a link to the source document.
@@ -312,7 +367,7 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.relatedPolicies && currentSlide.relatedPolicies.length > 0 && (
           <div className={styles.relatedBox}>
             <Text ellipsis={false} type="text2" weight="bold">
-              📜 Related policies (Deck 4) & processes (Deck 5)
+              📜 Related policies (Deck 4) & processes (Deck 7)
             </Text>
             <div className={styles.relatedLinks}>
               {currentSlide.relatedPolicies.map((policyId) => {
@@ -434,10 +489,10 @@ export default function BusinessSupportOnboardingDeck() {
           className={selectedCategory === null ? styles.chipActive : styles.chip}
           onClick={() => setSelectedCategory(null)}
         >
-          All ({ticketPlaybook.length})
+          All ({activeTickets.length})
         </button>
         {categories.map((category) => {
-          const count = ticketPlaybook.filter((ticket) => ticket.category === category).length;
+          const count = activeTickets.filter((ticket) => ticket.category === category).length;
           return (
             <button
               key={category}
@@ -455,7 +510,11 @@ export default function BusinessSupportOnboardingDeck() {
 
       {filteredTickets.length === 0 ? (
         <div className={styles.emptyState}>
-          <Text ellipsis={false} type="text1">No tickets match your search. Try a different keyword.</Text>
+          <Text ellipsis={false} type="text1">
+            {activeTickets.length === 0
+              ? 'Advanced tickets are being added — start with Deck 2 in the meantime.'
+              : 'No tickets match your search. Try a different keyword.'}
+          </Text>
         </div>
       ) : (
         <div className={styles.ticketList}>
@@ -564,11 +623,15 @@ export default function BusinessSupportOnboardingDeck() {
           ? 'Deck 3 — Salesforce & CPQ'
           : view === 'policies'
             ? 'Deck 4 — Policies'
-            : view === 'processes'
-              ? 'Deck 5 — Processes'
-              : view === 'drafts'
-              ? 'Draft Ideas (WIP)'
-              : 'Business Support Onboarding';
+            : view === 'escalations'
+              ? 'Deck 5 — Escalation Paths'
+              : view === 'advanced'
+                ? 'Deck 6 — Advanced Ticketing Playbook'
+                : view === 'processes'
+                  ? 'Deck 7 — Processes'
+                  : view === 'drafts'
+                    ? 'Draft Ideas (WIP)'
+                    : 'Business Support Onboarding';
 
   return (
     <div className={styles.root}>
@@ -594,10 +657,11 @@ export default function BusinessSupportOnboardingDeck() {
       {(view === 'overview' ||
         view === 'sfcpq' ||
         view === 'policies' ||
+        view === 'escalations' ||
         view === 'processes' ||
         view === 'drafts') &&
         renderOverview()}
-      {view === 'playbook' && renderPlaybook()}
+      {(view === 'playbook' || view === 'advanced') && renderPlaybook()}
     </div>
   );
 }
