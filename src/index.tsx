@@ -385,7 +385,7 @@ export default function BusinessSupportOnboardingDeck() {
                   <span className={styles.outlineNumber}>
                     {state === 'done' ? '✓' : index + 1}
                   </span>
-                  <span className={styles.outlineTitle}>{slide.title}</span>
+                  <span className={styles.outlineTitle}>{slide.title.split(' — ')[0]}</span>
                 </button>
               </li>
             );
