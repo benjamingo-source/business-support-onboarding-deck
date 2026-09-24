@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Heading, Search, Text } from '@vibe/core';
 import {
   Doc,
@@ -32,6 +32,18 @@ type View =
   | 'advanced'
   | 'processes'
   | 'drafts';
+
+const DECKS: { view: View; label: string }[] = [
+  { view: 'overview', label: '1 · Overview' },
+  { view: 'sfcpq', label: '2 · Salesforce & CPQ' },
+  { view: 'playbook', label: '3 · Ticketing Playbook' },
+  { view: 'policies', label: '4 · Policies' },
+  { view: 'processes', label: '5 · Processes' },
+  { view: 'escalations', label: '6 · Escalation Paths' },
+  { view: 'advanced', label: '7 · Advanced Playbook' },
+];
+
+const SLIDE_VIEWS: View[] = ['overview', 'sfcpq', 'policies', 'escalations', 'processes', 'drafts'];
 
 const policyOnlySlides = policySlides.filter((slide) => slide.kind !== 'process');
 const processOnlySlides = policySlides.filter((slide) => slide.kind === 'process');
@@ -93,13 +105,32 @@ export default function BusinessSupportOnboardingDeck() {
               : overviewSlides;
   const currentSlide = activeSlides[slideIndex];
 
-  const goHome = () => {
-    setView('home');
+  const openDeck = (target: View) => {
+    setView(target);
     setSlideIndex(0);
     setSearchQuery('');
     setExpandedTicketId(null);
     setSelectedCategory(null);
   };
+
+  const goHome = () => openDeck('home');
+
+  const isSlideView = SLIDE_VIEWS.includes(view);
+
+  useEffect(() => {
+    if (!isSlideView) return undefined;
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
+      if (event.key === 'ArrowRight') {
+        setSlideIndex((index) => Math.min(index + 1, activeSlides.length - 1));
+      } else if (event.key === 'ArrowLeft') {
+        setSlideIndex((index) => Math.max(index - 1, 0));
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isSlideView, activeSlides.length]);
 
   const goToConceptSlide = (slideId: string) => {
     const index = salesforceCpqSlides.findIndex((slide) => slide.id === slideId);
@@ -317,7 +348,32 @@ export default function BusinessSupportOnboardingDeck() {
   );
 
   const renderOverview = () => (
-    <div className={styles.content}>
+    <div className={`${styles.content} ${styles.slideLayout}`}>
+      <aside className={styles.slideOutline} aria-label="Slides in this deck">
+        <Text ellipsis={false} type="text2" weight="bold" className={styles.outlineHeading}>
+          Slides
+        </Text>
+        <ol className={styles.outlineList}>
+          {activeSlides.map((slide, index) => (
+            <li key={slide.id}>
+              <button
+                type="button"
+                className={index === slideIndex ? styles.outlineItemActive : styles.outlineItem}
+                onClick={() => setSlideIndex(index)}
+                aria-current={index === slideIndex ? 'true' : undefined}
+              >
+                <span className={styles.outlineNumber}>{index + 1}</span>
+                <span>{slide.title}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <Text ellipsis={false} type="text3" color="secondary" className={styles.outlineHint}>
+          Tip: use ← → on your keyboard
+        </Text>
+      </aside>
+
+      <div className={styles.slideMain}>
       <div className={styles.progressTrack}>
         <div
           className={styles.progressFill}
@@ -469,6 +525,7 @@ export default function BusinessSupportOnboardingDeck() {
         >
           Next
         </Button>
+      </div>
       </div>
     </div>
   );
@@ -653,6 +710,22 @@ export default function BusinessSupportOnboardingDeck() {
           </Button>
         )}
       </header>
+
+      {view !== 'home' && (
+        <nav className={styles.deckNav} aria-label="Decks">
+          {DECKS.map((deck) => (
+            <button
+              key={deck.view}
+              type="button"
+              className={view === deck.view ? styles.deckNavActive : styles.deckNavItem}
+              onClick={() => openDeck(deck.view)}
+              aria-current={view === deck.view ? 'page' : undefined}
+            >
+              {deck.label}
+            </button>
+          ))}
+        </nav>
+      )}
 
       {view === 'home' && renderHome()}
       {(view === 'overview' ||

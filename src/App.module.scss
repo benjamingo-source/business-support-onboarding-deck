@@ -31,6 +31,124 @@
   margin: 0 auto;
 }
 
+.deckNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+  padding: var(--spacing-small) var(--spacing-xl);
+  border-bottom: 1px solid var(--ui-border-color);
+  background-color: var(--secondary-background-color);
+}
+
+.deckNavItem,
+.deckNavActive {
+  padding: var(--spacing-xs) var(--spacing-medium);
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--primary-text-color);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--primary-background-hover-color);
+  }
+}
+
+.deckNavActive {
+  background-color: var(--primary-selected-color);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.slideLayout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--spacing-xl);
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.slideMain {
+  min-width: 0;
+}
+
+.slideOutline {
+  position: sticky;
+  top: var(--spacing-large);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--ui-border-color);
+  background-color: var(--secondary-background-color);
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+
+  @media (max-width: 900px) {
+    position: static;
+    max-height: none;
+  }
+}
+
+.outlineHeading {
+  padding: 0 var(--spacing-small);
+}
+
+.outlineList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.outlineItem,
+.outlineItemActive {
+  display: flex;
+  gap: var(--spacing-small);
+  align-items: flex-start;
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-small);
+  border: none;
+  border-radius: var(--border-radius-small);
+  background: none;
+  color: var(--primary-text-color);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-background-hover-color);
+  }
+}
+
+.outlineItemActive {
+  background-color: var(--primary-selected-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.outlineNumber {
+  flex: 0 0 22px;
+  color: var(--secondary-text-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.outlineHint {
+  padding: 0 var(--spacing-small);
+}
+
 .deckGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
