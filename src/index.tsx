@@ -350,26 +350,49 @@ export default function BusinessSupportOnboardingDeck() {
   const renderOverview = () => (
     <div className={`${styles.content} ${styles.slideLayout}`}>
       <aside className={styles.slideOutline} aria-label="Slides in this deck">
-        <Text ellipsis={false} type="text2" weight="bold" className={styles.outlineHeading}>
-          Slides
-        </Text>
+        <div className={styles.outlineHeader}>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {headerTitle}
+          </Text>
+          <Heading type="h3" weight="bold">
+            {slideIndex + 1} of {activeSlides.length}
+          </Heading>
+          <div className={styles.outlineProgress}>
+            <div
+              className={styles.outlineProgressFill}
+              style={{ width: `${((slideIndex + 1) / activeSlides.length) * 100}%` }}
+            />
+          </div>
+        </div>
         <ol className={styles.outlineList}>
-          {activeSlides.map((slide, index) => (
-            <li key={slide.id}>
-              <button
-                type="button"
-                className={index === slideIndex ? styles.outlineItemActive : styles.outlineItem}
-                onClick={() => setSlideIndex(index)}
-                aria-current={index === slideIndex ? 'true' : undefined}
-              >
-                <span className={styles.outlineNumber}>{index + 1}</span>
-                <span>{slide.title}</span>
-              </button>
-            </li>
-          ))}
+          {activeSlides.map((slide, index) => {
+            const state =
+              index === slideIndex ? 'active' : index < slideIndex ? 'done' : 'todo';
+            return (
+              <li key={slide.id}>
+                <button
+                  type="button"
+                  className={`${styles.outlineItem} ${
+                    state === 'active'
+                      ? styles.outlineItemActive
+                      : state === 'done'
+                        ? styles.outlineItemDone
+                        : ''
+                  }`}
+                  onClick={() => setSlideIndex(index)}
+                  aria-current={state === 'active' ? 'true' : undefined}
+                >
+                  <span className={styles.outlineNumber}>
+                    {state === 'done' ? '✓' : index + 1}
+                  </span>
+                  <span className={styles.outlineTitle}>{slide.title}</span>
+                </button>
+              </li>
+            );
+          })}
         </ol>
         <Text ellipsis={false} type="text3" color="secondary" className={styles.outlineHint}>
-          Tip: use ← → on your keyboard
+          ⌨️ Use ← → to move between slides
         </Text>
       </aside>
 
