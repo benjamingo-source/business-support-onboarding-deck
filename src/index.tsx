@@ -45,23 +45,6 @@ const DECKS: { view: View; label: string }[] = [
 
 const SLIDE_VIEWS: View[] = ['overview', 'sfcpq', 'policies', 'escalations', 'processes', 'drafts'];
 
-/** Where "Suggest an edit" goes. Swap for a form link later if you prefer. */
-const SUGGEST_EDIT_EMAIL = 'benjamingo@monday.com';
-
-const suggestEditLink = (where: string, item: string) => {
-  const subject = `Onboarding deck edit: ${where} — ${item}`;
-  const body = [
-    `Deck / section: ${where}`,
-    `Slide or ticket: ${item}`,
-    '',
-    'What is wrong or missing:',
-    '',
-    '',
-    'What it should say instead:',
-    '',
-  ].join('\n');
-  return `mailto:${SUGGEST_EDIT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-};
 
 const policyOnlySlides = policySlides.filter((slide) => slide.kind !== 'process');
 const processOnlySlides = policySlides.filter((slide) => slide.kind === 'process');
@@ -540,15 +523,6 @@ export default function BusinessSupportOnboardingDeck() {
         )}
       </div>
 
-      <div className={styles.suggestRow}>
-        <a
-          href={suggestEditLink(headerTitle, currentSlide.title)}
-          className={styles.suggestLink}
-        >
-          ✏️ Suggest an edit to this slide
-        </a>
-      </div>
-
       <div className={styles.slideNav}>
         <Button
           kind="secondary"
@@ -693,14 +667,6 @@ export default function BusinessSupportOnboardingDeck() {
                     </div>
                     {videosForTicket(ticket.id).length > 0 &&
                       renderVideoCards(videosForTicket(ticket.id), '🎬 Watch it in action')}
-                    <div className={styles.suggestRow}>
-                      <a
-                        href={suggestEditLink(headerTitle, ticket.issue)}
-                        className={styles.suggestLink}
-                      >
-                        ✏️ Suggest an edit to this ticket
-                      </a>
-                    </div>
                     {conceptSlidesForTicket(ticket.id, ticket.category).length > 0 && (
                       <div className={styles.relatedBox}>
                         <Text ellipsis={false} type="text2" weight="bold">
