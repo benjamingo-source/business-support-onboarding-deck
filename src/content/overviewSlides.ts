@@ -15,6 +15,8 @@ export type OverviewSlide = {
   relatedConcepts?: string[];
   /** Deck 4 only — drives the Policy / Process filter chips. */
   kind?: 'policy' | 'process';
+  /** Buttons that open another deck (Deck 0 roadmap). `view` matches the app's view names. */
+  deckLinks?: { label: string; view: string }[];
 };
 
 export const overviewSlides: OverviewSlide[] = [

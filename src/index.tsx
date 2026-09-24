@@ -21,9 +21,11 @@ import {
 import { ticketPlaybook } from './content/ticketPlaybook';
 import { advancedPlaybook } from './content/advancedPlaybook';
 import { escalationSlides } from './content/escalationSlides';
+import { roadmapSlides } from './content/roadmapSlides';
 
 type View =
   | 'home'
+  | 'roadmap'
   | 'overview'
   | 'playbook'
   | 'sfcpq'
@@ -34,6 +36,7 @@ type View =
   | 'drafts';
 
 const DECKS: { view: View; label: string }[] = [
+  { view: 'roadmap', label: '0 · Your 12 Weeks' },
   { view: 'overview', label: '1 · Overview' },
   { view: 'sfcpq', label: '2 · Salesforce & CPQ' },
   { view: 'playbook', label: '3 · Ticketing Playbook' },
@@ -43,7 +46,15 @@ const DECKS: { view: View; label: string }[] = [
   { view: 'advanced', label: '7 · Advanced Playbook' },
 ];
 
-const SLIDE_VIEWS: View[] = ['overview', 'sfcpq', 'policies', 'escalations', 'processes', 'drafts'];
+const SLIDE_VIEWS: View[] = [
+  'roadmap',
+  'overview',
+  'sfcpq',
+  'policies',
+  'escalations',
+  'processes',
+  'drafts',
+];
 
 
 const policyOnlySlides = policySlides.filter((slide) => slide.kind !== 'process');
@@ -95,6 +106,8 @@ export default function BusinessSupportOnboardingDeck() {
   const activeSlides =
     view === 'drafts'
       ? draftSlides
+      : view === 'roadmap'
+        ? roadmapSlides
       : view === 'sfcpq'
         ? salesforceCpqSlides
         : view === 'policies'
@@ -168,11 +181,31 @@ export default function BusinessSupportOnboardingDeck() {
         Business Support Onboarding
       </Heading>
       <Text ellipsis={false} type="text1" color="secondary">
-        Choose a deck to get started. Deck 1 covers the monday.com overview; Deck 2 explains Salesforce & CPQ;
-        Deck 3 is the ticketing playbook for common Sales rep requests.
+        New here? Start with Deck 0 for your 12-week plan. Deck 1 covers the monday.com overview,
+        Deck 2 explains Salesforce & CPQ, and Deck 3 is the ticketing playbook.
       </Text>
 
       <div className={styles.deckGrid}>
+        <button
+          type="button"
+          className={`${styles.deckCard} ${styles.deckCardRoadmap}`}
+          onClick={() => setView('roadmap')}
+          aria-label="Open your 12 weeks roadmap deck"
+        >
+          <div className={styles.deckIcon}>
+            <Wand />
+          </div>
+          <Heading type="h2" weight="medium">
+            Deck 0 — Your 12 Weeks
+          </Heading>
+          <Text ellipsis={false} type="text2" color="secondary">
+            The plan: three phases, your daily and weekly rhythm, and how this deck works with your Onboarding Tracker.
+          </Text>
+          <Text ellipsis={false} type="text2" color="secondary">
+            {roadmapSlides.length} slides · start here
+          </Text>
+        </button>
+
         <button
           type="button"
           className={styles.deckCard}
@@ -435,6 +468,25 @@ export default function BusinessSupportOnboardingDeck() {
         {currentSlide.id !== VIDEO_LIBRARY_SLIDE_ID &&
           videosForConcept(currentSlide.id).length > 0 &&
           renderVideoCards(videosForConcept(currentSlide.id), '🎬 Watch it in action')}
+        {currentSlide.deckLinks && currentSlide.deckLinks.length > 0 && (
+          <div className={styles.relatedBox}>
+            <Text ellipsis={false} type="text2" weight="bold">
+              🚀 Go to
+            </Text>
+            <div className={styles.relatedLinks}>
+              {currentSlide.deckLinks.map((deckLink) => (
+                <button
+                  key={deckLink.view}
+                  type="button"
+                  className={styles.relatedLink}
+                  onClick={() => openDeck(deckLink.view as View)}
+                >
+                  {deckLink.label} →
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         {currentSlide.link && (
           <a
             href={currentSlide.link.url}
@@ -697,7 +749,9 @@ export default function BusinessSupportOnboardingDeck() {
   );
 
   const headerTitle =
-    view === 'overview'
+    view === 'roadmap'
+      ? 'Deck 0 — Your 12 Weeks'
+      : view === 'overview'
       ? 'Deck 1 — monday.com Overview'
       : view === 'playbook'
         ? 'Deck 3 — Ticketing Playbook'
@@ -752,7 +806,8 @@ export default function BusinessSupportOnboardingDeck() {
       )}
 
       {view === 'home' && renderHome()}
-      {(view === 'overview' ||
+      {(view === 'roadmap' ||
+        view === 'overview' ||
         view === 'sfcpq' ||
         view === 'policies' ||
         view === 'escalations' ||
