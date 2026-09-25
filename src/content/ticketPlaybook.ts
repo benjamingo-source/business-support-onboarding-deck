@@ -12,6 +12,60 @@ export type PlaybookTicket = {
 
 export const ticketPlaybook: PlaybookTicket[] = [
   {
+    id: 'service-vs-expansion-opp',
+    category: 'Opportunities',
+    issue: 'Rep can\'t add seats, AI credits, or add-ons to a Service opportunity',
+    errorMessage: 'N/A — product not available in the quote, or rep asks why the SKU is missing',
+    reason:
+      'A Service opportunity exposes services only: implementation packages, tailored services, managed services. It cannot include seats, AI credits, apps, Guardian, or Premium Support. Any mixed deal has to be an Expansion opportunity.',
+    resolution: [
+      'Check the opp Type. If it is Service and the rep needs licences or add-ons, that is the cause — not a CPQ bug.',
+      'Have the rep create an Expansion opportunity for the licence/add-on part (pro-rated to the existing contract) and keep the services on the Service opp, or move everything to the Expansion opp.',
+      'Explain the rule so the next deal starts on the right opp type.',
+    ],
+  },
+  {
+    id: 'plan-enforcer-refund',
+    category: 'Billing',
+    issue: 'CC customer was auto-upgraded by Plan Enforcer and wants a refund',
+    errorMessage: 'N/A — rep forwards a customer complaint about an unexpected charge / seat upgrade',
+    reason:
+      'Plan Enforcer automatically upgrades credit-card accounts that exceed their purchased seat count. The customer is notified first, then charged. Refund eligibility depends on how long ago the charge happened.',
+    resolution: [
+      'Confirm in BigBrain that the charge came from Plan Enforcer and note the date.',
+      'Within 60 days: route to CX to revert the upgrade and issue a full refund.',
+      'After 60 days: the policy answer is no refund — explain the notification history to the rep. For very small amounts, use judgment.',
+      'Refunds are always against the invoice in BigBrain, never a line item, and only on Finance instruction if any amount is in question.',
+    ],
+  },
+  {
+    id: 'slug-change-request',
+    category: 'Billing',
+    issue: 'Customer wants a monday.com slug (subdomain) that is held by an old, inactive account',
+    errorMessage: 'N/A — "customer wants companyname.monday.com but it is taken"',
+    reason:
+      'The slug is the account subdomain and is customer-controlled. Business Support does not go into customer accounts to change it. If the slug is held by an old inactive account belonging to the same customer, they can free it themselves once that account is reachable.',
+    resolution: [
+      'Confirm the old account belongs to the same customer (BigBrain).',
+      'Reactivate the old account as a 14-day trial (admin action in BigBrain).',
+      'Share the support article on changing a slug; the customer renames the old account\'s slug themselves, then takes it on the new account.',
+      'Do not change slugs on the customer\'s behalf.',
+    ],
+  },
+  {
+    id: 'partner-cpq-region-error',
+    category: 'CPQ Errors',
+    issue: 'Partner user gets "this feature isn\'t available in your region" in CPQ',
+    errorMessage: 'This feature isn\'t available in your region',
+    reason:
+      'Misleading message. The real cause is a missing CPQ licence on the partner user, not their region. Never trust this error literally.',
+    resolution: [
+      'Open the partner user in Salesforce Setup → Users and check their licence assignments.',
+      'Assign a CPQ licence with Group A access (or ask BizTech to, if you lack the permission).',
+      'Have the partner retry; the error disappears once the licence is active.',
+    ],
+  },
+  {
     id: 'cpq-quote-error',
     category: 'Quoting',
     issue: 'Quote fails to generate in CPQ',
@@ -22,7 +76,10 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Open the opportunity and confirm price book and currency match the account.',
       'Verify all required quote fields (billing country, term, payment terms).',
       'Check product entitlements and whether the SKU is active on the price book.',
-      'Re-sync the quote; if still failing, capture the full error and escalate to CPQ admin.',
+      '"List unit price below minimum": the floor is contract ARR ÷ seats ÷ 12 — the rep is pricing below the existing contract.',
+      '"Field integrity exception" or "Total price cannot be specified when discount is 100%": a stale opportunity product line — delete the stale line and Calculate again.',
+      '"Current quantity = 0": click Calculate first; if it persists, the contract and BigBrain disagree on seats — fix the contract, not the quote.',
+      'Remember errors don\'t save: the quote is still in its pre-attempt state. If still failing after the above, capture the full error text and escalate to BizTech.',
     ],
   },
   {
@@ -213,6 +270,8 @@ export const ticketPlaybook: PlaybookTicket[] = [
       '**"Nothing to claim" (CC deals):** the CC Claim screen requires a claimable payment. Check the customer has actually paid in BigBrain and that the payment is within the rep\'s claim eligibility window. If no payment exists yet, the opp can\'t be closed Won — it\'s not a bug.',
       '**Validation fields on the first screen:** all required fields must be filled before the stage changes — walk the rep through what\'s blank.',
       '**Reseller / DMR deal with a PO but no signed SO:** use the manual-signature path with the PO as the document; if validation rejects it, use "It is the document!" **(check with team on reseller handling)**',
+      '**Quote approval status blocking the close:** if everything else checks out, open the primary quote in the Inspector and correct the **approval status field** manually, then have the rep retry.',
+      '**Legal Request outstanding:** check Legal Hub for an open request without a signed document — see the Legal Request process in Deck 5.',
       'Reminder to give the rep: **Close Date = Subscription Start Date** — make sure it\'s right before they click through.',
     ],
   },

@@ -79,7 +79,7 @@ export const escalationSlides: OverviewSlide[] = [
       '🐛 Escalate when the behaviour is a **defect, not a data problem**: a CPQ error that reproduces on a clean quote, a broken Salesforce ↔ BigBrain sync, an automation firing wrongly, a flow stamping fields it should not.',
       '🧪 Before escalating, prove it is a bug: reproduce once, note the record IDs, capture the full error text, and confirm the Inspector shows the data is correct.',
       '🔒 Editing a **Locked opp** for a technical bug is allowed only with an audited admin unlock, logged on the ticket and posted in #Post-cutoff-date.',
-      '📍 Where to send: **(check with team: BizTech vs. RevOps Salesforce admin channel, and the on-call for CPQ)**.',
+      '📍 Where to send: **BizTech** owns the systems and implements policy changes — channel **#ask-biztech** (check spelling). Known bugs to raise as urgent include the 90-day upgrade-after-downgrade window not working for CC↔Wire conversions.',
     ],
     relatedConcepts: ['sfcpq-quote-lifecycle', 'sfcpq-integrations', 'sfcpq-inspector'],
     relatedPolicies: ['policy-day-5-cutoff', 'process-quote-type-rules'],
@@ -99,6 +99,18 @@ export const escalationSlides: OverviewSlide[] = [
     relatedPolicies: ['policy-arr-recognition'],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['cant-claim-cc-payment', 'arr-split-between-reps'],
+  },
+  {
+    id: 'esc-other-teams',
+    title: '🏢 Payments, Deal Acceleration, Territory S&O, Customer Intelligence & Sales Desk',
+    bullets: [
+      '💳 **Payments (Billing Dev)** — subscription lifecycle bugs, CC payment failures, quote-calculation infrastructure. If the customer paid and BigBrain disagrees, it is usually theirs.',
+      '🚀 **Deal Acceleration** — non-standard or out-of-policy deals that need an exception. When you can\'t tell who owns something commercial, send it here.',
+      '🗺️ **Territory S&O** — account hierarchies and company structures in Salesforce (which Company sits under which Global Company).',
+      '🧠 **Customer Intelligence** — BigBrain views and customer metadata.',
+      '🤝 **Sales Desk** — the partners-only version of Business Support. Partner-only issues go there, not to us.',
+    ],
+    relatedConcepts: ['sfcpq-account-hierarchy', 'sfcpq-partners-cosell'],
   },
   {
     id: 'esc-cx',
