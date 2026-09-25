@@ -60,6 +60,40 @@ const SLIDE_VIEWS: View[] = [
 const policyOnlySlides = policySlides.filter((slide) => slide.kind !== 'process');
 const processOnlySlides = policySlides.filter((slide) => slide.kind === 'process');
 
+const slidesForView = (target: View) =>
+  target === 'drafts'
+    ? draftSlides
+    : target === 'roadmap'
+      ? roadmapSlides
+      : target === 'sfcpq'
+        ? salesforceCpqSlides
+        : target === 'policies'
+          ? policyOnlySlides
+          : target === 'escalations'
+            ? escalationSlides
+            : target === 'processes'
+              ? processOnlySlides
+              : overviewSlides;
+
+const TICKET_VIEWS: View[] = ['playbook', 'advanced'];
+
+/** Every deck, slide, and ticket has its own link: #<deck>/<id>. Journal links use these. */
+const parseHash = (): { view: View; itemId?: string } | null => {
+  const raw = window.location.hash.replace(/^#\/?/, '');
+  if (!raw) return null;
+  const [deck, itemId] = raw.split('/');
+  const known = DECKS.find((entry) => entry.view === deck);
+  if (!known) return null;
+  return { view: known.view, itemId: itemId || undefined };
+};
+
+const writeHash = (target: View, itemId?: string) => {
+  const next = target === 'home' ? '' : `#${target}${itemId ? `/${itemId}` : ''}`;
+  if (window.location.hash !== next) {
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${next}`);
+  }
+};
+
 const renderRichText = (text: string) =>
   text.split(/(\*\*[^*]+\*\*)/g).map((part, index) =>
     part.startsWith('**') && part.endsWith('**') ? (
@@ -103,21 +137,58 @@ export default function BusinessSupportOnboardingDeck() {
     });
   }, [activeTickets, searchQuery, selectedCategory]);
 
-  const activeSlides =
-    view === 'drafts'
-      ? draftSlides
-      : view === 'roadmap'
-        ? roadmapSlides
-      : view === 'sfcpq'
-        ? salesforceCpqSlides
-        : view === 'policies'
-          ? policyOnlySlides
-          : view === 'escalations'
-            ? escalationSlides
-            : view === 'processes'
-              ? processOnlySlides
-              : overviewSlides;
+  const activeSlides = slidesForView(view);
   const currentSlide = activeSlides[slideIndex];
+
+  const openFromHash = () => {
+    const parsed = parseHash();
+    if (!parsed) return;
+    setView(parsed.view);
+    setSearchQuery('');
+    if (TICKET_VIEWS.includes(parsed.view)) {
+      const list = parsed.view === 'advanced' ? advancedPlaybook : ticketPlaybook;
+      const ticket = parsed.itemId ? list.find((entry) => entry.id === parsed.itemId) : undefined;
+      setSelectedCategory(ticket ? ticket.category : null);
+      setExpandedTicketId(ticket ? ticket.id : null);
+      setSlideIndex(0);
+    } else {
+      const index = parsed.itemId
+        ? slidesForView(parsed.view).findIndex((slide) => slide.id === parsed.itemId)
+        : 0;
+      setSlideIndex(index === -1 ? 0 : index);
+      setExpandedTicketId(null);
+      setSelectedCategory(null);
+    }
+  };
+
+  useEffect(() => {
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+    return () => window.removeEventListener('hashchange', openFromHash);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (view === 'home') {
+      writeHash('home');
+    } else if (TICKET_VIEWS.includes(view)) {
+      writeHash(view, expandedTicketId ?? undefined);
+    } else {
+      writeHash(view, currentSlide?.id);
+    }
+  }, [view, currentSlide?.id, expandedTicketId]);
+
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const copyLink = (key: string) => {
+    const url = window.location.href;
+    navigator.clipboard?.writeText(url).then(
+      () => {
+        setCopiedKey(key);
+        window.setTimeout(() => setCopiedKey(null), 1600);
+      },
+      () => undefined,
+    );
+  };
 
   const openDeck = (target: View) => {
     setView(target);
@@ -439,8 +510,18 @@ export default function BusinessSupportOnboardingDeck() {
       </div>
 
       <div className={styles.slideCardDeck}>
-        <div className={styles.slideBadge}>
-          {String(slideIndex + 1).padStart(2, '0')} / {String(activeSlides.length).padStart(2, '0')}
+        <div className={styles.badgeRow}>
+          <div className={styles.slideBadge}>
+            {String(slideIndex + 1).padStart(2, '0')} / {String(activeSlides.length).padStart(2, '0')}
+          </div>
+          <button
+            type="button"
+            className={styles.copyLink}
+            onClick={() => copyLink(currentSlide.id)}
+            title="Copy a link to this slide"
+          >
+            {copiedKey === currentSlide.id ? '✓ Link copied' : '🔗 Copy link'}
+          </button>
         </div>
         <Heading type="h1" weight="bold" className={styles.slideTitle}>
           {currentSlide.title}
@@ -675,6 +756,18 @@ export default function BusinessSupportOnboardingDeck() {
                     {isExpanded ? 'Click to collapse' : 'Click to view error, reason, and resolution'}
                   </Text>
                 </button>
+                {isExpanded && (
+                  <div className={styles.badgeRow}>
+                    <button
+                      type="button"
+                      className={styles.copyLink}
+                      onClick={() => copyLink(ticket.id)}
+                      title="Copy a link to this ticket"
+                    >
+                      {copiedKey === ticket.id ? '✓ Link copied' : '🔗 Copy link'}
+                    </button>
+                  </div>
+                )}
 
                 {isExpanded && (
                   <>

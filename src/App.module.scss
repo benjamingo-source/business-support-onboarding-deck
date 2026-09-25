@@ -292,6 +292,30 @@
   overflow-wrap: break-word;
 }
 
+.badgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-small);
+}
+
+.copyLink {
+  padding: var(--spacing-xs) var(--spacing-medium);
+  border-radius: 20px;
+  border: 1px solid var(--ui-border-color);
+  background: none;
+  color: var(--secondary-text-color);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+}
+
 .slideBadge {
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-medium);
