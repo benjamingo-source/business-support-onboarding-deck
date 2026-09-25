@@ -26,6 +26,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '👀 See it yourself: open any account in Salesforce → Account Hierarchy shows the full tree.',
     ],
     image: 'https://drive.google.com/thumbnail?id=177DeCfNxX9FeJ3cNo4y05LQ73Bo6OsL5&sz=w1600',
+    relatedPolicies: ['process-contract-merge'],
   },
 
   // ───────────────────────── Opportunities ─────────────────────────
@@ -206,6 +207,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['cpq-balance-carryover'],
+    relatedPolicies: ['process-contract-merge'],
   },
 
   // ───────────────────────── Quoting ─────────────────────────
@@ -291,7 +293,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['close-won-unique-key-duplicate', 'expansion-opp-not-owner'],
-    relatedPolicies: ['policy-opt-out', 'process-quote-type-rules'],
+    relatedPolicies: ['policy-opt-out', 'process-quote-type-rules', 'process-contract-merge'],
   },
   {
     id: 'sfcpq-inspector',

@@ -154,4 +154,22 @@ export const policySlides: OverviewSlide[] = [
     relatedCategory: 'Opportunities',
     relatedTickets: ['cant-close-won'],
   },
+  {
+    kind: 'process',
+    id: 'process-contract-merge',
+    title: 'Contract Merge — consolidating several monday Accounts into one',
+    bullets: [
+      '🧩 **When it applies:** a customer with several monday Accounts wants everything in one main instance. Pre-reqs: all contracts are **yearly** (CC or Wire) with **time remaining**, each BigBrain Account is linked to a Salesforce monday Account that points at the correct **Current Contract**, and the customer agrees to migrate users and copy boards with the **cross-account copier**. Only merges done through the CPQ merge/simulation flow get the ARR-policy allocation treatment.',
+      '🛠️ **The flow:** create an Opportunity on the **main** BigBrain Account → CPQ Management → New Offer → toggle **Perform Contract Merge** → select the main contract **plus at least one other** (Simulate stays greyed out until two are picked; use "Can\'t Find My Contract" if one is missing) → Simulate → the next screen shows **Total Simulated Contract ARR** and **Simulated Contract Carryover** (all accounts\' BCO combined) → create the SO with the **total seats** for the main account (expect **multiple BCO lines**) → once signed and Closed Won it auto-activates on the main account → **cancel the other accounts**.',
+      '⚠️ **Gotchas:** with many contracts the simulation is heavy and the quote can be created before the simulated contract finishes, so **BCO lines are missing on the first attempt** — recreate the quote and they appear. A contract in a **different currency** yields a **$0 BCO**; enter the converted amount manually via Set Manual Carryover.',
+    ],
+    link: {
+      label: 'Open the cross-account copier guide →',
+      url: 'https://support.monday.com/hc/en-us/articles/360007913040-How-to-copy-boards-and-dashboards-between-accounts',
+    },
+    relatedConcepts: ['sfcpq-bco', 'sfcpq-contracts', 'sfcpq-quote-lifecycle', 'sfcpq-account-hierarchy'],
+    relatedPolicies: ['policy-arr-recognition'],
+    relatedCategory: 'CPQ Errors',
+    relatedTickets: ['cpq-balance-carryover', 'cpq-quote-not-linked-current-contract'],
+  },
 ];
