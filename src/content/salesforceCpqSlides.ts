@@ -26,7 +26,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '👀 See it yourself: open any account in Salesforce → Account Hierarchy shows the full tree.',
     ],
     image: 'https://drive.google.com/thumbnail?id=177DeCfNxX9FeJ3cNo4y05LQ73Bo6OsL5&sz=w1600',
-    relatedPolicies: ['process-contract-merge', 'policy-merge-consolidation-seats'],
+    relatedPolicies: ['process-contract-merge', 'policy-merge-consolidation-seats', 'policy-rules-of-engagement'],
   },
 
   // ───────────────────────── Opportunities ─────────────────────────
@@ -68,7 +68,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     id: 'sfcpq-ownership',
     title: 'Opportunities · Account ownership (now handled by RevOps)',
     bullets: [
-      '👤 Ownership lives in the **Account Owner** field on the Company and monday Account. Unowned accounts sit in the **Accounts Pool**.',
+      '👤 Ownership lives in the **Account Owner** field on the Company and monday Account. **Managed** = a rep owns the Company; **Unmanaged** = owned by **Accounts Pool**. Only AEs, AMs, and Territory AEs can own Companies; **partners own monday Accounts only**, never Companies.',
       '🏢 Who owns where: AMs and Outbound AEs typically own at the Company level; AEs, Scale AMs, and Partners manage at the monday Account level.',
       '🚧 Why it matters: only the account owner can create opportunities on an account — "I can\'t create an opp" is often an ownership question in disguise.',
       '🔀 **Business Support no longer processes ownership changes — RevOps owns these tickets.** If one lands with us, confirm it\'s truly an ownership request (not a contract Account Name issue) and route it to RevOps.',
@@ -78,7 +78,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Opportunities',
     relatedTickets: ['change-account-owner', 'expansion-opp-not-owner'],
-    relatedPolicies: ['policy-day-5-cutoff'],
+    relatedPolicies: ['policy-day-5-cutoff', 'policy-rules-of-engagement'],
   },
 
   {
@@ -93,7 +93,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '📍 Where to look: opp → Splits section (splits carry ARR, not the opp); the S&P Request record; partner user\'s CPQ licence (a "feature isn\'t available in your region" error is really a missing CPQ licence, Group A).',
     ],
     relatedCategory: 'Opportunities',
-    relatedPolicies: ['policy-arr-recognition'],
+    relatedPolicies: ['policy-arr-recognition', 'policy-rules-of-engagement'],
   },
 
   // ───────────────────────── Renewals & ARR ─────────────────────────

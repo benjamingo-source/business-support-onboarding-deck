@@ -120,6 +120,19 @@ export const policySlides: OverviewSlide[] = [
     relatedTickets: ['account-consolidation-request', 'seat-allocation-request', 'cpq-balance-carryover'],
   },
   {
+    kind: 'policy',
+    id: 'policy-rules-of-engagement',
+    title: 'CRO Global Rules of Engagement — who owns an account and what that means',
+    bullets: [
+      '🏢 **Ownership lives at the Company level**, never on the monday Account alone. Two ownership states: **Managed** (an AE, AM, or Territory AE owns the Company) or **Unmanaged** (owned by **Accounts Pool**). SMB/MM have one Global Company owned by Global HQ country; Enterprise adds Regional (and sometimes Sub-Regional) companies with an owner per region. **Partners never own Companies** — only monday Accounts; if partners hold every monday Account, the Company owner is Accounts Pool. When a Company changes owner, **every monday Account underneath moves with it, except partner-owned ones** — which is why one RevOps change suddenly lets a rep create opps everywhere.',
+      '🎫 **What reaches us:** AMs may **not sync a new monday Account to Salesforce** without Territory S&O approval (their retention target is re-evaluated) — they open a Business Lounge ticket; AEs and Territory AEs may sync only if they already manage the Company. Books change only through **yearly rebalancing** or approved mid-year changes (RevOps owns ownership tickets, never us). Before a rep prospects an account they weren\'t assigned, they must run the **ownership validation**: check the owner indicator, walk the Account Hierarchy (non-Enterprise: any owned account in the branch = prohibited; Enterprise: regional only if no regional owner and not globally owned), and search both Salesforce and BigBrain for duplicates. **CX ↔ Sales routing on touch accounts:** any AI request → Account Owner; CC billing → CX, Wire billing → Sales; mid-contract downgrade/cancel → CX declines; within 90 days of renewal → retention-measured owner (AM / Territory AE / RM / CPM), otherwise CX; partner-owned → CPM (~48h SLA).',
+    ],
+    relatedConcepts: ['sfcpq-ownership', 'sfcpq-account-hierarchy', 'sfcpq-partners-cosell', 'sfcpq-integrations'],
+    relatedPolicies: ['policy-day-5-cutoff', 'policy-merge-consolidation-seats'],
+    relatedCategory: 'Opportunities',
+    relatedTickets: ['change-account-owner', 'expansion-opp-not-owner'],
+  },
+  {
     kind: 'process',
     id: 'process-quote-type-rules',
     title: 'Quote Type Rules — when CPQ allows New Contract vs Pro-Rated Expansion',
