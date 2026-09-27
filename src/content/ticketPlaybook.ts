@@ -12,6 +12,42 @@ export type PlaybookTicket = {
 
 export const ticketPlaybook: PlaybookTicket[] = [
   {
+    id: 'account-consolidation-request',
+    category: 'Billing',
+    issue: 'Consolidation — move a customer\'s plan, contract and ARR into a new, empty monday account',
+    errorMessage: 'N/A — rep ticket: "customer signed up in the wrong region / has a duplicate environment / wants everything in one new account"',
+    reason:
+      'A consolidation applies only when the target account is new (no ARR, no active contract). If the target already has ARR it is a merge and the rep runs it in CPQ instead. Consolidations change ARR, so CCO approval is required before we touch anything, and the source will show churn in reporting unless it is reason-coded correctly.',
+    resolution: [
+      'Confirm the target is genuinely empty (no ARR, no active contract). If not, redirect the rep to the Contract Merge process in Deck 5.',
+      'Request CCO approval for the ARR change and hold the ticket. Do not start until it is granted. Never cancel the live source contract to make the move "easier".',
+      'Make sure the rep has told the customer which data-migration window applies (7-day none / 60-day self-serve / R&D-assisted) and that data does not move with the contract.',
+      'BigBrain → Admin → Consolidation: move the plan and active contract to the target and set target ARR. This cancels the source plan as part of the same action.',
+      'If the source has no monday Account of its own in Salesforce, move the monday Account to the target. Set the source\'s Monday Account Status = Consolidated by hand (the BB→SF sync for this is broken) and confirm the destination banner.',
+      'Apply churn reason code "move to another account" on the source and verify its ARR is 0. Check Salesforce and BigBrain agree on ARR, status and banner.',
+      'Ask the rep to close every open opp on the source as Closed Lost, except the Renewal Opp (pending confirmation of its treatment).',
+      'Track the migration window on the ticket and close/cancel the source account when it ends. This is not automatic.',
+    ],
+  },
+  {
+    id: 'seat-allocation-request',
+    category: 'Billing',
+    issue: 'Seat allocation — one signed order, seats split across several monday accounts that stay separate',
+    errorMessage: 'N/A — rep ticket: "customer bought 300 seats on one SO and needs 200 on Brand A and 100 on Brand B"',
+    reason:
+      'The prime (parent) account carries the full ARR and all purchased seats; each child account gets its seats via Manual Activation at 100% discount ($0 ARR). Because the children are $0 by design, no ARR changes hands and no approval is needed — the ticket alone is enough. It is infrequent but high-risk: Manual Activation and Free Users are powerful, and past errors ran into seven figures of ARR.',
+    resolution: [
+      'Confirm this is a standalone seat split on a single signed order (not a merge byproduct, which is handled inside the Contract Merge process).',
+      'No approval step: execute on the ticket.',
+      'Activate all purchased seats on the prime account so it carries the full ARR.',
+      'Create the child accounts per the customer\'s structure (the customer creates any brand-new account via the sign-up link; we do not create customer accounts).',
+      'Manual Activation on each child: allocate its seats using the "No Sales Order" option, and record the reason "seat allocation".',
+      'Align every child\'s end date with the prime account\'s Sales Order, then set the child seats to 100% discount so they show $0 ARR but stay active.',
+      'Enter a negative Free Users adjustment on the prime equal to the seats moved to children, so seats are not double-counted.',
+      'Reconcile prime + child seat totals against the signed order before closing the ticket. Note for renewal: the SO renews only on the prime; every child must be realigned manually.',
+    ],
+  },
+  {
     id: 'cc-to-wire-renewal-switch',
     category: 'Billing',
     issue: 'CC account switching to Wire at renewal — reactivate the CC subscription, or CC auto-charged while a Wire SO is in flight',

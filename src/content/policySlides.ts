@@ -103,6 +103,23 @@ export const policySlides: OverviewSlide[] = [
     relatedTickets: ['cc-to-wire-renewal-switch'],
   },
   {
+    kind: 'policy',
+    id: 'policy-merge-consolidation-seats',
+    title: 'Consolidation, Merge & Seat Allocation Policy — three operations, one entry point',
+    bullets: [
+      '🧭 **Classify first:** target account is new and empty → **Consolidation** (we run it end to end in BigBrain: Admin → Consolidation moves plan + contract + ARR and cancels the source in one step). Two or more active accounts combining under a **new contract** → **Merge** (the rep runs it in CPQ via Perform Contract Merge; our only step is the Manual Activation seat pooling). One signed order split across accounts that stay separate → **Seat Allocation** (we run it: full ARR on the prime, children re-activated at 100% discount / $0 ARR, negative Free Users offset on the prime). Anything else → Central RevOps.',
+      '🎫 **Every operation starts with a Business Lounge ticket** — there is no self-serve path. **Consolidations and merges change ARR, so we request CCO approval before any execution** (reps never approach the CCO directly). **Seat allocation tickets need no approval — we execute on the ticket alone.** Hard rules: never cancel a live contract to force an operation; cancellations/opt-outs never happen directly in BigBrain; every Manual Activation carries a reason (e.g. "merge", "seat allocation"); an ARR drop to 0 is always reason-coded **"move to another account"**, never generic churn; operations move activations, not boards or data — the data-migration window (7-day / 60-day self-serve / R&D-assisted) starts only once the source is empty, and we track and close the source when it ends. Merges must never change an AM\'s renewal targets: the merged accounts\' Renewal Opps close **Won**, not Lost.',
+    ],
+    link: {
+      label: 'Open the Consolidation, Merge & Seat Allocation Policy →',
+      url: 'https://docs.google.com/document/d/1xx8YIwT1OY84fehN_a3dtyXBKCNsQhvSgWLNf6peg20/edit',
+    },
+    relatedConcepts: ['sfcpq-account-hierarchy', 'sfcpq-bco', 'sfcpq-renewals', 'sfcpq-contracts'],
+    relatedPolicies: ['process-contract-merge', 'policy-arr-recognition', 'process-cancel-on-closed-lost'],
+    relatedCategory: 'Billing',
+    relatedTickets: ['account-consolidation-request', 'seat-allocation-request', 'cpq-balance-carryover'],
+  },
+  {
     kind: 'process',
     id: 'process-quote-type-rules',
     title: 'Quote Type Rules — when CPQ allows New Contract vs Pro-Rated Expansion',
@@ -185,7 +202,7 @@ export const policySlides: OverviewSlide[] = [
       url: 'https://monday.monday.com/docs/9864984976',
     },
     relatedConcepts: ['sfcpq-bco', 'sfcpq-contracts', 'sfcpq-quote-lifecycle', 'sfcpq-account-hierarchy'],
-    relatedPolicies: ['policy-arr-recognition'],
+    relatedPolicies: ['policy-arr-recognition', 'policy-merge-consolidation-seats'],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['cpq-balance-carryover', 'cpq-quote-not-linked-current-contract'],
   },

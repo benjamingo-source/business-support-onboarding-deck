@@ -26,7 +26,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '👀 See it yourself: open any account in Salesforce → Account Hierarchy shows the full tree.',
     ],
     image: 'https://drive.google.com/thumbnail?id=177DeCfNxX9FeJ3cNo4y05LQ73Bo6OsL5&sz=w1600',
-    relatedPolicies: ['process-contract-merge'],
+    relatedPolicies: ['process-contract-merge', 'policy-merge-consolidation-seats'],
   },
 
   // ───────────────────────── Opportunities ─────────────────────────
@@ -144,7 +144,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['expansion-closed-as-renewal', 'renewal-arr-wrong'],
-    relatedPolicies: ['policy-arr-recognition', 'process-quote-type-rules', 'policy-payment-method-switch'],
+    relatedPolicies: ['policy-arr-recognition', 'process-quote-type-rules', 'policy-payment-method-switch', 'policy-merge-consolidation-seats'],
   },
 
   // ───────────────────────── Billing ─────────────────────────
@@ -207,7 +207,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'CPQ Errors',
     relatedTickets: ['cpq-balance-carryover'],
-    relatedPolicies: ['process-contract-merge'],
+    relatedPolicies: ['process-contract-merge', 'policy-merge-consolidation-seats'],
   },
 
   // ───────────────────────── Quoting ─────────────────────────
