@@ -144,7 +144,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Renewals & ARR',
     relatedTickets: ['expansion-closed-as-renewal', 'renewal-arr-wrong'],
-    relatedPolicies: ['policy-arr-recognition', 'process-quote-type-rules'],
+    relatedPolicies: ['policy-arr-recognition', 'process-quote-type-rules', 'policy-payment-method-switch'],
   },
 
   // ───────────────────────── Billing ─────────────────────────
@@ -155,13 +155,13 @@ export const salesforceCpqSlides: OverviewSlide[] = [
       '💳 **Credit Card (CC)** — the customer pays inside the monday.com platform (self-serve), or via a payment link sent from BigBrain. The plan activates immediately on payment.',
       '🏦 **Wire** — the customer signs a Sales Order built in CPQ and pays by invoice. The plan is activated by the rep via **Import SO** in the Close Opportunity flow.',
       '🧾 CC and Wire follow different rules for claims, recognition, and activation — always check the payment method first when reading a billing ticket.',
-      '🔀 Switching: CC → Wire happens at renewal with a New Contract quote (pro-rated isn\'t an option). Wire → CC: cancel the subscription in BigBrain, then generate a payment link.',
+      '🔀 Switching: CC → Wire happens **at renewal only**, needs ≥ $5K ARR, a Wire SO, and **Cancel on Renewal set in BigBrain as soon as the SO is created** (Payment Method Switch policy). Wire → CC: cancel the subscription in BigBrain, then generate a payment link.',
       '🤖 **Plan Enforcer** auto-upgrades CC accounts that exceed their seat count: notifications first, then an automatic charge. Refund requests **within 60 days** go via CX (revert + full refund); **after 60 days** the answer is no. Small amounts: use judgment.',
       '🧠 **AI funnel:** since May 2026 most accounts must include AI credits in any new CPQ quote. The error "paying account can\'t grow out of AI infra" is CPQ enforcing this. Opt-out is a checkbox in CPQ or an admin toggle on the account. AI credits ≠ Vibe apps — separate products, separate quotes.',
       '📍 Where to look: payment method on the monday Account in BigBrain; on the opp, whether a CPQ quote/SO exists (Wire) or the "Claim Credit Card Payments" component shows payments (CC).',
     ],
     relatedCategory: 'Billing',
-    relatedPolicies: ['process-quote-type-rules'],
+    relatedPolicies: ['process-quote-type-rules', 'policy-payment-method-switch'],
   },
   {
     id: 'sfcpq-cc-claims',
@@ -177,7 +177,7 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     ],
     relatedCategory: 'Billing',
     relatedTickets: ['cant-claim-cc-payment'],
-    relatedPolicies: ['policy-arr-recognition'],
+    relatedPolicies: ['policy-arr-recognition', 'policy-payment-method-switch'],
   },
   {
     id: 'sfcpq-billing-entity',

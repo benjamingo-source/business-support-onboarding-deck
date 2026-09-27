@@ -12,6 +12,23 @@ export type PlaybookTicket = {
 
 export const ticketPlaybook: PlaybookTicket[] = [
   {
+    id: 'cc-to-wire-renewal-switch',
+    category: 'Billing',
+    issue: 'CC account switching to Wire at renewal — reactivate the CC subscription, or CC auto-charged while a Wire SO is in flight',
+    errorMessage: 'N/A — rep reports "Cancel on Renewal was set but the Wire deal fell through" or "customer was charged on CC and we have a signed Wire SO"',
+    reason:
+      'The Payment Method Switch on Renewal policy requires the rep to create the Wire SO early and set Cancel on Renewal in BigBrain immediately. Two things go wrong: (A) Cancel on Renewal was set but the Wire SO never got signed, so the account is heading for a service lapse; (B) Cancel on Renewal was not set, the CC auto-charged, and now there is a duplicate payment against a Wire SO.',
+    resolution: [
+      '**Check eligibility first:** ARR ≥ $5,000, Enterprise or approved for invoicing, and a Wire SO exists in CPQ. Below $5K the account stays on CC and any Wire SO is voided — no exceptions without written Finance approval.',
+      '**Scenario A fallback (Wire fell through, Cancel on Renewal set):** reactivate the CC subscription in BigBrain before the dunning clock starts. The renewal opp stays open; if Wire is no longer relevant, the rep sends a new payment link and closes the opp on the CC payment.',
+      '**Scenario B (CC auto-charged + Wire SO):** confirm the ticket has the BB account link, CC charge amount and date, Wire SO number, and the customer\'s written preference for Wire. Missing any of those → send it back to the rep.',
+      'Verify with the customer confirmation that they really want a refund and to move to Wire — not every rep has asked.',
+      'Route the refund to **Finance** for approval; we do not refund on the rep\'s word. Refund is against the invoice in BigBrain once Finance approves. Requests more than 30 days after the charge are at Finance\'s discretion.',
+      'Tell the rep: **do not Close Won the Wire opp** until Finance confirms the refund is initiated. If the refund is denied, the CC charge stands and the Wire SO must be voided.',
+      'ARR is recognised **once** — on the Wire SO. Make sure the CC event is not also claimed (duplicate recognition). If the customer decides to stay on CC after a Wire close, that is an opt-out via the Technical Salesforce Fix path (Deck 4).',
+    ],
+  },
+  {
     id: 'service-vs-expansion-opp',
     category: 'Opportunities',
     issue: 'Rep can\'t add seats, AI credits, or add-ons to a Service opportunity',

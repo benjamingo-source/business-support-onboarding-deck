@@ -86,6 +86,23 @@ export const policySlides: OverviewSlide[] = [
     relatedPolicies: ['process-revert-downgrade-stamp'],
   },
   {
+    kind: 'policy',
+    id: 'policy-payment-method-switch',
+    title: 'Payment Method Switch on Renewal Policy — CC to Wire',
+    bullets: [
+      '💳➡️🏦 A CC account may move to Wire **only at renewal** and only if: ARR ≥ **$5,000**, the account is Enterprise (or approved for invoicing), and a Wire SO exists in CPQ. Below $5K it stays on CC unless Finance approves in writing. **Correct path (Scenario A):** create the Wire SO early → **immediately set "Cancel on Renewal" in BigBrain** → chase signature → Wire contract starts on the renewal date. If the Wire deal falls through after Cancel on Renewal was set, the rep opens a Business Lounge ticket to **reactivate the CC subscription** before dunning starts.',
+      '🎫 **Where we come in (Scenario B):** the rep forgot Cancel on Renewal, the CC auto-charged, and a Wire SO is in flight. The rep opens a Lounge ticket within **3 business days** with the BB account, charge amount/date, SO number, and customer confirmation; **Finance** approves the CC refund; the Wire opp must not be Closed Won until Finance confirms the refund is initiated. Below $5K or refund denied → the Wire SO is voided. Refunds after 30 days are at Finance\'s discretion. **Scenario C** (customer wants to stay on CC after a Wire close) is an opt-out via the Technical Salesforce Fix path. **Never claim both** the CC charge and the Wire SO — that is duplicate recognition.',
+    ],
+    link: {
+      label: 'Open the Payment Method Switch on Renewal Policy →',
+      url: 'https://docs.google.com/document/d/1pgkg-o-FRLF4a3q3XfYnQ4MYOc7nTud7oJkwLutDP-s/edit?tab=t.0',
+    },
+    relatedConcepts: ['sfcpq-cc-vs-wire', 'sfcpq-renewals', 'sfcpq-cc-claims'],
+    relatedPolicies: ['policy-opt-out', 'policy-arr-recognition', 'process-cancel-on-closed-lost'],
+    relatedCategory: 'Billing',
+    relatedTickets: ['cc-to-wire-renewal-switch'],
+  },
+  {
     kind: 'process',
     id: 'process-quote-type-rules',
     title: 'Quote Type Rules — when CPQ allows New Contract vs Pro-Rated Expansion',
