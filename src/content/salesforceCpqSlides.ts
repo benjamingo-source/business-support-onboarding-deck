@@ -147,6 +147,21 @@ export const salesforceCpqSlides: OverviewSlide[] = [
     relatedPolicies: ['policy-arr-recognition', 'process-quote-type-rules', 'policy-payment-method-switch', 'policy-merge-consolidation-seats'],
   },
 
+  {
+    id: 'sfcpq-arr-revival',
+    title: 'Renewals & ARR · ARR Revival — what happens when a customer comes back',
+    bullets: [
+      '🔁 An **ARR Revival** is when a customer churns or downgrades and then **returns within 90 days**. Salesforce detects it automatically and tags the returning subscription, which decides whether the money counts as recovery or as new ARR (ARR Recognition Policy §4.1: recovery within 90 days is not new ARR — only the net increase over the old baseline counts).',
+      '🏷️ Three fields you\'ll see on the **Subscription**: **Is ARR Revive** (checkbox — this subscription is a revival), **Revive Added ARR** (the delta), and **Revived ARR Logic Key** (which contract instance it was measured against, e.g. 2_1). The tags land on the highest-ARR subscription of the returning contract.',
+      '📐 **The delta skips the churn.** Revive Added ARR = revival ARR − the **last healthy** contract, never the churned or downgraded one. $7K → cancels → back at $9K within 50 days = **+$2K**. $10K → downgrades → back at $8K within 30 days = **−$2K**: the customer returned, but below their previous peak.',
+      '🧱 **What the engine ignores:** monthly plans (never a revival), subscriptions on the old billing infrastructure, a **mid-contract downgrade that was reversed** before the contract ended, a first-ever contract that churns (nothing healthy to compare to), and any gap over 90 days or with a blank date — the chain simply breaks there.',
+      '🩹 **Where it meets our tickets:** an administrative refund can look like a downgrade and start a false 90-day clock — that is what the Revert Downgrade Stamp runbook (Deck 5) fixes. Known bug from onboarding sessions: the 90-day window does not work correctly for **CC ↔ Wire conversions** — raise it to BizTech as urgent.',
+      '📍 Where to look: Subscription → Is ARR Revive / Revive Added ARR / Revived ARR Logic Key; the ARR Revival Monitor dashboard for the account timeline (prior healthy → churn → gap → revival) and stored-vs-expected values.',
+    ],
+    relatedCategory: 'Renewals & ARR',
+    relatedPolicies: ['policy-arr-recognition', 'process-revert-downgrade-stamp'],
+  },
+
   // ───────────────────────── Billing ─────────────────────────
   {
     id: 'sfcpq-cc-vs-wire',

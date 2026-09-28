@@ -8,6 +8,23 @@ import type { PlaybookTicket } from './ticketPlaybook';
  */
 export const advancedPlaybook: PlaybookTicket[] = [
   {
+    id: 'adv-arr-revival-tag-wrong',
+    category: 'Renewals & ARR',
+    issue: 'ARR Revival tag missing, or Revive Added ARR doesn\'t match what the rep expects',
+    errorMessage: 'N/A — "customer came back within 90 days but the ARR counts as new" / "Revive Added ARR is blank or the wrong number"',
+    reason:
+      'The revival engine only tags a return when the chain is intact: a healthy contract, then a churn or downgrade anchor, then a new yearly subscription within 90 days. Monthly plans, old-infrastructure subscriptions, reversed mid-contract downgrades, first-contract churns, blank dates, and gaps over 90 days all break the chain. When a tag exists but the number is wrong, the delta was measured against the wrong contract instance.',
+    resolution: [
+      'Pull the account timeline in the ARR Revival Monitor dashboard: prior healthy contract, churn/downgrade event, gap length, revival contract. Confirm the gap is really ≤ 90 days from the churn end date to the new activation date.',
+      'Check the exclusions before anything else: is the new subscription yearly? Is it on the current billing infrastructure? Was the "downgrade" actually mid-contract and reversed (the engine skips those on purpose)? Is there a prior healthy contract at all?',
+      'Tag present but Revive Added ARR blank, or logic key blank → an anomaly the monitor flags as high severity; raise to BizTech with the subscription and contract IDs.',
+      'Tag present but the number looks wrong → compare the Revived ARR Logic Key to the last healthy contract. The delta must be revival ARR minus the last healthy ARR, not minus the churned contract. If the stored value differs from the calculated expected value in the monitor, it is a calculation mismatch for BizTech.',
+      'Churn + new sub under 90 days but no tag → "potential missed revival". Confirm the exclusions above don\'t apply, then raise to BizTech; a manual recalculation on the account can re-run the engine.',
+      'If the "churn" was really an administrative refund, this is not a revival problem — run the Revert Downgrade Stamp process (Deck 5) to restore the baseline instead.',
+      'Known bug: the 90-day window misbehaves for CC ↔ Wire conversions. If that is the shape of the ticket, flag it as the known issue rather than debugging the numbers.',
+    ],
+  },
+  {
     id: 'adv-cosell-sync-broken',
     category: 'Opportunities',
     issue: 'Co-sell out of sync — primary opp is Closed Won but the partner\'s secondary opp shows the wrong stage or no ARR',
