@@ -59,7 +59,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       '**Scenario A fallback (Wire fell through, Cancel on Renewal set):** reactivate the CC subscription in BigBrain before the dunning clock starts. The renewal opp stays open; if Wire is no longer relevant, the rep sends a new payment link and closes the opp on the CC payment.',
       '**Scenario B (CC auto-charged + Wire SO):** confirm the ticket has the BB account link, CC charge amount and date, Wire SO number, and the customer\'s written preference for Wire. Missing any of those → send it back to the rep.',
       'Verify with the customer confirmation that they really want a refund and to move to Wire — not every rep has asked.',
-      'The money being returned is a **CC charge, so the refund goes through CX** (CC refunds → CX; Wire refunds → Finance). The Payment Method Switch policy also names Finance as the approver for this scenario **(check with team: whether Finance still signs off before CX refunds)**. We never refund on the rep\'s word. Requests more than 30 days after the charge may be declined.',
+      'The money being returned is a **CC charge**, so **we can refund it ourselves in BigBrain, or CX can** (CC refunds → Business Support or CX; Wire refunds → Finance). The Payment Method Switch policy also names Finance as the approver for this scenario **(check with team: whether Finance still signs off before CX refunds)**. We never refund on the rep\'s word. Requests more than 30 days after the charge may be declined.',
       'Tell the rep: **do not Close Won the Wire opp** until the CC refund is confirmed as initiated. If the refund is denied, the CC charge stands and the Wire SO must be voided.',
       'ARR is recognised **once** — on the Wire SO. Make sure the CC event is not also claimed (duplicate recognition). If the customer decides to stay on CC after a Wire close, that is an opt-out via the Technical Salesforce Fix path (Deck 4).',
     ],
@@ -88,7 +88,7 @@ export const ticketPlaybook: PlaybookTicket[] = [
       'Confirm in BigBrain that the charge came from Plan Enforcer and note the date.',
       'Within 60 days: route to CX to revert the upgrade and issue a full refund.',
       'After 60 days: the policy answer is no refund — explain the notification history to the rep. For very small amounts, use judgment.',
-      'This is a CC refund, so it goes through **CX**, not Finance (Finance handles Wire refunds). Business Support doesn\'t issue it ourselves.',
+      'This is a CC refund: **we can issue it in BigBrain, or CX can** — it does not go to Finance (Finance handles Wire refunds). Refund against the invoice, never a line item.',
     ],
   },
   {
