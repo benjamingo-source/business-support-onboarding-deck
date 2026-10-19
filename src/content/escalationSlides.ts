@@ -1,7 +1,7 @@
 import type { OverviewSlide } from './overviewSlides';
 
 /**
- * Deck 5 — Escalation Paths. Who owns what beyond Business Support, when to hand
+ * Deck 6 — Escalation Paths. Who owns what beyond Business Support, when to hand
  * off, and what to attach so the receiving team can act. Drafted from the
  * policies and processes already in the app — items marked (check with team)
  * still need confirmation.
@@ -34,10 +34,11 @@ export const escalationSlides: OverviewSlide[] = [
   },
   {
     id: 'esc-finance',
-    title: '🧾 Finance & Finance Billing — invoices, entities, refunds, opt-outs',
+    title: '🧾 Finance & Finance Billing — invoices, entities, wire refunds, opt-outs',
     bullets: [
       '🏢 **Billing entity / Bill-to changes** on a closed deal — Finance Billing is looped in via the Correction Opportunity flow; entity changes themselves route to Finance Billing.',
       '🔑 **Opt-out approvals** — Finance is an approver on every opt-out lane and rejects requests filed in the wrong lane. Our job is the revert + BigBrain update *after* approval.',
+      '💸 **Wire refunds go to Finance** — they instruct the amount and it is made against the invoice. **CC refunds are not Finance\'s; they go to CX.** Never refund on a rep\'s say-so.',
       '↩️ **Refund classification** — whether a refund is an administrative correction (baseline restored) or a commercial reduction (ARR reduced) is Finance / IRB\'s call. We execute the baseline fix once decided.',
       '🧮 **Duplicate ARR from reissued or voided SOs** must be reported to Finance promptly — do not quietly delete records.',
     ],
@@ -118,6 +119,7 @@ export const escalationSlides: OverviewSlide[] = [
     bullets: [
       '🧑‍💻 **Product bugs the customer is experiencing**, account access problems, and anything the customer needs to hear from support directly — CX owns the customer conversation.',
       '💳 **Credit-card customers cancelling or opting out** do it in their own account settings (30-day option); mid-term downgrade requests for CC accounts go through the CCO RVP Tech Touch approval lane.',
+      '💸 **CC refunds go through CX** — Plan Enforcer reversions within 60 days, a CC charge that hit while a Wire SO was in flight, any credit-card payment that needs returning. Wire refunds are Finance\'s.',
       '🤖 **Product-incident AI credit grants** are done by CX without a Business Lounge ticket — if a rep asks us for one, point them to CX.',
     ],
     relatedPolicies: ['policy-opt-out', 'policy-ai-credit-grant', 'process-cancel-on-closed-lost'],

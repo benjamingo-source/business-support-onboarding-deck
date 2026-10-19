@@ -1,0 +1,935 @@
+<title>Business Support Onboarding Tracker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: left rail of sections on desktop, scrolling tab strip on phones; one working panel at a time.
+   Status colours borrow monday board labels: Done / Working on it / Stuck. */
+:root{
+  --bg:#f6f7fb; --surface:#ffffff; --sunken:#eef0f7; --line:#dcdfec;
+  --fg:#1f2233; --muted:#5f6480; --accent:#5559df; --accent-soft:#e8e9ff; --on-accent:#ffffff;
+  --done:#00a862; --done-soft:#dcf5ea; --working:#c27a12; --working-soft:#fdf0d9; --stuck:#d02c47; --stuck-soft:#fbe1e6;
+  --display:"Poppins","Figtree",system-ui,sans-serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14151f; --surface:#1d1f2d; --sunken:#262839; --line:#33364b;
+  --fg:#eceef8; --muted:#a3a7c2; --accent:#8b8eff; --accent-soft:#2b2d55; --on-accent:#14151f;
+  --done:#3ddc97; --done-soft:#173a2d; --working:#f4b54f; --working-soft:#3d3018; --stuck:#ff6b81; --stuck-soft:#43202a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14151f; --surface:#1d1f2d; --sunken:#262839; --line:#33364b;
+  --fg:#eceef8; --muted:#a3a7c2; --accent:#8b8eff; --accent-soft:#2b2d55; --on-accent:#14151f;
+  --done:#3ddc97; --done-soft:#173a2d; --working:#f4b54f; --working-soft:#3d3018; --stuck:#ff6b81; --stuck-soft:#43202a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.25}
+h1{font-size:1.6rem;font-weight:600}
+h2{font-size:1.15rem;font-weight:600}
+h3{font-size:.98rem;font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--surface);border-right:1px solid var(--line);padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh}
+.who{display:flex;flex-direction:column;gap:2px}
+.who .name{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{all:unset;cursor:pointer;padding:8px 10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-weight:500}
+.nav button:hover{background:var(--sunken);color:var(--fg)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav button:focus-visible{outline:2px solid var(--accent)}
+.count{font-family:var(--mono);font-size:.75rem;background:var(--sunken);color:var(--muted);border-radius:99px;padding:1px 7px}
+.rail-foot{margin-top:auto;font-size:.8rem;color:var(--muted)}
+
+main{min-width:0;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.panel{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
+.head p{max-width:62ch}
+
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.box.flat{background:transparent;border-style:dashed}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.spread{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 14px;font-weight:600;font-size:.88rem}
+.btn:hover{background:var(--sunken)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--accent);padding-inline:6px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.deck{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;font-weight:600;text-decoration:none;padding:3px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.deck:hover{text-decoration:underline}
+
+.chip{display:inline-flex;align-items:center;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.chip.done{background:var(--done-soft);color:var(--done)}
+.chip.working{background:var(--working-soft);color:var(--working)}
+.chip.stuck{background:var(--stuck-soft);color:var(--stuck)}
+.chip.plain{background:var(--sunken);color:var(--muted)}
+
+.bar{height:8px;background:var(--sunken);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+@media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
+
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:6px}
+.stat .v{font-family:var(--mono);font-size:1.5rem;font-variant-numeric:tabular-nums}
+
+.list{display:flex;flex-direction:column}
+.item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.item .title{font-weight:600}
+.check{appearance:none;flex:none;width:20px;height:20px;border:2px solid var(--line);border-radius:6px;margin-top:2px;cursor:pointer;display:grid;place-content:center;background:var(--surface)}
+.check:checked{background:var(--done);border-color:var(--done)}
+.check:checked::after{content:"";width:5px;height:10px;border:solid var(--surface);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.item.isdone .title{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+
+.phases{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.phase.current{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.quote{font-size:.85rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+
+label.f{display:flex;flex-direction:column;gap:4px;font-size:.82rem;font-weight:600;color:var(--muted);min-width:0}
+input[type=text],input[type=date],input[type=url],input[type=number],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.92rem;width:100%;color:var(--fg)}
+textarea{resize:vertical;min-height:84px}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.form .wide{grid-column:1/-1}
+
+.drop{border:2px dashed var(--line);border-radius:var(--r);padding:18px;text-align:center;color:var(--muted);cursor:pointer}
+.drop.over{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+
+.card-q{font-family:var(--display);font-size:1.05rem;font-weight:500}
+.answer{background:var(--sunken);border-radius:8px;padding:12px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface)}
+.opt:hover{border-color:var(--accent)}
+.opt:focus-visible{outline:2px solid var(--accent)}
+.opt.right{border-color:var(--done);background:var(--done-soft)}
+.opt.wrong{border-color:var(--stuck);background:var(--stuck-soft)}
+.opt[disabled]{cursor:default}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-top:0}
+
+.banner{border-radius:var(--r);padding:12px 14px;background:var(--working-soft);color:var(--fg);font-size:.9rem;display:flex;gap:10px;align-items:flex-start}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:9px 16px;border-radius:99px;font-weight:600;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.subtabs{display:flex;gap:4px;flex-wrap:wrap}
+.subtabs button{cursor:pointer;border:0;background:transparent;padding:6px 12px;border-radius:99px;font-weight:600;color:var(--muted)}
+.subtabs button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+@media (max-width:820px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{min-width:0;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;height:auto;flex-direction:column;gap:10px;padding-block:12px;padding-right:max(16px,env(safe-area-inset-right,0px));border-right:0;border-bottom:1px solid var(--line)}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
+  .nav button{white-space:nowrap}
+  .rail-foot{display:none}
+}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="who">
+      <span class="eyebrow">Business Support onboarding</span>
+      <span class="name" id="rail-name">New hire</span>
+      <span class="small muted" id="rail-week">Add a start date in Setup</span>
+    </div>
+    <nav class="nav" id="nav" aria-label="Tracker sections"></nav>
+    <div class="rail-foot" id="rail-foot">Connecting…</div>
+  </aside>
+  <main><div class="panel" id="view"></div></main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ───────────────────────── Template content ─────────────────────────
+   Shared by every new hire. Edit these lists to change the programme;
+   each hire's own progress and notes live in the artifact's storage. */
+
+const DECK = 'https://bigbrain.me/bigbrain-vibe/business-support-onboarding-deck';
+const DECK_NAMES = {overview:'Deck 1',sfcpq:'Deck 2',playbook:'Deck 3',policies:'Deck 4',processes:'Deck 5',escalations:'Deck 6',advanced:'Deck 7'};
+
+/* Deck slides and tickets the tracker can point at. Claude picks from this
+   list when it turns a conversation into study gaps. */
+const DECK_INDEX = [
+  ['sfcpq/sfcpq-what-why','What Salesforce CPQ is and how to access it'],
+  ['sfcpq/sfcpq-account-hierarchy','Account hierarchy: Global Company, Company, monday Account'],
+  ['sfcpq/sfcpq-opportunities','Opportunity types'],
+  ['sfcpq/sfcpq-opp-lifecycle','Opportunity stages, locking and Correction Opportunities'],
+  ['sfcpq/sfcpq-ownership','Account ownership (RevOps)'],
+  ['sfcpq/sfcpq-partners-cosell','Partners and the co-sell triangle'],
+  ['sfcpq/sfcpq-what-is-arr','What ARR is and why it matters'],
+  ['sfcpq/sfcpq-arr-recognition','ARR recognition and the Green Bucket'],
+  ['sfcpq/sfcpq-renewals','Renewals vs expansions'],
+  ['sfcpq/sfcpq-arr-revival','ARR Revival'],
+  ['sfcpq/sfcpq-cc-vs-wire','Credit card vs wire'],
+  ['sfcpq/sfcpq-cc-claims','CC claims'],
+  ['sfcpq/sfcpq-billing-entity','Billing entities, invoices and activation'],
+  ['sfcpq/sfcpq-bco','Balance Carryover (BCO)'],
+  ['sfcpq/sfcpq-quoting-read-a-quote','How to read a quote'],
+  ['sfcpq/sfcpq-quoting-dealroom-dates-currency','Deal Room, dates and currency'],
+  ['sfcpq/sfcpq-quote-lifecycle','The quote lifecycle'],
+  ['sfcpq/sfcpq-approvals','Approval rules and manager IDs'],
+  ['sfcpq/sfcpq-contracts','Contracts and CPQ subscriptions'],
+  ['sfcpq/sfcpq-inspector','The Inspector'],
+  ['sfcpq/sfcpq-access','Logins, roles and permissions'],
+  ['sfcpq/sfcpq-integrations','Salesforce and BigBrain integration, BB ID'],
+  ['policies/policy-day-5-cutoff','Day 5 Cutoff Policy'],
+  ['policies/policy-opt-out','Opt-Out Policy'],
+  ['policies/policy-ai-credit-grant','AI Credit Grant Policy'],
+  ['policies/policy-free-seats-trials','Free Seats, Products and Trials Policy'],
+  ['policies/policy-arr-recognition','ARR Recognition Policy'],
+  ['policies/policy-payment-method-switch','Payment Method Switch on Renewal (CC to wire)'],
+  ['policies/policy-merge-consolidation-seats','Consolidation, Merge and Seat Allocation Policy'],
+  ['policies/policy-rules-of-engagement','CRO Global Rules of Engagement'],
+  ['processes/process-quote-type-rules','Quote type rules'],
+  ['processes/process-revert-downgrade-stamp','Reverting a downgrade stamp'],
+  ['processes/process-cancel-on-closed-lost','Cancel account on Closed Lost'],
+  ['processes/process-legal-request','Legal request process'],
+  ['processes/process-contract-merge','Contract merge'],
+  ['playbook/account-consolidation-request','Ticket: account consolidation request'],
+  ['playbook/seat-allocation-request','Ticket: seat allocation request'],
+  ['playbook/cc-to-wire-renewal-switch','Ticket: CC to wire on renewal'],
+  ['playbook/service-vs-expansion-opp','Ticket: service vs expansion opportunity'],
+  ['playbook/plan-enforcer-refund','Ticket: Plan Enforcer refund'],
+  ['playbook/slug-change-request','Ticket: slug change request'],
+  ['playbook/partner-cpq-region-error','Ticket: partner CPQ region error'],
+  ['playbook/cpq-quote-error','Ticket: CPQ quote error'],
+  ['playbook/quote-discount-not-applying','Ticket: quote discount not applying'],
+  ['playbook/quote-change-dates-term','Ticket: change quote dates or term'],
+  ['playbook/quote-change-currency','Ticket: change quote currency'],
+  ['playbook/renewal-arr-wrong','Ticket: renewal ARR wrong'],
+  ['playbook/billing-invoice','Ticket: billing and invoices'],
+  ['playbook/cant-claim-cc-payment','Ticket: cannot claim CC payment'],
+  ['playbook/change-account-owner','Ticket: change account owner'],
+  ['playbook/cant-close-won','Ticket: cannot Close Won'],
+  ['playbook/locked-opportunity-edit','Ticket: editing a locked opportunity'],
+  ['playbook/arr-recognition-not-green-bucket','Ticket: ARR not in the Green Bucket'],
+  ['playbook/arr-split-between-reps','Ticket: ARR split between reps'],
+  ['playbook/cpq-missing-manager-id','Ticket: CPQ missing manager ID'],
+  ['playbook/cpq-quote-stuck-in-approval','Ticket: quote stuck in approval'],
+  ['playbook/cpq-balance-carryover','Ticket: CPQ balance carryover'],
+  ['playbook/cpq-ai-rule-blocks-so','Ticket: AI rule blocks the SO'],
+  ['playbook/close-won-unique-key-duplicate','Ticket: Close Won unique key / duplicate'],
+  ['escalations','Escalation paths: who owns what'],
+];
+const DECK_TITLE = Object.fromEntries(DECK_INDEX);
+
+const COURSES = [
+  {id:'c1',name:'Security Awareness',tag:'Mandatory'},
+  {id:'c2',name:'Anti-Bribery & Corruption 2025–2026',tag:'Compliance'},
+  {id:'c3',name:'Acceptable Use Policy 2026',tag:'Compliance'},
+  {id:'c4',name:'Employee Hotline 2025–2026',tag:'Compliance'},
+  {id:'c5',name:'Insider Trading Training 2025–2026',tag:'Compliance'},
+  {id:'c6',name:'Privacy Awareness Training 2025–2026',tag:'Compliance'},
+  {id:'c7',name:'Anti-Sexual Harassment Training 2025–2026',tag:'Compliance'},
+  {id:'c8',name:'Code of Ethics & Conduct 2025–2026',tag:'Compliance'},
+];
+
+const POLICIES = [
+  {id:'arr-policy',title:'ARR Recognition Policy v1.2',tag:'ARR · must read',desc:'Thresholds by role, special deals, co-sell, back-claims, clawback and the opt-out clause.',url:'https://docs.google.com/document/d/1FwTh_GtZwzT8hsvRLs-EZX899xtbBIzRAo-ybY_YGkY/edit',deck:'policies/policy-arr-recognition'},
+  {id:'renewals-policy',title:'Renewals ARR Recognition Policy',tag:'Renewals',desc:'Upgrade on renewal, opportunity transfer, renewal manager vs account owner split.',url:'https://docs.google.com/document/d/1g5-JLfvM-SZp7HSeZJjnhpjnh7mQRKEorR_0PHjJvpc/edit',deck:'sfcpq/sfcpq-renewals'},
+  {id:'opt-out-policy',title:'Opt-Out Policy v2.0',tag:'Downgrades · must read',desc:'When an opt-out is required, which lane to use, how to submit, approvals.',url:'https://docs.google.com/document/d/18j9GMWURIfjGS4lT7PNFELrgBa6Gejmt5oyhFEnXoWc/edit',deck:'policies/policy-opt-out'},
+  {id:'refunds-policy',title:'Official Refunds Policy',tag:'Refunds · billing',desc:'Refund windows, who can approve, special cases (AI credits, Vibe, PS).',url:'https://docs.google.com/document/d/13rs2f-uWaDumOP8kWOHmpJX5OpBeWMVUOEAwQ1MsW6Y/edit',deck:''},
+  {id:'ai-opt-out-policy',title:'AI Opt Out Policy 2026',tag:'AI · CPQ',desc:'Approval tiers by account type, no discount for opting out. Owner: RevOps.',url:'https://docs.google.com/document/d/1fur69wLxa2RINJTdwgLhwJK87tjWCNXwLosFl7dGOyY/edit',deck:''},
+  {id:'day5-cutoff',title:'Day 5 Cutoff Policy',tag:'ARR lock',desc:'Post-close edits and locking after the 5th of the month.',url:'',deck:'policies/policy-day-5-cutoff'},
+  {id:'payment-switch',title:'Payment Method Switch on Renewal',tag:'Billing',desc:'Moving a customer from credit card to wire at renewal.',url:'',deck:'policies/policy-payment-method-switch'},
+  {id:'merge-seats',title:'Consolidation, Merge & Seat Allocation Policy',tag:'Accounts',desc:'Three operations, one entry point.',url:'',deck:'policies/policy-merge-consolidation-seats'},
+  {id:'roe',title:'CRO Global Rules of Engagement',tag:'Ownership',desc:'Who owns an account and what that means.',url:'',deck:'policies/policy-rules-of-engagement'},
+  {id:'cpq-playbook',title:'Salesforce CPQ Playbook (HighSpot)',tag:'CPQ',desc:'Full CPQ reference: quote flows, approvals, error codes. Your trainer shares the link.',url:'',deck:'sfcpq/sfcpq-what-why'},
+];
+
+const PHASES = [
+  {n:1,name:'Foundation',weeks:[1,4],focus:'Tickets first: nearly all of your time',quote:'Tickets is where real system knowledge comes from. No shortcuts.',tasks:[
+    {id:'p1-courses',text:'Complete all 8 mandatory compliance courses',auto:'courses'},
+    {id:'p1-team',text:'Meet the team, starting with the people in your directory below'},
+    {id:'p1-shadow',text:'Shadow your trainer on live tickets',deck:'playbook/cpq-quote-error'},
+    {id:'p1-sandbox',text:'Explore your own Salesforce and BigBrain sandbox account',deck:'sfcpq/sfcpq-access'},
+    {id:'p1-read',text:'Read the ARR Recognition and Opt-Out policies',deck:'policies/policy-arr-recognition'},
+  ]},
+  {n:2,name:'Building',weeks:[5,8],focus:'Tickets and projects in parallel',quote:'Month 2–3: tickets plus projects. Growing independence.',tasks:[
+    {id:'p2-indep',text:'Handle standard tickets independently and know the escalation paths',deck:'escalations'},
+    {id:'p2-own',text:'Start owning ARR and CPQ as your technical specialisation',deck:'sfcpq/sfcpq-arr-recognition'},
+    {id:'p2-flow',text:'Run a full CPQ flow end to end on your own account',deck:'sfcpq/sfcpq-quote-lifecycle'},
+    {id:'p2-project',text:'Take on project work alongside your ticket load'},
+  ]},
+  {n:3,name:'SME',weeks:[9,12],focus:'The go-to person: people come to you first',quote:'At month 3 you should be handling tickets independently and starting to own a technical area.',tasks:[
+    {id:'p3-sme',text:'Be the recognised ARR/CPQ subject-matter expert'},
+    {id:'p3-complex',text:'Handle complex tickets without help and know exactly who to escalate to',deck:'escalations'},
+    {id:'p3-office',text:'Establish your office presence so people come to you'},
+    {id:'p3-present',text:'Present your 90-day progress milestone to your manager'},
+  ]},
+];
+
+const PEOPLE = [
+  {id:'josh',name:'Josh Zak',role:'Team Lead, BizApps Support',loc:'Tel Aviv',why:'Team lead. Development plan, blockers and strategic escalations.'},
+  {id:'rob',name:'Robert Pattinson',role:'BizApps Support Specialist',loc:'London',why:'Day-to-day coaching on tickets and systems.'},
+  {id:'aldema',name:'Aldema Michaelo',role:'Sr BizApps Support Lead',loc:'NYC',why:'Complex ARR overrides, permissions and deep system work.'},
+  {id:'ben',name:'Benjamin Goldstein',role:'BizApps Support Representative',loc:'NYC',why:'Owns the onboarding programme and the onboarding deck.'},
+  {id:'raz',name:'Raz Benzikry',role:'Sr BizApps Support Rep',loc:'Tel Aviv',why:'Senior colleague for expertise and escalation paths.'},
+  {id:'daniel',name:'Daniel Rohberg',role:'Sr BizApps Implementer',loc:'Tel Aviv',why:'Go-to for complex quoting and Salesforce implementation.'},
+  {id:'dan',name:'Dan Gabay',role:'BizApps Developer',loc:'Tel Aviv',why:'CPQ expert for complex issues.'},
+  {id:'shira',name:'Shira Epstein',role:'Sales Operations Manager',loc:'Tel Aviv',why:'Partner workflow and ARR credit context.'},
+  {id:'robin',name:'Robin Blampied',role:'RevOps Director, EMEA',loc:'London',why:'Reports, account ownership and territory queries.'},
+  {id:'edel',name:"Edel O'Reilly",role:'Business Revenue Manager',loc:'London',why:'Finance Controllers. Their yes is the go for financial decisions.'},
+  {id:'will',name:'Will Eastwood',role:'RevOps / SalesOps',loc:'London',why:'Reports, account owner changes and territory queries.'},
+];
+
+const CONCEPTS = [
+  {topic:'ARR Recognition',deck:'sfcpq/sfcpq-arr-recognition',q:'What makes an opportunity "green bucket" (recognized)?',a:'Annual Pro or Enterprise tier, meeting the threshold: ~$3.5K ARR for SMB/Commercial, ~$7K for Mid-Market/Enterprise. Standard and monthly plans are never recognized for sales-owned accounts.'},
+  {topic:'Fix-in-Levels',deck:'sfcpq/sfcpq-contracts',q:'What is the fix-in-levels principle and what order does it apply?',a:'Fixes flow BigBrain → Contract → Opportunity. Always fix at the source. Never patch an Opportunity if the root problem is in BigBrain or the Contract.'},
+  {topic:'Co-sell Triangle',deck:'sfcpq/sfcpq-partners-cosell',q:'What three objects form a co-sell triangle?',a:'Primary Opportunity (internal) + Secondary Opportunity (partner) + S&P Request. The S&P request links them, and "Last approved S&P request" drives co-sell account status.'},
+  {topic:'Claim Eligibility',deck:'sfcpq/sfcpq-cc-claims',q:'What governs whether a salesperson can claim ARR?',a:'A hard Claim Eligibility Date on the account. Policy wording says 3 months, but in practice the window is 6 months. Admins can override with logged evidence, such as a Gong call showing they worked the account before the ARR date.'},
+  {topic:'CC Renewal Logic',deck:'sfcpq/sfcpq-renewals',q:'Why do renewal reports often show inflated ARR?',a:'Each CC contract creates a new renewal opportunity automatically, but old renewal ops are never auto-closed. Several open renewal ops mean duplicate ARR in reports. The fix is manual admin cleanup plus rep discipline.'},
+  {topic:'Service vs Expansion',deck:'playbook/service-vs-expansion-opp',q:'What can go in a Service Opportunity vs an Expansion Opportunity?',a:'Service Opp: services only (implementation, tailored and managed services). No seats, AI credits, apps, Guardian or Premium Support. Mixed deals are Expansion Opportunities.'},
+  {topic:'Balance Carryover',deck:'sfcpq/sfcpq-bco',q:'When is BCO required and who calculates it?',a:'When a customer upgrades mid-subscription and gets credit for paid time. Finance validates the amount. If quote currency differs from subscription currency, BCO must be calculated manually.'},
+  {topic:'Overlapping Contract (BCO error)',deck:'playbook/cpq-balance-carryover',q:'A revised SO fails with "The selected start date requires carryover lines, but this quote doesn\'t include them." The new start date falls inside an existing active contract. What is the fix?',a:'CPQ sees the new term overlapping the active contract and demands BCO lines. If the SO was already activated, revert the contract (Contract Revert Manager) or link the right active contract on the monday account; removing the link alone is not enough because BigBrain syncs it back. Then re-create the quote. Check first that the old contract is the one being replaced, tell Finance if it was paid, and expect the ARR baseline to change.'},
+  {topic:'Plan Enforcer',deck:'playbook/plan-enforcer-refund',q:'What does Plan Enforcer do and when does it trigger?',a:'It auto-upgrades CC accounts that exceed their seat count, automatically. A refund request after 60 days has no policy: redirect to CX.'},
+  {topic:'ARR Flow',deck:'sfcpq/sfcpq-what-is-arr',q:'What is the chain from contract to Salesforce ARR?',a:'Signed contract → BigBrain (source of truth) → Account → Opportunity in Salesforce. ARR locks on the 5th of each month. Open opp ARR is forecast; closed opp ARR is only signed SOs and CC claims.'},
+  {topic:'CPQ Quote Flow',deck:'sfcpq/sfcpq-quote-lifecycle',q:'What happens to a CPQ quote once it is internally approved?',a:'It is locked. Do not change dates or lines after approval. States: Create → Submit → Internal Approvals → Approved → Customer signs.'},
+  {topic:'Partner Tiers',deck:'sfcpq/sfcpq-partners-cosell',q:'What ARR thresholds determine partner "green bucket" recognition?',a:'$5K ARR for inbound deals and $3K ARR for outbound deals. Higher partner tiers get preferential benefits.'},
+  {topic:'AI Funnel',deck:'playbook/cpq-ai-rule-blocks-so',q:'Why might a customer be forced to buy AI credits when adding Vibe?',a:'Accounts are in the AI funnel by default, so CPQ requires AI credits unless explicitly opted out. AI credits power AI workloads; Vibe quantity is the number of publishable apps. A temporary admin override can unblock.'},
+  {topic:'Refund Policy',deck:'escalations',q:'Who authorises a BCO refund and how?',a:'Finance instructs BizOps on refund amounts. BizOps never refunds on a salesperson\'s request alone, and Finance validates BCO amounts first.'},
+  {topic:'Slug / Subdomain',deck:'playbook/slug-change-request',q:'Can BizOps change a customer\'s monday slug directly?',a:'No. The slug is the customer-controlled subdomain. Workaround: reactivate the old trial account (14 days) and share the support article so the customer frees up the slug themselves.'},
+  {topic:'Reopened Opportunities',deck:'sfcpq/sfcpq-opp-lifecycle',q:'Why is reopening a closed opportunity problematic?',a:'The system is not designed for it. It changes ARR in BigBrain and can leave partial ARR. Create a new add-on or expansion opportunity instead.'},
+  {topic:'FX Lock',deck:'playbook/quote-change-currency',q:'Why can an FX-locked ARR figure surprise a rep?',a:'The formula divides by the quote exchange rate then multiplies by the annual locked rate, while the ARR amount used yet another rate. Override Claimed ARR to the calculated figure, log the ticket in Override Reason and explain the FX movement.'},
+  {topic:'Two Signed SOs',deck:'playbook/renewal-arr-wrong',q:'What is the first thing to check when one opp has two signed SOs?',a:'The second SO measures from the baseline the first one moved. Work out added ARR as new ARR minus the correct baseline, then override if needed.'},
+  {topic:'Never Hold an SO',deck:'playbook/renewal-arr-wrong',q:'A rep won\'t close a renewal SO because of its negative ARR. What do you say?',a:'Close the SO. The customer signed, Finance invoices, and ARR can be fixed afterwards through proper processes. BigBrain ARR feeds financial reporting, so delaying it is a serious issue.'},
+  {topic:'Duplicate CPQ Subscription',deck:'playbook/close-won-unique-key-duplicate',q:'Close Won fails with a unique key / duplicate value error. What is the fix order?',a:'Delete the duplicate CPQ subscriptions from the contract, Close Won, recreate contract products (Migrated CPQ Contract trigger), then do a final health check.'},
+  {topic:'CPQ Approvals',deck:'sfcpq/sfcpq-approvals',q:'How are CPQ approvals routed, and what breaks them?',a:'By who created the quote, then their manager, then their manager\'s manager. A wrong manager field means a wrong chain. Managers on leave must set a delegate in Salesforce user settings.'},
+  {topic:'Merge',deck:'policies/policy-merge-consolidation-seats',q:'What are the rules for a simulated contract merge?',a:'Use it when both accounts are paying, on a new yearly contract (monthly contracts won\'t populate). Afterwards cancel the merged-from account, put it on a 30-day trial and reset the trial so customers can move boards and workspaces. Route via approvals.'},
+  {topic:'Partner CPQ',deck:'playbook/partner-cpq-region-error',q:'A partner gets "feature isn\'t available in your region" in CPQ. What\'s the real cause?',a:'A missing CPQ license on the partner user, not a region issue. Assign a CPQ license with Group A access. Never trust that error message literally.'},
+];
+
+const QUIZ_BANK = [
+  {
+    week:1,label:'ARR, Partners & Co-sell',
+    qs:[
+      {q:'What is the ARR recognition threshold for an SMB/Commercial account?',
+       opts:['~$1,000 total account ARR','~$3,500 total account ARR','~$7,000 total account ARR','~$10,000 total account ARR'],ans:1},
+      {q:'Which combination is NEVER recognised for a salesperson\'s ARR target?',
+       opts:['Annual Pro accounts below the threshold','Monthly billing AND Standard/Basic tiers','Enterprise accounts with no threshold field','Expansion deals on already-recognised accounts'],ans:1},
+      {q:'What three objects form a co-sell triangle?',
+       opts:['Primary Opp + Co-sell Form + PIE Request','Primary Opp + Secondary Opp + S&P Request','Account + Opportunity + Contract','S&P Request + PIE + Secondary CDM'],ans:1},
+      {q:'Who authorises refunds — Finance or the salesperson?',
+       opts:['Salesperson with direct manager approval','RevOps Business Partner','Finance Controllers (Adele / Alon / Dara)','BizTech on request'],ans:2},
+      {q:'A customer wants to change their Monday subdomain (slug). What do you do?',
+       opts:['Change it directly in BigBrain admin','Submit a BizTech ticket to rename it','Reactivate old trial account (14-day) and share support article — customer does it themselves','Tell them it\'s not possible'],ans:2},
+      {q:'BCO stands for Balance Carryover. When is it required?',
+       opts:['Any time a deal has a discount above 30%','When a customer upgrades mid-subscription (credit for unused paid time)','At annual renewal when seats decrease','When converting from Credit Card to Wire'],ans:1},
+      {q:'The fix-in-levels principle for CPQ problems is:',
+       opts:['Fix the Opportunity first, then Contract, then BigBrain','Always fix in Salesforce, then sync to BigBrain','BigBrain → Contract → Opportunity — always fix at the root','CPQ → Quote → Contract → Opportunity'],ans:2},
+      {q:'What are the three tiers of Rob\'s support bot?',
+       opts:['FAQ lookup → ticket routing → human escalation','Hardcoded Q&A overrides → known bug handlers → AI/LLM fallback','AI first → rule-based → human','Search → policy docs → ticket'],ans:1},
+      {q:'MAPP stands for:',
+       opts:['Monday Annual Partner Program','Managed Account Partner Pipeline','Monthly Active People — % of purchased seats with ≥1 login','Minimum ARR Per Product'],ans:2},
+      {q:'Partner ARR recognition thresholds are:',
+       opts:['Inbound $3K, Outbound $5K','Both $5K regardless of deal type','Inbound $5K, Outbound $3K','Inbound $7K, Outbound $5K'],ans:2},
+    ]
+  },
+  {
+    week:2,label:'ARR Deep Dive & CPQ Errors',
+    qs:[
+      {q:'What are the four pre-conditions that must ALL pass for ARR recognition?',
+       opts:['Annual plan + Pro/Enterprise tier only','Threshold populated + Annual billing + Pro/Enterprise tier + Opp type ≠ Downgrade','Deal > $5K + manager-approved + annual + Pro','Quota attainment met + annual + no active dispute'],ans:1},
+      {q:'The ARR lock date is the ___ of each month. After it, ARR changes need Sales Ops written approval.',
+       opts:['1st','5th','15th','Last business day'],ans:1},
+      {q:'The 90-day downgrade rule means:',
+       opts:['Reps have 90 days to dispute an ARR recognition decision','A downgrade followed by a re-upgrade within 90 days gets no new ARR recognised','Refunds are only allowed within 90 days of invoice date','Claim eligibility expires 90 days after account creation'],ans:1},
+      {q:'CPQ error: "Total price cannot be specified when discount is 100%". Fix?',
+       opts:['Change the discount to 99% and resubmit','Set unit price manually to override','Delete the stale opportunity product line','Submit an ARR override request to Sales Ops'],ans:2},
+      {q:'After every ARR fix in BigBrain, what must you run?',
+       opts:['Recalculate ARR button','Sync to Salesforce','Validate Billing','Run recognition check'],ans:2},
+      {q:'"Paying account can\'t grow out of AI infra" error in CPQ. This means:',
+       opts:['The account has unpaid invoices blocking growth','The AI feature is not licensed on this tier','Account is flagged for mandatory AI credits — opt out via checkbox in CPQ or admin toggle','Seat limit has been reached for this plan'],ans:2},
+      {q:'BCO must appear on which document, and what happens if it\'s missing?',
+       opts:['BigBrain subscription record — raise a BizTech ticket to add it','Internal CPQ approval email — resend with BCO line','Signed Sales Order — if missing, customer must re-sign a corrected SO','Renewal opportunity — override the value in Salesforce'],ans:2},
+      {q:'The three-level fix model order is:',
+       opts:['Opportunity → Contract → BigBrain','Salesforce → CPQ → BigBrain','Quote → Subscription → BigBrain','BigBrain → Contract → Opportunity'],ans:3},
+      {q:'For complex ARR overrides and permissions, who is the correct escalation in the BizApps team?',
+       opts:['Josh Zak','Robin Blampied (RevOps)','Aldema Michaelo (Sr BizApps Lead, NYC)','Daniel Rockberg (BizTech)'],ans:2},
+      {q:'Finance Controllers vs salespeople on refunds — who instructs the amount?',
+       opts:['Salesperson requests, Finance executes the transfer','Both must co-sign the refund approval','Finance Controllers instruct the amount — we never refund on salesperson request alone','RevOps approves, Finance executes'],ans:2},
+      {q:"A rep closes a $2,077 renewal, reopens the opp and closes a second SO adding $2,400 of AI credits. The opp shows only $2,400 added ARR. Why?",
+       opts:["The 90-day rule blocked the second SO", "The first SO already moved the BigBrain baseline, so the second SO only measures its own delta", "Forecast quotes override signed SOs on reopened opps", "The ARR lock date had passed"],ans:1,topic:"Reopened opps"},
+      {q:"When you revert a wire SO with wrong dates, why do you reopen the original opportunity at the end?",
+       opts:["To reset the ARR lock date", "To make CPQ regenerate the deal room", "So the rep must reissue on the same opp, instead of closing a new opp and double-recognising the ARR", "Because BigBrain only re-imports SOs from open opps"],ans:2,topic:"Revert flow"},
+      {q:"An open expansion opp shows −9K (CC claims +1.2K, draft forecast −12K). What is the correct reading?",
+       opts:["Closed opps ignore forecasts (only signed SOs + CC claims count), so closing the opp or deleting the forecast fixes it", "You must revert the subscription in BigBrain", "It needs Sales Ops approval because it is past the lock date", "Delete the signed SO and start again"],ans:0,topic:"Open vs closed ARR"},
+      {q:"Which statement about the Claim Eligibility Date is correct?",
+       opts:["Reps can edit it themselves within 3 months", "It is a soft guideline that managers can waive", "It is a hard block, reset on ownership change, and only admins can backdate it, with evidence and a logged reason", "Once backdated, the 3-month claim window no longer applies"],ans:2,topic:"Claim eligibility"},
+      {q:"Why must a rep claim ALL eligible claims in the window, including downgrades?",
+       opts:["Finance needs a full reconciliation each quarter", "Policy changed so reps can't cherry-pick upgrades and ignore downgrades", "CPQ cannot partially claim lines", "The 90-day rule requires it"],ans:1,topic:"Claim eligibility"},
+      {q:"A new SO is blocked because a Managed Services product has a start date next year. Best workaround?",
+       opts:["Delete the contract product", "Cancel the subscription in BigBrain", "Temporarily backdate the contract event, let the rep quote, then restore the date (e.g. once the quote is approved)", "Use a Correction Opp"],ans:2,topic:"Future activation block"},
+      {q:"A yearly-plan customer wants a refund for a Plan Enforcer charge from about 3 months ago. What is the policy answer?",
+       opts:["Full refund, because Plan Enforcer is automatic", "Prorated refund for the remaining months", "Refund only if the rep approves", "No refund after 60 days on a yearly plan, downgrade only (within 60 days with CX it is revert + refund)"],ans:3,topic:"Plan Enforcer"},
+      {q:"Before a new partner's S&P request can be submitted, what must be true of the account?",
+       opts:["The primary opp has been deleted", "Partner field cleared, secondary opps closed, and open co-sell S&P requests rejected", "The account is on hold in BigBrain", "Last Approved S&P is set to the new partner"],ans:1,topic:"Co-sell removal"},
+      {q:"What is the \"External Item\" board?",
+       opts:["A customer-facing portal", "The invoice board for wire customers, with an item created for every closed-won opp", "The bug board", "A partner commission tracker"],ans:1,topic:"Finance & refunds"},
+      {q:"\"New contracts must be at least 12 months to be eligible for ARR recognition\" is…",
+       opts:["Enforced by CPQ at quote time", "Enforced by BigBrain at lock date", "Policy that the system does NOT enforce, so steer reps away from it", "Removed from policy this year"],ans:2,topic:"Policy vs implementation"},
+    ],
+    take:12
+  },
+  {
+    week:3,label:'Rob Tickets, FX Lock, CPQ Fixes & New Teams',
+    qs:[
+      {q:"Two signed SOs on one opportunity is a signal that…",
+       opts:["It is the normal pattern for renewals", "It is the smoking gun for ARR problems, so investigate the baseline", "A Correction Opp was used", "The opp will auto-merge"],ans:1,topic:"Two signed SOs"},
+      {q:"Why did Rob call the FX lock calculation \"broken by design\"?",
+       opts:["It uses a monthly rate instead of an annual one", "It ignores currency entirely", "It divides by the quote rate and multiplies by the locked rate, but the ARR amount was calculated at yet another rate", "It only works for USD quotes"],ans:2,topic:"FX lock"},
+      {q:"Île-de-France ticket: new ARR €35,535 vs old baseline €28,960. The rep expected $7,320. What did you do?",
+       opts:["Paid the $7,320 as claimed", "Overrode Claimed ARR to about $6,562, put the ticket link in Override Reason, and explained the FX movement", "Reverted the SO", "Rejected the claim"],ans:1,topic:"FX lock"},
+      {q:"How many open renewal opportunities should a paying account have?",
+       opts:["None until 60 days before renewal", "One per contract", "Exactly one at any time", "Two (one CC, one wire)"],ans:2,topic:"Renewal opps"},
+      {q:"A rep refuses to close a renewal SO because the −$11K ARR \"shouldn't count\". Rob's position?",
+       opts:["Wait until ARR is fixed first", "Close the SO regardless: BigBrain ARR feeds public financial reporting, so fix ARR separately", "Copy her manager before replying", "Reopen it as a new opp"],ans:1,topic:"Never hold up an SO"},
+      {q:"Close Won fails with \"duplicate value found, unique key constraint\" after a reopen and AI credits add. Correct fix order?",
+       opts:["Close Won, then delete duplicates, then health check", "Revert BigBrain, reopen the opp, resubmit", "Delete the opportunity and start again", "Delete duplicate CPQ subscriptions, Close Won, recreate contract products, final health check"],ans:3,topic:"Duplicate CPQ subscription"},
+      {q:"For a locked opp that needs a fix, what did Rob say to use instead of reopening?",
+       opts:["Reopen and re-close it", "A Correction Opportunity", "A new New Business opp", "Delete the quotes"],ans:1,topic:"Correction opp"},
+      {q:"Why was the Republic Group case (MS10 managed services starting Feb 2028) escalated to Deal Acceleration?",
+       opts:["It was only a CPQ bug", "The customer asked for it", "It looked like a way to book recurring ARR on services, the previous AE had left, and the structure is non-standard, needing a policy call", "It was an FX problem"],ans:2,topic:"Managed services escalation"},
+      {q:"SO activation fails with \"Missing model type\". What is the fix?",
+       opts:["Delete the SO and re-quote", "Manually import the SO via BigBrain (Import Sales Order), activate it, then verify the activated state", "Raise it to Payments", "Ask the rep to re-sign"],ans:1,topic:"Activation errors"},
+      {q:"A manager goes on leave and CPQ approvals stall. What should have been set?",
+       opts:["The manager field on the quote", "An approver group", "A delegate approver with dates in Salesforce User Settings", "A BigBrain override"],ans:2,topic:"CPQ approvals"},
+      {q:"How does CPQ route internal approvals?",
+       opts:["By account owner", "Based on who created the quote, then their manager, then their manager's manager", "Always to Finance", "Randomly across a group"],ans:1,topic:"CPQ approvals"},
+      {q:"What is the current process for SFDC account creation?",
+       opts:["Anyone can create one", "Get Territory S&O approval, then create from the BigBrain link and share the SFDC ID", "Payments creates it", "CPQ creates it on first quote"],ans:1,topic:"Account creation"},
+      {q:"Plan Enforcer upgraded a customer from 25 to 30 seats a year ago. They paid the full year, then renewed at 25. Rob's stance?",
+       opts:["Reverse the upgrade and refund", "It is a legitimate downgrade: they paid for it, and the time to challenge was the first 3 months", "Treat it as new business", "Refund the whole year"],ans:1,topic:"Plan Enforcer"},
+      {q:"An AWS Marketplace SO PDF shows 18K, but the activation fields show 31,807. What is the impact?",
+       opts:["ARR is wrong and must be overridden", "ARR is correct (about 2.4K added) and invoicing runs from backend fields, so it is a low-impact bug that still gets flagged", "The deal must be re-signed", "The invoice will be wrong"],ans:1,topic:"AWS PDF discrepancy"},
+      {q:"A 25-seat AI Work Platform bundle comes with how many AI credits?",
+       opts:["15,000", "20,000 (800 per seat)", "25,000", "40,000"],ans:1,topic:"AI Work Platform"},
+      {q:"Pro-only ARR on a mixed Standard/Pro CC account isn't recognised. The opp's expected plan tier says Standard. Fix?",
+       opts:["Override the ARR", "Convert the account to wire", "Wait for the lock date", "Change the expected plan tier to Pro, so it becomes green bucket and recognised"],ans:3,topic:"Plan tier / green bucket"},
+      {q:"A simulated contract merge must be done on…",
+       opts:["An existing monthly contract", "A new yearly contract; monthly contracts won't populate and must be excluded", "A trial account", "Any contract type"],ans:1,topic:"Merge"},
+      {q:"After a merge, what do you do with the merged-from account in BigBrain?",
+       opts:["Delete it", "Cancel it, put it on a 30-day trial and reset the trial so the customer can move boards and workspaces", "Leave it active", "Convert it to wire"],ans:1,topic:"Merge"},
+      {q:"Territory's Q4 rebalancing timeline is…",
+       opts:["Starts Oct 1, books set mid-Oct, effective Dec 1", "Starts Nov 1, books set Dec 1, effective Feb 1", "Starts Oct 15, books set mid-to-late Nov, December QA, effective Jan 1", "Starts Oct 15, effective Nov 1"],ans:2,topic:"Q4 rebalancing"},
+      {q:"BigBrain shows about 7.8K ARR while Salesforce shows about 1.6K on a CC account. What explains the gap?",
+       opts:["An FX error", "Unclaimed monthly CC payments: they must be continuously claimed and rolled into yearly green-bucket recognition", "A double SO", "The ARR lock date"],ans:1,topic:"Monthly CC claims"},
+      {q:"Billing entity constraint: what must be unique per billing entity?",
+       opts:["Billing address only", "Finance contact email and VAT number", "Account owner", "Currency"],ans:1,topic:"Billing entities"},
+      {q:"Where do ARR targets live, and what happens to small discrepancies?",
+       opts:["Salesforce, adjusted weekly", "Pigment, locked at quarter end, and changes of 7% or less in book of business are not adjusted", "BigBrain, adjusted at lock", "CPQ, adjusted per quote"],ans:1,topic:"ARR targets"},
+      {q:"A revised SO errors: 'The selected start date requires carryover lines, but this quote doesn't include them.' The new start date sits inside an active contract that runs to 2029. What is the fix?",
+       opts:["Type a BCO amount into the Total Balance Carryover field", "Deactivate the existing overlapping contract, then edit the quote to the desired dates and numbers", "Ask the customer to re-sign the existing SO", "Change the quote to a Forecast document type"],ans:1,topic:"BCO overlap"},
+    ],
+    take:12
+  },
+  {
+    week:4,label:'Opt-outs, Consolidation, Access & Review',
+    qs:[
+      {"q": "When is an opt-out request required on a signed Sales Order?", "opts": ["Whenever any detail on a signed SO changes", "Only when the opportunity is Closed Won AND locked", "Whenever the customer asks for a refund", "Only when ARR drops by more than 10%"], "ans": 1, "topic": "Opt-outs", "from": "wk4"},
+      {"q": "A locked pro-rated deal needs only a date change, with no ARR change. Is an opt-out needed?", "opts": ["No, date changes never need one", "Yes, any change to a locked pro-rated opportunity needs one", "Only if the customer is on credit card", "Only if the date moves by more than 30 days"], "ans": 1, "topic": "Opt-outs", "from": "wk4"},
+      {"q": "On an opt-out request, what is the 'requested opt-out date'?", "opts": ["The date the rep opens the request", "The date the customer submitted the request", "The date the SO was signed", "The 5th of the following month"], "ans": 1, "topic": "Opt-outs", "from": "wk4"},
+      {"q": "A revised SO errors: 'The selected start date requires carryover lines.' The new start sits inside an existing contract running to 2029. What is the fix?", "opts": ["Type a BCO amount into the Total Balance Carryover field", "Revert the already-activated contract (not just remove the link), then re-create the quote", "Ask the customer to re-sign the old SO", "Change the document type to Forecast"], "ans": 1, "topic": "BCO overlap", "from": "wk4"},
+      {"q": "Which accounts can the consolidation tool move between?", "opts": ["Any two accounts", "A paying account (on wire) to a trial account", "Two paying accounts into one", "Credit card accounts only"], "ans": 1, "topic": "Consolidation", "from": "wk4"},
+      {"q": "After consolidating, the source account drops to a 7-day trial. What do we do so the customer can move their boards?", "opts": ["Delete the account", "Reset the trial to 30 days on the original plan", "Leave the 7-day default", "Move it to the free plan"], "ans": 1, "topic": "Consolidation", "from": "wk4"},
+      {"q": "Before approving LinkedIn Sales Navigator for a rep, what must be true?", "opts": ["They have created a new Monday LinkedIn account", "They are logged in to their personal LinkedIn (primary account)", "They have passed the Okta training", "Their manager has approved in Salesforce"], "ans": 1, "topic": "Access requests", "from": "wk4"},
+      {"q": "An expansion customer wants a lower price per seat than the first sale. What can you do?", "opts": ["Lower the list price", "Keep list at or above the saved list price and add a discount on top", "Nothing, the net price is floored too", "Open a brand-new contract"], "ans": 1, "topic": "List price floor", "from": "wk4"},
+      {"q": "What is the ARR claim window in practice?", "opts": ["1 month", "6 months in practice (policy wording says 3)", "3 months in practice (policy wording says 6)", "12 months"], "ans": 1, "topic": "Claim window", "from": "wk4"},
+      {"q": "A manual ARR override is requested. What is the default position?", "opts": ["Always override when ARR looks wrong", "Do not override by default. If needed, get written Sales Ops approval and use the ticket link as the reason", "Override first and ask afterwards", "Only Finance can ever override"], "ans": 1, "topic": "ARR override", "from": "wk4"},
+      {"q": "From the 6th of the month, where do closed or locked questions route?", "opts": ["Rob", "Shira on Renat's team", "Finance Billing", "The rep's manager"], "ans": 1, "topic": "ARR lock", "from": "review"},
+      {"q": "How is added ARR calculated?", "opts": ["ARR₀ minus ARR₁", "ARR₁ minus ARR₀", "ARR₁ plus ARR₀", "Seats times list price"], "ans": 1, "topic": "ARR baseline", "from": "review"},
+      {"q": "A prorated quote comes out negative. What is the likely cause?", "opts": ["The discount is above 100%", "A redundant or stale subscription line makes CPQ think the customer has more than they do", "The price book is out of date", "The quote is in the wrong currency"], "ans": 1, "topic": "Prorated quotes", "from": "review"},
+      {"q": "An add-on shows current quantity 0 and the contract matches BigBrain. It is a rarely sold product. What is the likeliest cause and fix?", "opts": ["Quantity was typed wrong, so override it", "A missing SKU in the price rule's product group, so escalate to the CPQ team and do not override", "The customer has no contract", "The quote needs a new document type"], "ans": 1, "topic": "Missing SKU", "from": "review"},
+      {"q": "Which quote document type is the one the customer signs and that activates the contract?", "opts": ["Forecast", "Quote", "Sales Order", "Deal Room"], "ans": 2, "topic": "Document types", "from": "review"},
+      {"q": "CPQ subscriptions look wrong but the contract products are correct. What is the fix?", "opts": ["Delete the contract products", "Delete the CPQ subscriptions and toggle 'Migrated CPQ Contract' to true so they regenerate", "Edit each subscription by hand", "Raise a BizTech ticket to rebuild BigBrain"], "ans": 1, "topic": "Contract cascade", "from": "review"}
+    ],
+    take:16
+  },
+];
+
+const SESSION_TYPES = ['Trainer session','1:1 with manager','Scrum','Team training','Ticket party','Other'];
+
+/* ───────────────────────── State ───────────────────────── */
+const S = {profile:{}, progress:{courses:{},policies:{},tasks:{},people:{}}, sessions:[], quizzes:[], gaps:[], todos:[]};
+let db = null, sample = null, canWrite = true, storeState = 'connecting';
+let tab = 'today', notebookSub = 'log', gapFilter = 'open', conceptOffset = 0, conceptRevealed = false;
+let quiz = null;          // running quiz {label, week, qs, i, picks, done}
+let draft = null;         // transcript analysis awaiting save
+let transcriptText = '', transcriptName = '';
+
+const TABS = [
+  ['today','Today'],['roadmap','Roadmap'],['compliance','Compliance'],['notebook','Notebook'],['study','Study gaps'],['quizzes','Quizzes'],['setup','Setup'],
+];
+
+/* ───────────────────────── Helpers ───────────────────────── */
+const $ = (id) => document.getElementById(id);
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,80) || 'item';
+const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+const fmtDate = (iso) => { if(!iso) return ''; const d = new Date(iso + (iso.length===10?'T12:00:00':'')); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); };
+const pct = (a,b) => b ? Math.round(a/b*100) : 0;
+const deckLink = (ref, label) => ref ? `<a class="deck" href="${esc(DECK + '#' + ref)}" target="_blank" rel="noopener">${esc(label || (DECK_NAMES[ref.split('/')[0]] || 'Deck') + ' ↗')}</a>` : '';
+const deckLabel = (ref) => ref ? `${DECK_NAMES[ref.split('/')[0]] || 'Deck'}: ${DECK_TITLE[ref] || ref}` : '';
+let toastTimer;
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
+
+function currentWeek(){
+  if(!S.profile.startDate) return null;
+  const start = new Date(S.profile.startDate + 'T00:00:00'), now = new Date();
+  return Math.max(1, Math.floor((now - start) / (7*864e5)) + 1);
+}
+function currentPhase(){ const w = currentWeek(); if(!w) return PHASES[0]; return PHASES.find(p => w <= p.weeks[1]) || PHASES[2]; }
+
+function taskDone(t){ return t.auto === 'courses' ? COURSES.every(c => S.progress.courses[c.id]) : !!S.progress.tasks[t.id]; }
+function phasePct(p){ return pct(p.tasks.filter(taskDone).length, p.tasks.length); }
+function metrics(){
+  const courses = COURSES.filter(c => S.progress.courses[c.id]).length;
+  const policies = POLICIES.filter(p => S.progress.policies[p.id]).length;
+  const allTasks = PHASES.flatMap(p => p.tasks), tasks = allTasks.filter(taskDone).length;
+  const people = PEOPLE.filter(p => S.progress.people[p.id]).length;
+  const scores = S.quizzes.map(q => q.score).filter(n => typeof n === 'number');
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  const openGaps = S.gaps.filter(g => g.status !== 'done').length;
+  const overall = Math.round((pct(courses+policies, COURSES.length+POLICIES.length) + pct(tasks, allTasks.length) + pct(people, PEOPLE.length)) / 3);
+  return {courses, policies, tasks, allTasks: allTasks.length, people, avg, openGaps, overall};
+}
+
+/* ───────────────────────── Storage ───────────────────────── */
+const COLL = ['sessions','quizzes','gaps','todos'];
+async function write(path, data, mode='set'){
+  if(!db){ toast('Saving works once this tracker is opened as an artifact'); return false; }
+  try{ const ref = db.doc(path); await (mode==='update' ? ref.update(data) : ref.set(data)); return true; }
+  catch(e){
+    if(e && e.code === 'invalid_argument' && mode !== 'update'){ canWrite = false; render(); toast('You have view-only access to this tracker'); }
+    else if(e && e.code === 'quota_exceeded'){ toast('Storage is full. Delete old sessions to make room.'); }
+    else toast('Could not save. Try again in a moment.');
+    return false;
+  }
+}
+async function remove(path){ if(!db) return; try{ await db.doc(path).delete(); }catch(e){ toast('Could not delete. Try again.'); } }
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+
+async function setProgress(group, id, on){
+  S.progress[group] = {...S.progress[group]};
+  if(on) S.progress[group][id] = todayISO(); else delete S.progress[group][id];
+  render();
+  await write('hire/progress', {...S.progress});
+}
+
+async function connect(){
+  if(!window.claude || !claude.use){ storeState = 'local'; render(); return; }
+  const [d, u, s] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('sample')]);
+  db = d; sample = s;
+  if(u){ try{ const w = await u.can('data.write'); if(w === false) canWrite = false; }catch(e){} }
+  if(!db){ storeState = 'local'; render(); return; }
+  storeState = 'live';
+  db.doc('hire/profile').onSnapshot(snap => { S.profile = snap.exists ? {...snap.data()} : {}; render(); }, () => { storeState='error'; render(); });
+  db.doc('hire/progress').onSnapshot(snap => { const v = snap.exists ? snap.data() : {}; S.progress = {courses:{...(v.courses||{})},policies:{...(v.policies||{})},tasks:{...(v.tasks||{})},people:{...(v.people||{})}}; render(); });
+  for(const c of COLL){
+    db.collection(c).onSnapshot(snap => { S[c] = snap.docs.map(x => ({id:x.id, ...x.data()})); render(); });
+  }
+  render();
+}
+
+/* ───────────────────────── Rendering ───────────────────────── */
+function render(){
+  const m = metrics(), w = currentWeek();
+  $('rail-name').textContent = S.profile.name || 'New hire';
+  $('rail-week').textContent = w ? `Week ${w} · ${currentPhase().name}` : 'Add a start date in Setup';
+  $('rail-foot').textContent = storeState==='live' ? (canWrite ? 'Saving automatically' : 'View only') : storeState==='local' ? 'Draft preview: changes are not saved' : storeState==='error' ? 'Storage unavailable' : 'Connecting…';
+  const counts = {study: m.openGaps || '', compliance: `${m.courses+m.policies}/${COURSES.length+POLICIES.length}`};
+  $('nav').innerHTML = TABS.map(([k,l]) => `<button type="button" data-tab="${k}" ${tab===k?'aria-current="page"':''}>${l}${counts[k]!==undefined && counts[k]!=='' ? `<span class="count">${counts[k]}</span>`:''}</button>`).join('');
+  const views = {today:vToday, roadmap:vRoadmap, compliance:vCompliance, notebook:vNotebook, study:vStudy, quizzes:vQuizzes, setup:vSetup};
+  const active = document.activeElement && document.activeElement.id;
+  $('view').innerHTML = (storeState==='local' ? `<div class="banner"><strong>Draft preview.</strong> Everything is clickable, but ticks and notes are not saved and Claude analysis is off until this page is opened as an artifact.</div>` : '') + views[tab](m);
+  if(active && $(active) && $(active).focus) $(active).focus();
+}
+
+function head(eyebrow, title, sub, right=''){
+  return `<div class="head"><div class="row" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="eyebrow">${eyebrow}</span><h1>${title}</h1>${sub?`<p class="muted">${sub}</p>`:''}</div>${right}</div>`;
+}
+
+function vToday(m){
+  const w = currentWeek(), ph = currentPhase();
+  const hour = new Date().getHours(), greet = hour<12?'Good morning':hour<18?'Good afternoon':'Good evening';
+  const first = (S.profile.name||'').split(' ')[0];
+  const dayIdx = Math.floor(Date.now()/864e5);
+  const c = CONCEPTS[(dayIdx + conceptOffset) % CONCEPTS.length];
+  const openTasks = ph.tasks.filter(t => !taskDone(t)).slice(0,4);
+  const gaps = S.gaps.filter(g => g.status!=='done').sort((a,b)=>(b.count||1)-(a.count||1)).slice(0,3);
+  const todos = S.todos.filter(t => t.date === todayISO());
+  const setupCard = !S.profile.startDate ? `<div class="box flat"><h2>Set up this tracker</h2><p class="muted">Add the new hire's name and start date so the tracker can work out the current week and phase.</p><div><button class="btn primary" data-tab="setup">Open Setup</button></div></div>` : '';
+  return head(w?`Week ${w} · Phase ${ph.n} ${ph.name}`:'Onboarding', `${greet}${first?', '+esc(first):''}.`, 'Your daily ten minutes: today\'s focus, one concept, and what to study next.') + setupCard + `
+  <div class="stats">
+    <div class="stat"><span class="eyebrow">Overall</span><span class="v">${m.overall}%</span><div class="bar"><i style="width:${m.overall}%"></i></div></div>
+    <div class="stat"><span class="eyebrow">Courses</span><span class="v">${m.courses}/${COURSES.length}</span><span class="small muted">mandatory</span></div>
+    <div class="stat"><span class="eyebrow">Quiz average</span><span class="v">${m.avg===null?'–':m.avg+'%'}</span><span class="small muted">${S.quizzes.length} taken</span></div>
+    <div class="stat"><span class="eyebrow">Sessions logged</span><span class="v">${S.sessions.length}</span><span class="small muted">${S.sessions.filter(s=>s.transcriptChars).length} with transcripts</span></div>
+    <div class="stat"><span class="eyebrow">Open study gaps</span><span class="v">${m.openGaps}</span><span class="small muted">from quizzes and sessions</span></div>
+  </div>
+  <div class="grid">
+    <div class="box">
+      <div class="spread"><h2>Concept of the day</h2><span class="chip plain">${esc(c.topic)}</span></div>
+      <p class="card-q">${esc(c.q)}</p>
+      ${conceptRevealed ? `<div class="answer">${esc(c.a)}</div>` : ''}
+      <div class="row"><button class="btn" data-act="reveal">${conceptRevealed?'Hide answer':'Reveal answer'}</button><button class="btn ghost" data-act="nextConcept">Next concept →</button><span style="flex:1"></span>${deckLink(c.deck,'Read it in the deck ↗')}</div>
+    </div>
+    <div class="box">
+      <div class="spread"><h2>This phase's focus</h2><button class="btn ghost" data-tab="roadmap">Roadmap →</button></div>
+      <p class="small muted">${esc(ph.focus)}</p>
+      <div class="list">${openTasks.length ? openTasks.map(t => taskRow(t)).join('') : `<p class="muted">Every task in this phase is done.</p>`}</div>
+    </div>
+    <div class="box">
+      <div class="spread"><h2>Study next</h2><button class="btn ghost" data-tab="study">All gaps →</button></div>
+      ${gaps.length ? `<div class="list">${gaps.map(g => `<div class="item"><div class="body"><span class="title">${esc(g.topic)}</span><span class="small muted">${esc(g.detail||'')}</span></div>${deckLink(g.deck)}</div>`).join('')}</div>` : `<p class="muted">No gaps yet. They appear when you miss quiz questions or upload a conversation in the Notebook.</p>`}
+    </div>
+    <div class="box">
+      <div class="spread"><h2>Today's to-dos</h2><button class="btn ghost" data-act="notebookTodos">Manage →</button></div>
+      ${todos.length ? `<div class="list">${todos.map(todoRow).join('')}</div>` : `<p class="muted">Nothing planned for today.</p>`}
+    </div>
+  </div>`;
+}
+
+function taskRow(t){
+  const done = taskDone(t), auto = t.auto === 'courses';
+  return `<div class="item ${done?'isdone':''}"><input type="checkbox" class="check" id="task-${t.id}" data-task="${t.id}" ${done?'checked':''} ${auto||!canWrite?'disabled':''} aria-label="${esc(t.text)}"><div class="body"><label class="title" for="task-${t.id}">${esc(t.text)}</label>${auto?`<span class="small muted">Ticks itself when all courses are done</span>`:''}</div>${deckLink(t.deck)}</div>`;
+}
+
+function vRoadmap(){
+  const ph = currentPhase();
+  return head('12-week plan','Roadmap','Three phases. Tick tasks as you complete them; links open the matching part of the onboarding deck.') + `
+  <div class="phases">${PHASES.map(p => { const v = phasePct(p); return `
+    <div class="box phase ${p===ph?'current':''}">
+      <div class="spread"><span class="eyebrow">Phase ${p.n} · Weeks ${p.weeks[0]}–${p.weeks[1]}</span>${p===ph?'<span class="chip working">Current</span>':v===100?'<span class="chip done">Done</span>':''}</div>
+      <h2>${p.name}</h2>
+      <p class="small muted">${esc(p.focus)}</p>
+      <div class="spread small"><div class="bar" style="flex:1"><i style="width:${v}%"></i></div><span class="num">${v}%</span></div>
+      <div class="list">${p.tasks.map(taskRow).join('')}</div>
+      <p class="quote">${esc(p.quote)}</p>
+    </div>`; }).join('')}</div>
+  <div class="box">
+    <div class="spread"><h2>People to meet</h2><span class="small muted num">${PEOPLE.filter(p=>S.progress.people[p.id]).length}/${PEOPLE.length} met</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Met</th><th>Name</th><th>Role</th><th>Where</th><th>Why meet them</th></tr></thead><tbody>
+    ${PEOPLE.map(p => `<tr><td><input type="checkbox" class="check" id="person-${p.id}" data-person="${p.id}" ${S.progress.people[p.id]?'checked':''} ${!canWrite?'disabled':''} aria-label="Met ${esc(p.name)}"></td><td><strong>${esc(p.name)}</strong>${S.progress.people[p.id]?`<div class="small muted">${fmtDate(S.progress.people[p.id])}</div>`:''}</td><td>${esc(p.role)}</td><td>${esc(p.loc)}</td><td class="muted">${esc(p.why)}</td></tr>`).join('')}
+    </tbody></table></div>
+  </div>`;
+}
+
+function vCompliance(){
+  return head('Required reading','Compliance', 'Mandatory courses and the policies every Business Support rep works from.') + `
+  <div class="box">
+    <div class="spread"><h2>Mandatory training</h2><span class="small muted num">${COURSES.filter(c=>S.progress.courses[c.id]).length}/${COURSES.length} done</span></div>
+    <div class="list">${COURSES.map(c => { const d = S.progress.courses[c.id]; return `<div class="item ${d?'isdone':''}"><input type="checkbox" class="check" id="course-${c.id}" data-course="${c.id}" ${d?'checked':''} ${!canWrite?'disabled':''}><div class="body"><label class="title" for="course-${c.id}">${esc(c.name)}</label><span class="small muted">${esc(c.tag)}${d?' · done '+fmtDate(d):''}</span></div>${d?'<span class="chip done">Done</span>':''}</div>`; }).join('')}</div>
+  </div>
+  <div class="box">
+    <div class="spread"><h2>Policy documents</h2><span class="small muted num">${POLICIES.filter(p=>S.progress.policies[p.id]).length}/${POLICIES.length} read</span></div>
+    <div class="list">${POLICIES.map(p => { const d = S.progress.policies[p.id]; return `<div class="item ${d?'isdone':''}"><input type="checkbox" class="check" id="policy-${p.id}" data-policy="${p.id}" ${d?'checked':''} ${!canWrite?'disabled':''}><div class="body"><label class="title" for="policy-${p.id}">${esc(p.title)}</label><span class="small muted">${esc(p.tag)} · ${esc(p.desc)}${d?' · read '+fmtDate(d):''}</span></div><div class="row">${p.url?`<a class="deck" href="${esc(p.url)}" target="_blank" rel="noopener">Doc ↗</a>`:''}${deckLink(p.deck)}</div></div>`; }).join('')}</div>
+  </div>`;
+}
+
+function todoRow(t){
+  return `<div class="item ${t.done?'isdone':''}"><input type="checkbox" class="check" id="todo-${t.id}" data-todo="${t.id}" ${t.done?'checked':''} ${!canWrite?'disabled':''}><div class="body"><label class="title" for="todo-${t.id}">${esc(t.text)}</label>${t.source?`<span class="small muted">${esc(t.source)}</span>`:''}</div><button class="btn ghost" data-deltodo="${t.id}" aria-label="Delete to-do">✕</button></div>`;
+}
+
+function vNotebook(){
+  const subs = [['log','Log a session'],['sessions','Sessions'],['todos','Daily to-dos']];
+  let body = '';
+  if(notebookSub==='log'){
+    body = `<div class="box">
+      <h2>Log a session</h2>
+      <p class="small muted">Upload a Notetaker transcript (or paste it) and Claude pulls out the takeaways, what you should study next, and questions to bring back to your trainer. You review everything before it's saved.</p>
+      <form class="form" id="session-form">
+        <label class="f">Session type<select id="s-type">${SESSION_TYPES.map(t=>`<option>${t}</option>`).join('')}</select></label>
+        <label class="f">Date<input type="date" id="s-date" value="${todayISO()}"></label>
+        <label class="f wide">Topic or focus<input type="text" id="s-topic" placeholder="e.g. CPQ approvals and manager IDs"></label>
+        <label class="f wide">Your own takeaways (optional)<textarea id="s-notes" placeholder="Anything you want to remember in your own words"></textarea></label>
+        <label class="f wide">Link to full notes (optional)<input type="url" id="s-url" placeholder="Google Drive or Notetaker link"></label>
+        <div class="wide"><div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload a transcript file">${transcriptName ? `<strong>${esc(transcriptName)}</strong> · ${transcriptText.length.toLocaleString()} characters · <span class="muted">click to replace</span>` : 'Drop a Notetaker transcript here or click to choose a file (.txt, .vtt, .srt, .md)'}</div><input type="file" id="file" accept=".txt,.vtt,.srt,.md,text/plain" hidden></div>
+        <label class="f wide">…or paste the transcript<textarea id="s-paste" placeholder="Paste the conversation text">${transcriptName==='Pasted text'?esc(transcriptText):''}</textarea></label>
+        <div class="wide row"><button type="button" class="btn primary" data-act="analyze" ${!sample?'disabled':''}>Analyse with Claude</button><button type="button" class="btn" data-act="saveSession">Save without analysis</button>${!sample?`<span class="small muted">Claude analysis is available once this page runs as an artifact.</span>`:''}</div>
+      </form>
+    </div>
+    ${draft ? draftBox() : ''}`;
+  } else if(notebookSub==='sessions'){
+    const list = [...S.sessions].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    body = list.length ? list.map(s => `<div class="box">
+      <div class="spread"><div class="row"><span class="chip plain">${esc(s.type)}</span><span class="small muted num">${fmtDate(s.date)}</span></div><div class="row">${s.url?`<a class="deck" href="${esc(s.url)}" target="_blank" rel="noopener">Notes ↗</a>`:''}<button class="btn ghost" data-delsession="${s.id}">Delete</button></div></div>
+      <h3>${esc(s.topic || 'Untitled session')}</h3>
+      ${s.summary?`<p>${esc(s.summary)}</p>`:''}
+      ${(s.takeaways||[]).length?`<ul class="small">${s.takeaways.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}
+      ${s.notes?`<p class="small muted">${esc(s.notes)}</p>`:''}
+      ${s.transcriptChars?`<span class="small muted">Transcript saved · ${s.transcriptChars.toLocaleString()} characters</span>`:''}
+    </div>`).join('') : `<div class="box flat"><h2>No sessions yet</h2><p class="muted">Log your first trainer session, 1:1 or ticket party from the "Log a session" tab.</p></div>`;
+  } else {
+    const t = todayISO(), list = S.todos.filter(x => x.date === t), older = S.todos.filter(x => x.date < t && !x.done);
+    body = `<div class="box">
+      <div class="spread"><h2>${fmtDate(t)}</h2>${older.length?`<button class="btn" data-act="carry">Carry over ${older.length} unfinished</button>`:''}</div>
+      <form class="row" id="todo-form"><input type="text" id="todo-text" placeholder="Add a to-do for today" style="flex:1;min-width:180px"><button class="btn primary">Add</button></form>
+      ${list.length ? `<div class="list">${list.map(todoRow).join('')}</div>` : `<p class="muted">Nothing on today's list.</p>`}
+    </div>`;
+  }
+  return head('Your notes','Notebook','Sessions, transcripts and daily to-dos.') + `<div class="subtabs" role="group" aria-label="Notebook view">${subs.map(([k,l])=>`<button type="button" data-sub="${k}" aria-pressed="${notebookSub===k}">${l}</button>`).join('')}</div>` + body;
+}
+
+function draftBox(){
+  if(draft.loading) return `<div class="box"><h2>Analysing…</h2><p class="muted">${esc(draft.loading)}</p></div>`;
+  return `<div class="box" style="border-color:var(--accent)">
+    <div class="spread"><h2>Review before saving</h2><span class="chip working">Draft</span></div>
+    <p>${esc(draft.summary||'')}</p>
+    ${(draft.takeaways||[]).length?`<div><h3>Takeaways</h3><ul class="small">${draft.takeaways.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`:''}
+    ${(draft.gaps||[]).length?`<div class="list"><h3>Study gaps</h3>${draft.gaps.map((g,i)=>`<div class="item"><input type="checkbox" class="check" id="dg-${i}" data-dgap="${i}" ${g.keep!==false?'checked':''}><div class="body"><label class="title" for="dg-${i}">${esc(g.topic)}</label><span class="small muted">${esc(g.detail||'')}${g.deck?' · '+esc(deckLabel(g.deck)):''}</span></div></div>`).join('')}</div>`:''}
+    ${(draft.todos||[]).length?`<div class="list"><h3>To-dos and questions for your trainer</h3>${draft.todos.map((t,i)=>`<div class="item"><input type="checkbox" class="check" id="dt-${i}" data-dtodo="${i}" ${t.keep!==false?'checked':''}><div class="body"><label class="title" for="dt-${i}">${esc(t.text)}</label></div></div>`).join('')}</div>`:''}
+    <div class="row"><button class="btn primary" data-act="saveDraft">Save to tracker</button><button class="btn" data-act="discardDraft">Discard</button></div>
+  </div>`;
+}
+
+function vStudy(){
+  const list = S.gaps.filter(g => gapFilter==='all' || (gapFilter==='open' ? g.status!=='done' : g.status==='done')).sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+  const label = {stuck:'Stuck',working:'Working on it',done:'Done'};
+  return head('What to study more','Study gaps','Built from missed quiz questions and uploaded conversations. Each gap links to the deck slide that covers it.', `<button class="btn primary" data-act="practice" ${!sample||!S.gaps.some(g=>g.status!=='done')?'disabled':''}>Practise my gaps</button>`) + `
+  <div class="subtabs" role="group" aria-label="Filter gaps">${[['open','Open'],['done','Done'],['all','All']].map(([k,l])=>`<button type="button" data-gapfilter="${k}" aria-pressed="${gapFilter===k}">${l}</button>`).join('')}</div>
+  <div class="box">${list.length ? `<div class="list">${list.map(g => `<div class="item"><div class="body"><div class="row"><span class="title">${esc(g.topic)}</span>${(g.count||1)>1?`<span class="chip plain">missed ${g.count}×</span>`:''}</div><span class="small muted">${esc(g.detail||'')}</span><span class="small muted">From ${esc((g.sources||[]).slice(-2).join(', ')||'tracker')}</span></div><div class="row" style="flex-direction:column;align-items:flex-end">${deckLink(g.deck)}<select data-gapstatus="${g.id}" aria-label="Status for ${esc(g.topic)}" ${!canWrite?'disabled':''} style="width:auto">${Object.entries(label).map(([k,l])=>`<option value="${k}" ${ (g.status||'stuck')===k?'selected':''}>${l}</option>`).join('')}</select></div></div>`).join('')}</div>` : `<p class="muted">${gapFilter==='done'?'No gaps closed yet.':'No open gaps. Take a quiz or analyse a conversation to find what to study next.'}</p>`}</div>`;
+}
+
+function vQuizzes(){
+  if(quiz) return quizPlayer();
+  const rows = [...S.quizzes].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  return head('Knowledge checks','Quizzes','Take the weekly quiz on Friday. Missed questions become study gaps automatically.') + `
+  <div class="grid">${QUIZ_BANK.map((b,i) => { const best = Math.max(-1,...S.quizzes.filter(q=>q.week===b.week).map(q=>q.score)); return `<div class="box"><span class="eyebrow">Week ${b.week}</span><h3>${esc(b.label)}</h3><div class="spread"><span class="small muted">${Math.min(b.take||b.qs.length,b.qs.length)} questions</span>${best>=0?`<span class="chip ${best>=80?'done':best>=60?'working':'stuck'}">Best ${best}%</span>`:''}</div><div><button class="btn primary" data-startquiz="${i}">Start</button></div></div>`; }).join('') || `<div class="box flat"><p class="muted">No quiz questions loaded.</p></div>`}</div>
+  <div class="box">
+    <h2>Log a score manually</h2>
+    <form class="form" id="manual-quiz"><label class="f">Week<input type="number" id="mq-week" min="1" max="20" value="${currentWeek()||1}"></label><label class="f">Score (%)<input type="number" id="mq-score" min="0" max="100" placeholder="80"></label><label class="f wide">Weak areas<input type="text" id="mq-weak" placeholder="Comma-separated topics, e.g. BCO, CPQ approvals"></label><div class="wide"><button class="btn">Add entry</button></div></form>
+  </div>
+  <div class="box"><h2>Quiz log</h2>${rows.length?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Quiz</th><th>Score</th><th>Weak areas</th></tr></thead><tbody>${rows.map(q=>`<tr><td class="num">${fmtDate(q.date)}</td><td>${esc(q.label||'Week '+q.week)}</td><td class="num">${q.score}%${q.total?` <span class="muted">(${q.correct}/${q.total})</span>`:''}</td><td class="muted">${esc((q.weak||[]).join(', '))}</td></tr>`).join('')}</tbody></table></div>`:`<p class="muted">No quiz results yet.</p>`}</div>`;
+}
+
+function quizPlayer(){
+  const q = quiz;
+  if(q.done){
+    const correct = q.picks.filter((p,i)=>p===q.qs[i].ans).length, score = pct(correct,q.qs.length);
+    const missed = q.qs.filter((x,i)=>q.picks[i]!==x.ans);
+    return head(q.label,'Results','') + `<div class="box"><div class="row"><span class="stat v num" style="font-size:2.2rem">${score}%</span><span class="muted">${correct}/${q.qs.length} correct</span></div>
+      ${missed.length?`<h3>Missed (these become study gaps when you save)</h3><div class="list">${missed.map(x=>`<div class="item"><div class="body"><span class="title">${esc(x.q)}</span><span class="small">Answer: ${esc(x.opts[x.ans])}</span><span class="small muted">${esc(topicFor(x,q))}</span></div>${deckLink(deckFor(topicFor(x,q)))}</div>`).join('')}</div>`:'<p>Perfect score.</p>'}
+      <div class="row"><button class="btn primary" data-act="saveQuiz" ${q.saved?'disabled':''}>${q.saved?'Saved':'Save to log'}</button><button class="btn" data-act="retake">Retake</button><button class="btn ghost" data-act="quitQuiz">Back to quizzes</button></div></div>`;
+  }
+  const x = q.qs[q.i], picked = q.picks[q.i];
+  return head(q.label, `Question ${q.i+1} of ${q.qs.length}`, '', `<button class="btn ghost" data-act="quitQuiz">✕ Quit</button>`) + `
+  <div class="bar"><i style="width:${pct(q.i,q.qs.length)}%"></i></div>
+  <div class="box"><p class="card-q">${esc(x.q)}</p>
+    <div class="opts">${x.opts.map((o,i)=>{ let cls=''; if(picked!==undefined){ if(i===x.ans) cls='right'; else if(i===picked) cls='wrong'; } return `<button type="button" class="opt ${cls}" data-pick="${i}" ${picked!==undefined?'disabled':''}>${esc(o)}</button>`; }).join('')}</div>
+    ${picked!==undefined?`<div class="row"><button class="btn primary" data-act="nextQ">${q.i+1<q.qs.length?'Next →':'See results'}</button>${picked!==x.ans?deckLink(deckFor(topicFor(x,q)),'Review in the deck ↗'):''}</div>`:''}
+  </div>`;
+}
+
+function vSetup(){
+  const p = S.profile;
+  return head('This tracker','Setup','Fill this in once when the tracker is created for a new hire. The start date drives the current week and phase.') + `
+  <div class="box"><form class="form" id="setup-form">
+    <label class="f">New hire's name<input type="text" id="p-name" value="${esc(p.name)}" placeholder="Full name"></label>
+    <label class="f">Role<input type="text" id="p-role" value="${esc(p.role||'Business Support Representative')}"></label>
+    <label class="f">Start date<input type="date" id="p-start" value="${esc(p.startDate)}"></label>
+    <label class="f">Manager<input type="text" id="p-manager" value="${esc(p.manager)}"></label>
+    <label class="f">Trainer<input type="text" id="p-trainer" value="${esc(p.trainer)}"></label>
+    <label class="f">Notes folder<input type="url" id="p-folder" value="${esc(p.folder)}" placeholder="Google Drive folder for session notes"></label>
+    <div class="wide"><button class="btn primary" ${!canWrite?'disabled':''}>Save setup</button></div>
+  </form></div>
+  <div class="box flat"><h2>Creating a tracker for the next hire</h2><p class="muted small">Each hire gets their own copy of this page, shared only with them and their manager, so 1:1 notes and transcripts stay private. Courses, policies, the roadmap, people and quiz questions are the shared template; update them in the template so every new copy starts current.</p></div>`;
+}
+
+/* ───────────────────────── Topics and deck lookup ───────────────────────── */
+function topicFor(x, q){ return x.topic || q.label; }
+function deckFor(topic){
+  const t = String(topic||'').toLowerCase();
+  const c = CONCEPTS.find(c => c.topic.toLowerCase() === t); if(c) return c.deck;
+  const words = t.split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  let best = null, bestScore = 0;
+  for(const [ref,title] of DECK_INDEX){ const tl = title.toLowerCase(); const s = words.filter(w => tl.includes(w)).length; if(s > bestScore){ best = ref; bestScore = s; } }
+  return best;
+}
+
+async function upsertGap({topic, detail, deck, source}){
+  const id = slug(topic), existing = S.gaps.find(g => g.id === id);
+  const body = existing
+    ? {...existing, detail: detail || existing.detail, deck: deck || existing.deck, count:(existing.count||1)+1, status: existing.status==='done'?'stuck':existing.status, sources:[...(existing.sources||[]), source].slice(-6), updatedAt:new Date().toISOString()}
+    : {topic, detail: detail||'', deck: deck||deckFor(topic)||'', count:1, status:'stuck', sources:[source], updatedAt:new Date().toISOString()};
+  delete body.id;
+  return write('gaps/' + id, body);
+}
+
+/* ───────────────────────── Quiz flow ───────────────────────── */
+function shuffle(a){ a = [...a]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function startQuiz(bank){ quiz = {label:bank.label, week:bank.week, source:bank.source||'quiz', qs:shuffle(bank.qs).slice(0, bank.take||bank.qs.length), i:0, picks:[], done:false, saved:false}; tab='quizzes'; render(); }
+async function saveQuiz(){
+  const q = quiz, correct = q.picks.filter((p,i)=>p===q.qs[i].ans).length, score = pct(correct,q.qs.length);
+  const missed = q.qs.filter((x,i)=>q.picks[i]!==x.ans);
+  const weak = [...new Set(missed.map(x=>topicFor(x,q)))];
+  const ok = await write('quizzes/' + newId(), {week:q.week, label:q.label, score, correct, total:q.qs.length, weak, date:todayISO(), source:q.source});
+  if(!ok) return;
+  for(const x of missed){ await upsertGap({topic:topicFor(x,q), detail:`${x.q} → ${x.opts[x.ans]}`, deck:deckFor(topicFor(x,q)), source:`${q.label} quiz`}); }
+  q.saved = true; render(); toast(missed.length ? `Saved. ${weak.length} topic${weak.length>1?'s':''} added to study gaps.` : 'Saved');
+}
+
+async function practiceGaps(){
+  const open = S.gaps.filter(g=>g.status!=='done').slice(0,8);
+  toast('Building a practice quiz…');
+  try{
+    const out = await sample.json(`You write short multiple-choice practice questions for a new monday.com Business Support rep (Salesforce CPQ, ARR recognition, billing and policy tickets).
+Write one question per topic below, 4 options each, exactly one correct. Use only facts given in the topic details; if a detail is thin, ask about its definition.
+Return JSON: {"qs":[{"q":string,"opts":[string,string,string,string],"ans":0-3,"topic":string}]}
+
+Topics:
+${open.map(g=>`- ${g.topic}: ${g.detail}`).join('\n')}`, {modelTier:'default'});
+    const qs = (out && out.qs || []).filter(x => x && x.q && Array.isArray(x.opts) && x.opts.length===4 && x.ans>=0 && x.ans<4);
+    if(!qs.length){ toast('Could not build a quiz from these gaps'); return; }
+    startQuiz({label:'Gap practice', week:currentWeek()||0, qs, source:'practice'});
+  }catch(e){ toast(e && e.code==='not_granted' ? 'Claude access was declined for this page' : e && e.code==='rate_limited' ? 'Too many requests. Try again in a minute.' : 'Could not build a quiz right now'); }
+}
+
+/* ───────────────────────── Notebook flow ───────────────────────── */
+function sessionFields(){
+  return {type:$('s-type').value, date:$('s-date').value||todayISO(), topic:$('s-topic').value.trim(), notes:$('s-notes').value.trim(), url:$('s-url').value.trim()};
+}
+function currentTranscript(){ const pasted = $('s-paste') ? $('s-paste').value.trim() : ''; return pasted || transcriptText; }
+
+async function analyze(){
+  const text = currentTranscript(), f = sessionFields();
+  if(!text && !f.notes){ toast('Add a transcript or your own notes first'); return; }
+  draft = {fields:f, loading:'Reading the conversation and matching it to the deck…'}; render();
+  try{
+    const limits = await sample.limits().catch(()=>null);
+    const max = Math.max(20000, ((limits && limits.maxPromptBytes) || 200000) - 20000);
+    const body = text.length > max ? text.slice(0, max) + '\n[transcript truncated]' : text;
+    const out = await sample.json(`You help a new hire on monday.com's Business Support team (BizApps: Salesforce CPQ, ARR recognition, billing, policy tickets) learn from their onboarding conversations.
+Read the session below and return JSON only:
+{"summary": one or two sentences,
+ "takeaways": up to 6 short bullet strings in plain words,
+ "gaps": up to 5 {"topic": short name, "detail": one sentence on what was unclear or what to learn, "deck": one ref from the DECK list or null},
+ "todos": up to 5 short action strings; phrase open questions as "Ask trainer: …"}
+Only list a gap when the conversation shows the hire was unsure, made a mistake, or was told to study something. Use DECK refs exactly as written.
+
+DECK (ref | title):
+${DECK_INDEX.map(([r,t])=>`${r} | ${t}`).join('\n')}
+
+SESSION: ${f.type} on ${f.date}${f.topic?` · topic: ${f.topic}`:''}
+${f.notes?`HIRE'S OWN NOTES:\n${f.notes}\n`:''}${body?`TRANSCRIPT:\n${body}`:''}`, {modelTier:'default'});
+    const gaps = (out.gaps||[]).filter(g=>g && g.topic).map(g=>({topic:String(g.topic), detail:String(g.detail||''), deck: DECK_TITLE[g.deck] ? g.deck : deckFor(g.topic)}));
+    draft = {fields:f, transcript:text, summary:String(out.summary||''), takeaways:(out.takeaways||[]).map(String), gaps, todos:(out.todos||[]).map(t=>({text:String(t)}))};
+  }catch(e){
+    draft = null;
+    toast(e && e.code==='not_granted' ? 'Claude access was declined for this page' : e && e.code==='rate_limited' ? 'Too many requests. Try again in a minute.' : e && e.code==='prompt_too_large' ? 'That transcript is too long. Paste the key part instead.' : 'Analysis failed. You can still save the session without it.');
+  }
+  render();
+}
+
+async function saveSession(fields, extra={}){
+  const transcript = (extra.transcript || '').slice(0, 180000);
+  const ok = await write('sessions/' + newId(), {...fields, summary:extra.summary||'', takeaways:extra.takeaways||[], transcript, transcriptChars:transcript.length, createdAt:new Date().toISOString()});
+  return ok;
+}
+
+async function saveDraft(){
+  const d = draft;
+  if(!(await saveSession(d.fields, d))) return;
+  const label = `${d.fields.type} ${fmtDate(d.fields.date)}`;
+  for(const g of d.gaps.filter(g=>g.keep!==false)) await upsertGap({...g, source:label});
+  for(const t of d.todos.filter(t=>t.keep!==false)) await write('todos/' + newId(), {text:t.text, date:todayISO(), done:false, source:label});
+  draft = null; transcriptText=''; transcriptName=''; notebookSub='sessions'; render(); toast('Session saved');
+}
+
+function readFile(file){
+  if(!file) return;
+  if(file.size > 2_000_000){ toast('That file is over 2 MB. Paste the key part instead.'); return; }
+  const r = new FileReader();
+  r.onload = () => { transcriptText = String(r.result||''); transcriptName = file.name; render(); };
+  r.onerror = () => toast('Could not read that file');
+  r.readAsText(file);
+}
+
+/* ───────────────────────── Events ───────────────────────── */
+document.addEventListener('click', async (e) => {
+  const t = e.target.closest('button,[data-tab],#drop');
+  if(!t) return;
+  const d = t.dataset;
+  if(d.tab){ tab = d.tab; quiz = tab==='quizzes' ? quiz : quiz; render(); window.scrollTo(0,0); return; }
+  if(d.sub){ notebookSub = d.sub; render(); return; }
+  if(d.gapfilter){ gapFilter = d.gapfilter; render(); return; }
+  if(d.startquiz !== undefined){ startQuiz(QUIZ_BANK[+d.startquiz]); return; }
+  if(d.pick !== undefined && quiz){ quiz.picks[quiz.i] = +d.pick; render(); return; }
+  if(d.deltodo){ await remove('todos/' + d.deltodo); return; }
+  if(d.delsession){ if(t.dataset.confirm==='1'){ await remove('sessions/' + d.delsession); } else { t.dataset.confirm='1'; t.textContent='Click again to delete'; } return; }
+  if(t.id === 'drop'){ $('file').click(); return; }
+  switch(d.act){
+    case 'reveal': conceptRevealed = !conceptRevealed; render(); break;
+    case 'nextConcept': conceptOffset++; conceptRevealed = false; render(); break;
+    case 'notebookTodos': tab='notebook'; notebookSub='todos'; render(); break;
+    case 'nextQ': if(quiz.i+1 < quiz.qs.length) quiz.i++; else quiz.done = true; render(); break;
+    case 'quitQuiz': quiz = null; render(); break;
+    case 'retake': startQuiz({label:quiz.label, week:quiz.week, qs:quiz.qs, source:quiz.source}); break;
+    case 'saveQuiz': await saveQuiz(); break;
+    case 'practice': await practiceGaps(); break;
+    case 'analyze': await analyze(); break;
+    case 'saveSession': { const f = sessionFields(); if(!f.topic && !f.notes && !currentTranscript()){ toast('Add a topic, notes or a transcript first'); break; } if(await saveSession(f, {transcript:currentTranscript()})){ transcriptText=''; transcriptName=''; notebookSub='sessions'; render(); toast('Session saved'); } break; }
+    case 'saveDraft': await saveDraft(); break;
+    case 'discardDraft': draft = null; render(); break;
+    case 'carry': { const t0 = todayISO(); for(const x of S.todos.filter(x=>x.date<t0 && !x.done)) await write('todos/'+x.id, {date:t0}, 'update'); toast('Carried over'); break; }
+  }
+});
+
+document.addEventListener('change', async (e) => {
+  const el = e.target, d = el.dataset;
+  if(el.id === 'file'){ readFile(el.files[0]); return; }
+  if(d.task) return setProgress('tasks', d.task, el.checked);
+  if(d.course) return setProgress('courses', d.course, el.checked);
+  if(d.policy) return setProgress('policies', d.policy, el.checked);
+  if(d.person) return setProgress('people', d.person, el.checked);
+  if(d.todo) return write('todos/' + d.todo, {done: el.checked}, 'update');
+  if(d.gapstatus) return write('gaps/' + d.gapstatus, {status: el.value, updatedAt:new Date().toISOString()}, 'update');
+  if(d.dgap !== undefined && draft){ draft.gaps[+d.dgap].keep = el.checked; return; }
+  if(d.dtodo !== undefined && draft){ draft.todos[+d.dtodo].keep = el.checked; return; }
+});
+
+document.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target;
+  if(f.id === 'setup-form'){
+    const profile = {name:$('p-name').value.trim(), role:$('p-role').value.trim(), startDate:$('p-start').value, manager:$('p-manager').value.trim(), trainer:$('p-trainer').value.trim(), folder:$('p-folder').value.trim()};
+    S.profile = profile; render();
+    if(await write('hire/profile', profile)) toast('Setup saved');
+  }
+  if(f.id === 'todo-form'){
+    const text = $('todo-text').value.trim(); if(!text) return;
+    if(await write('todos/' + newId(), {text, date:todayISO(), done:false})) toast('Added');
+  }
+  if(f.id === 'manual-quiz'){
+    const score = Math.max(0, Math.min(100, parseInt($('mq-score').value,10)));
+    if(isNaN(score)){ toast('Enter a score between 0 and 100'); return; }
+    const week = parseInt($('mq-week').value,10) || 1;
+    const weak = $('mq-weak').value.split(',').map(s=>s.trim()).filter(Boolean);
+    if(await write('quizzes/' + newId(), {week, label:`Week ${week} (logged manually)`, score, weak, date:todayISO(), source:'manual'})){
+      for(const w of weak) await upsertGap({topic:w, detail:'Flagged as a weak area in a quiz', deck:deckFor(w), source:`Week ${week} quiz`});
+      toast('Score logged');
+    }
+  }
+});
+
+document.addEventListener('dragover', (e) => { const z = e.target.closest && e.target.closest('#drop'); if(z){ e.preventDefault(); z.classList.add('over'); } });
+document.addEventListener('dragleave', (e) => { const z = e.target.closest && e.target.closest('#drop'); if(z) z.classList.remove('over'); });
+document.addEventListener('drop', (e) => { const z = e.target.closest && e.target.closest('#drop'); if(z){ e.preventDefault(); readFile(e.dataTransfer.files[0]); } });
+document.addEventListener('keydown', (e) => { if(e.target.id==='drop' && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); $('file').click(); } });
+document.addEventListener('input', (e) => { if(e.target.id==='s-paste'){ transcriptName = e.target.value.trim() ? 'Pasted text' : ''; transcriptText = e.target.value; } });
+
+if(/^#(today|roadmap|compliance|notebook|study|quizzes|setup)$/.test(location.hash)) tab = location.hash.slice(1);
+render();
+connect();
+</script>
