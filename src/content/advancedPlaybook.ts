@@ -95,4 +95,20 @@ export const advancedPlaybook: PlaybookTicket[] = [
       'The incoming partner (or CPM) can now submit a new S&P request. Check for a PIE tag before acting.',
     ],
   },
+  {
+    id: 'adv-so-signature-box-missing',
+    category: 'Quoting',
+    issue: 'Signature box is missing on the Sales Order — "Need to add the signature box on the SO"',
+    errorMessage: 'N/A — rep or customer reports no signature box on the SO',
+    reason:
+      'The signature box is conditional, so a missing box usually means one of the display rules is not met. It shows when the SO is a Primary Sales Order, is not expired (unless it is already Approved/Signed), and is not an automatic Flat Renewal. It hides when any of these are true: the document type is Quote rather than SO; the SO is not Primary; the SO is expired and not Approved/Signed; it is a Flat Renewal generated automatically; or the manual signature path applies (the SO has a Manual Signature Reason, the opp is Closed, and the status is not Approved/Signed).',
+    resolution: [
+      'Check the document type first: if it is a Quote and not an SO, there is no signature box by design.',
+      'Confirm the SO is the Primary SO on the opportunity. A non-Primary SO never shows the box.',
+      'Check the expiry date and status. An expired SO that is not yet Approved/Signed hides the box; an expired SO that is already Approved/Signed still shows it.',
+      'Check whether the SO came from an automatic Flat Renewal. Those do not carry a signature box.',
+      'Look for a Manual Signature Reason on the SO. If one is filled in, the opp is Closed, and the status is not Approved/Signed, the box is hidden because signature is being handled manually.',
+      'Once you have found the rule that applies, either fix the condition (for example make the right SO Primary, or regenerate an expired SO) or explain to the rep why the box is hidden. **(check with team on the correct fix for each case)**',
+    ],
+  },
 ];
